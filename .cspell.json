@@ -1,0 +1,33 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "URP",
+    "Cinemachine",
+    "TextMeshPro",
+    "ScriptableObjects",
+    "protobuf",
+    "jsonl",
+    "LoRA",
+    "LoRAs",
+    "ComfyUI",
+    "SDXL",
+    "ControlNet",
+    "TripoSR",
+    "Addressables",
+    "telemetry",
+    "determinism",
+    "protobufs",
+    "gRPC",
+    "proto",
+    "prefab",
+    "Addressable"
+  ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/Library/**",
+    "**/Build/**",
+    "**/.git/**"
+  ]
+}
+
