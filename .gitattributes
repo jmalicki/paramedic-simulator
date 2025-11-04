@@ -1,0 +1,29 @@
+# Normalize line endings for text files
+* text=auto
+
+# Explicitly mark CSV files as text
+*.csv text eol=lf
+
+# Explicitly mark Markdown files as text
+*.md text eol=lf
+
+# Python files
+*.py text eol=lf
+
+# YAML files
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Binary files
+*.parquet binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+
