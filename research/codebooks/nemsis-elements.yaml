@@ -1,0 +1,18 @@
+# NEMSIS v3 element map (skeleton)
+required_elements:
+  eSituation.11: { name: Primary Impression, type: string }
+  eSituation.12: { name: Secondary Impression, type: string }
+  eSituation.09: { name: Chief Complaint Anatomic Location, type: string }
+  eSituation.10: { name: Chief Complaint Organ System, type: string }
+  eVitals.*: { name: Vitals, type: mixed }
+  eProcedures.03: { name: Procedure, type: string }
+  eProcedures.07: { name: Procedure Success, type: string }
+  eMedications.03: { name: Medication Given, type: string }
+  eMedications.05: { name: Dose, type: string }
+  eArrest.*: { name: Cardiac Arrest elements, type: mixed }
+  eDisposition.*: { name: Disposition, type: mixed }
+  ePatient.13: { name: Age, type: numeric }
+  ePatient.15: { name: Sex, type: string }
+  eScene.17: { name: Incident Location Type, type: string }
+  eTimes.*: { name: Times, type: mixed }
+

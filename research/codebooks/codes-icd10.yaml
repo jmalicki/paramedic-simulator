@@ -1,0 +1,18 @@
+# ICD-10 code lists (incomplete; extend during analysis)
+heart_failure:
+  - I50.2  # Systolic HF
+  - I50.3  # Diastolic HF
+  - I50.9  # HF, unspecified
+opioids:
+  - T40.0  # Opium
+  - T40.1  # Heroin
+  - T40.2  # Other opioids
+  - T40.3  # Methadone
+  - T40.4  # Synthetic narcotics
+pneumothorax:
+  - S27.0  # Traumatic pneumothorax
+postpartum_hemorrhage:
+  - O72.0  # Third stage hemorrhage
+  - O72.1  # Other immediate PPH
+  - O72.2  # Delayed/secondary PPH
+

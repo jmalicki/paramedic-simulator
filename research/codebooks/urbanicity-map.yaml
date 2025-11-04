@@ -1,0 +1,11 @@
+# Urbanicity mapping (example; refine per NEMSIS location codes)
+map:
+  urban:
+    - RESIDENCE
+    - COMMERCIAL
+    - STREET/HIGHWAY
+  rural:
+    - FARM
+    - WILDERNESS
+    - REMOTE
+

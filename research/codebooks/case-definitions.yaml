@@ -1,0 +1,52 @@
+# Case definition logic (strict vs proxy)
+conditions:
+  chf_ape:
+    strict:
+      - impression_in: [CHF, ACUTE PULMONARY EDEMA]
+      - or:
+        - and:
+          - procedure_in: [CPAP, NIV]
+          - chiefcomplaint_contains: ["respiratory distress", dyspnea]
+          - medication_in: [NITROGLYCERIN]
+    proxy:
+      - or:
+        - procedure_in: [CPAP, NIV]
+        - and:
+          - medication_in: [NITROGLYCERIN]
+          - chiefcomplaint_contains: ["shortness of breath", dyspnea]
+  opioid_od:
+    strict:
+      - and:
+        - medication_in: [NALOXONE]
+        - vital_rr_max_le: 10
+      - or:
+        - impression_in: [OPIOID OVERDOSE, OPIOID TOXICITY]
+    proxy:
+      - medication_in: [NALOXONE]
+  tension_ptx_proxy:
+    strict:
+      - and:
+        - procedure_in: [NEEDLE THORACOSTOMY, NEEDLE DECOMPRESSION]
+        - impression_in: [PNEUMOTHORAX]
+        - mechanism_in: [BLUNT TRAUMA, PENETRATING TRAUMA]
+    proxy:
+      - and:
+        - procedure_in: [NEEDLE THORACOSTOMY, NEEDLE DECOMPRESSION]
+        - mechanism_in: [BLUNT TRAUMA, PENETRATING TRAUMA]
+  ob_delivery_pph_nrp:
+    strict:
+      - or:
+        - procedure_in: [FIELD DELIVERY]
+        - neonatal_resuscitation_steps: true
+      - pph_flag: true
+    proxy:
+      - or:
+        - procedure_in: [FIELD DELIVERY]
+        - neonatal_resuscitation_steps: true
+  ohca:
+    strict:
+      - arrest_true: true
+      - utstein_variables_present: true
+    proxy:
+      - arrest_true: true
+

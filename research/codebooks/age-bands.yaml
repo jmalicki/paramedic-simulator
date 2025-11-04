@@ -1,0 +1,6 @@
+# Age band definitions
+bands:
+  - { name: pediatric, min: 0, max: 17 }
+  - { name: adult, min: 18, max: 64 }
+  - { name: geriatric, min: 65, max: 150 }
+
