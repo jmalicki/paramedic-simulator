@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ParamedicSimulator.Patient
 {
@@ -44,7 +46,7 @@ namespace ParamedicSimulator.Patient
             return Task.FromResult(true);
         }
 
-        private PatientState ApplyRulesBasedTransition(PatientState currentState, System.Collections.Generic.List<IntentEvent> events)
+        private PatientState ApplyRulesBasedTransition(PatientState currentState, List<IntentEvent> events)
         {
             // Simple rules-based fallback for essential vitals
             var updated = new PatientState
@@ -60,7 +62,7 @@ namespace ParamedicSimulator.Patient
                 TemperatureCelsius = currentState?.TemperatureCelsius ?? 37f,
                 GlasgowComaScale = currentState?.GlasgowComaScale ?? 15,
                 BloodGlucoseMmolL = currentState?.BloodGlucoseMmolL ?? 5.5f,
-                AdditionalParams = currentState?.AdditionalParams ?? new System.Collections.Generic.Dictionary<string, float>()
+                AdditionalParams = currentState?.AdditionalParams ?? new Dictionary<string, float>()
             };
 
             // Apply minimal transitions based on events (placeholder for actual model)

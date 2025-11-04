@@ -1,0 +1,22 @@
+{
+  "Version": "v0.1",
+  "RequestId": "550e8400-e29b-41d4-a716-446655440000",
+  "Timestamp": "2024-01-15T10:30:00.100Z",
+  "Success": true,
+  "ErrorMessage": null,
+  "UpdatedState": {
+    "AgeYears": 45.0,
+    "WeightKg": 70.0,
+    "HeightM": 1.7,
+    "HeartRateBpm": 75.0,
+    "SystolicBpMmHg": 120.0,
+    "DiastolicBpMmHg": 80.0,
+    "RespiratoryRateBpm": 16.0,
+    "SpO2Percent": 100.0,
+    "TemperatureCelsius": 37.0,
+    "GlasgowComaScale": 15,
+    "BloodGlucoseMmolL": 5.5,
+    "AdditionalParams": {}
+  },
+  "ModelVersion": "in-process-rules-v0.1"
+}
