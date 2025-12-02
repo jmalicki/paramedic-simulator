@@ -1,5 +1,7 @@
 # Procedural Animation Sequences
 
+[![Render Animations](https://github.com/jmalicki/paramedic-simulator/actions/workflows/render-animations.yml/badge.svg)](https://github.com/jmalicki/paramedic-simulator/actions/workflows/render-animations.yml)
+
 Modular, reusable animation system for generating medical procedure videos.
 
 ## Architecture
@@ -212,3 +214,37 @@ COLORS = {
 |----------|------------|-------------|
 | `initial_assessment` | pulseox + radial + bp | Complete initial vitals |
 | `vital_signs` | pulseox + radial + bp | Same as initial_assessment |
+
+## CI / GitHub Actions
+
+Animations are automatically rendered in CI when changes are pushed to the `Art/Source/3D/Sequences/` directory.
+
+### Automatic Rendering
+
+- **On push/PR**: Renders `initial_assessment` sequence
+- **On merge to main**: Creates a GitHub Release with the video attached
+
+### Manual Rendering
+
+Trigger renders manually from the Actions tab:
+
+1. **Render Animations** - Render full sequences
+   - Go to Actions → Render Animations → Run workflow
+   - Select sequence and resolution
+
+2. **Render Single Procedure** - Render individual procedures
+   - Go to Actions → Render Single Procedure → Run workflow
+   - Select procedure from dropdown
+
+### Downloading Videos
+
+- **From Pull Requests**: Download from the Artifacts section
+- **From Releases**: Download from the Releases page (main branch only)
+
+### Workflow Files
+
+```
+.github/workflows/
+├── render-animations.yml    # Full sequence rendering + releases
+└── render-procedure.yml     # Single procedure rendering
+```
