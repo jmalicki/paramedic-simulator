@@ -1,13 +1,16 @@
+---
 name: Render Animations
 
-on:
+"on":
   push:
+    branches:
+      - main
     paths:
-      - 'Art/Source/3D/Sequences/**'
-      - '.github/workflows/render-animations.yml'
+      - "Art/Source/3D/Sequences/**"
+      - ".github/workflows/render-animations.yml"
   pull_request:
     paths:
-      - 'Art/Source/3D/Sequences/**'
+      - "Art/Source/3D/Sequences/**"
   workflow_dispatch:
     inputs:
       sequence:
@@ -66,7 +69,10 @@ jobs:
           echo "height=$HEIGHT" >> $GITHUB_OUTPUT
 
       - name: Render initial_assessment sequence
-        if: ${{ github.event.inputs.sequence == 'initial_assessment' || github.event.inputs.sequence == 'all' || github.event.inputs.sequence == '' }}
+        if: >-
+          ${{ github.event.inputs.sequence == 'initial_assessment' ||
+          github.event.inputs.sequence == 'all' ||
+          github.event.inputs.sequence == '' }}
         run: |
           cd Art/Source/3D/Sequences
           blender --background --python compose.py -- \

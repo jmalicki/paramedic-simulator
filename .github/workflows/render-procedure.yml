@@ -1,6 +1,7 @@
+---
 name: Render Single Procedure
 
-on:
+"on":
   workflow_dispatch:
     inputs:
       procedure:
