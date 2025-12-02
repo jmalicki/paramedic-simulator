@@ -40,6 +40,39 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 
 ---
 
+## Recommended Tooling (Free/Open Source)
+
+All tools in this pipeline are free or open source:
+
+| Tool | Purpose | License | Notes |
+|------|---------|---------|-------|
+| **Blender** | 3D modeling, rigging, animation, rendering | GPL | Primary DCC for all 3D assets |
+| **GIMP** | 2D image editing, touch-ups | GPL | Post-processing, texture edits |
+| **LibreSprite** | Pixel art, 2D animation | GPL | Aseprite fork, fully free |
+| **Free Texture Packer** | Sprite sheet packing | MIT | Outputs JSON + atlas PNG |
+| **Inkscape** | Vector graphics, SVG editing | GPL | UI elements, icons |
+| **Unity Sprite Editor** | Sprite slicing, atlas | Unity license | Built into Unity (free tier) |
+
+### Blender Addons (Free)
+- **Spritesheet Renderer** - Renders animations directly to sprite sheets
+- **Freestyle SVG Exporter** - Vector outline export
+- **Animation Nodes** (optional) - Procedural animation
+
+### Unity Packages (Free)
+- **2D Sprite** - Core sprite functionality (built-in)
+- **2D Animation** - Skeletal 2D animation if needed
+- **Sprite Editor** - Automatic sprite sheet slicing
+
+### Alternative Free Tools
+| Tool | Use Case |
+|------|----------|
+| **Piskel** | Browser-based pixel art (quick edits) |
+| **Krita** | Digital painting, texture work |
+| **ShoeBox** | Sprite sheet tools (Adobe AIR) |
+| **ImageMagick** | CLI batch image processing |
+
+---
+
 ## Asset Pipeline
 
 ### Workflow: 3D → 2D Sprites
@@ -574,8 +607,8 @@ This allows:
 1. **Scene Setup**: Position camera for consistent framing across sequence
 2. **Keyframe Actions**: Animate hands and equipment through procedure steps
 3. **Render Frames**: Output individual frames with transparency
-4. **Assemble Sheet**: Combine frames into sprite sheet (use TexturePacker or similar)
-5. **Generate Metadata**: Create JSON with timing and events
+4. **Assemble Sheet**: Combine frames into sprite sheet (use Free Texture Packer, Blender script, or Unity Sprite Editor)
+5. **Generate Metadata**: Create JSON with timing and events (Python script or manual)
 6. **Export**: PNG sprite sheet + JSON to `Art/Sprites/Sequences/[Name]/`
 
 ### Sequence Priority (Implementation Order)
