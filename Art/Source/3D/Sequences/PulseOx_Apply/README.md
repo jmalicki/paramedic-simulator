@@ -20,6 +20,7 @@ This directory contains the source files for the `Seq_PulseOx_Apply` animation s
 4. Click **Run Script** (or press Alt+P)
 
 The script will:
+
 - Create a finger, pulse oximeter, and gloved hand model
 - Apply cel-shaded materials with outlines
 - Set up a 4-frame animation
@@ -42,6 +43,7 @@ python assemble_spritesheet.py
 ```
 
 This creates:
+
 - `Seq_PulseOx_Apply_Sheet.png` - The sprite sheet (4 frames in a row)
 - `Seq_PulseOx_Apply.json` - Animation metadata
 
@@ -105,15 +107,19 @@ CONFIG = {
 ## Troubleshooting
 
 ### "No module named 'bpy'"
+
 The Blender script must be run inside Blender, not from command line.
 
 ### "Pillow not installed"
+
 Run: `pip install Pillow`
 
 ### Renders are black
+
 Check that lights are enabled in Blender. The script creates Sun lights but they may be disabled.
 
 ### Outlines not showing
+
 Outlines use a solidify modifier. Check that modifiers are enabled in render.
 
 ## Output Preview

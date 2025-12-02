@@ -5,6 +5,7 @@
 This document specifies the artwork pipeline for the Paramedic Simulator. The game uses **real-time 3D rendering with cel/toon shading** in Unity. 3D models are created in Blender, exported as FBX, and rendered in Unity with custom toon shaders to achieve a stylized, cartoonish look while maintaining smooth, continuous animation.
 
 ### Camera Perspective
+
 - **View**: First-person POV of the paramedic (entire game)
 - **Player sees**:
   - Their own gloved hands and arms (always)
@@ -18,12 +19,14 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 - **No third-person**: The game is entirely first-person with no camera mode switches
 
 ### Rendering Approach
+
 - **Engine**: Unity 6000 LTS with URP (Universal Render Pipeline)
 - **Shading**: Real-time toon/cel shaders with outline pass
 - **Animation**: Smooth interpolated animation (not frame-by-frame sprites)
 - **Benefit**: True 60fps motion, camera flexibility, runtime variations
 
 ### Implications for Art Assets
+
 | Asset Type | Visibility | Detail Level |
 |------------|------------|--------------|
 | Player Hands/Arms | Always visible | High detail (hero asset) |
@@ -41,6 +44,7 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 ## Art Style
 
 ### Visual Direction
+
 - **Style**: Cartoonish but recognizable medical equipment and characters
 - **Rendering**: Cel-shaded with bold outlines (2-4px black/dark outlines)
 - **Colors**: Flat or limited gradient fills, medical-appropriate color palette
@@ -50,6 +54,7 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 ### Color Palette
 
 #### Primary Colors
+
 | Use | Hex | Description |
 |-----|-----|-------------|
 | Medical Blue | `#2E86AB` | Equipment, uniforms |
@@ -61,6 +66,7 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 | Skin Base Dark | `#8D5524` | Character skin (dark) |
 
 #### Medical Equipment Colors
+
 | Equipment | Primary | Secondary | Accent |
 |-----------|---------|-----------|--------|
 | Stethoscope | `#2D2D2D` (black) | `#C0C0C0` (silver) | `#4A90D9` (tubing) |
@@ -77,6 +83,7 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 All tools in this pipeline are free or open source:
 
 ### Core Pipeline
+
 | Tool | Purpose | License | Notes |
 |------|---------|---------|-------|
 | **Blender** | 3D modeling, rigging, animation | GPL | Primary DCC for all 3D assets |
@@ -85,6 +92,7 @@ All tools in this pipeline are free or open source:
 | **Inkscape** | Vector graphics | GPL | UI elements, reference diagrams |
 
 ### Unity Packages (Free)
+
 - **URP (Universal Render Pipeline)** - Required for toon shaders
 - **Shader Graph** - Visual shader creation for toon materials
 - **Animation Rigging** - Runtime IK and procedural animation
@@ -92,10 +100,12 @@ All tools in this pipeline are free or open source:
 - **Timeline** - Sequencing animations and events
 
 ### Blender Addons (Free)
+
 - **Rigify** - Auto-rigging for characters and hands
 - **Animation Nodes** (optional) - Procedural animation
 
 ### Toon Shader Options (Free)
+
 | Shader | Source | Notes |
 |--------|--------|-------|
 | **URP Toon Lit** | Unity Asset Store (free) | Good starting point |
@@ -119,24 +129,28 @@ All tools in this pipeline are free or open source:
 ```
 
 ### Source Files (Blender)
+
 - **Format**: `.blend` (source), `.fbx` (export)
 - **Location**: `Art/Source/3D/[Category]/`
 - **Naming**: `[Category]_[AssetName].blend`
   - Example: `Prop_PulseOx.blend`, `Char_Hand_Gloved.blend`
 
 ### Export to Unity
+
 - **Format**: FBX Binary
 - **Scale**: 1 unit = 1 meter (Unity default)
 - **Include**: Mesh, Armature, Animations
 - **Bake Animation**: All actions as separate clips
 
 ### Unity Import Settings
+
 - **Scale Factor**: 1.0
 - **Import Materials**: None (use Unity toon materials)
 - **Animation Type**: Humanoid (characters) or Generic (props)
 - **Animation Compression**: Optimal
 
 ### Unity Toon Shader Setup
+
 ```
 Shader Properties:
 ├── Base Color (from color palette)
@@ -185,6 +199,7 @@ Model Specification Template:
 ### Example: Pulse Oximeter (`Prop_PulseOx`)
 
 #### Identity
+
 | Property | Value |
 |----------|-------|
 | **Name** | `Prop_PulseOx` |
@@ -202,11 +217,13 @@ Model Specification Template:
 | **Origin Point** | Center of hinge/pivot |
 
 **Topology Requirements:**
+
 - Clean quad topology for deformation at hinge
 - Separate mesh objects for: Body (top), Clip (bottom), Screen, LED, Button
 - UV unwrapped for potential texture detail
 
 **Mesh Hierarchy:**
+
 ```
 Prop_PulseOx (Empty/Armature)
 ├── PulseOx_Body         # Main housing (top half)
@@ -233,6 +250,7 @@ Prop_PulseOx (Empty/Armature)
 | `root` | All | Free | Free | Positioned by hand during interaction |
 
 **Constraints (Blender):**
+
 - `clip` bone: Limit Rotation constraint
   - X: Min -45°, Max 0°
   - Y: Locked (0°)
@@ -247,6 +265,7 @@ Prop_PulseOx (Empty/Armature)
 | `Pulse` | 30 | 1s | LED blinks in sync with reading (loop) |
 
 **Animation Curves:**
+
 - `Open`/`Close`: Ease-in-out for smooth mechanical motion
 - `Pulse`: Step interpolation for LED on/off
 
@@ -261,6 +280,7 @@ Prop_PulseOx (Empty/Armature)
 | 4 | `MAT_PulseOx_Sensor` | `#300000` (dark red) | Slight emissive (IR) |
 
 **Screen Display (Dynamic):**
+
 - Render texture or UI overlay showing:
   - SpO2 percentage (large digits)
   - Pulse rate (smaller)
@@ -269,6 +289,7 @@ Prop_PulseOx (Empty/Armature)
 #### Unity Setup
 
 **Prefab Structure:**
+
 ```
 Prop_PulseOx (Prefab Root)
 ├── Model (FBX instance)
@@ -291,6 +312,7 @@ Prop_PulseOx (Prefab Root)
 | `AudioSource` | Beep sounds synced to pulse |
 
 **Animator States:**
+
 ```
 ┌─────────┐    trigger:Open    ┌─────────┐
 │  Idle   │ ─────────────────▶ │ Opening │
@@ -329,6 +351,7 @@ Prop_PulseOx (Prefab Root)
 ```
 
 #### Blender File Checklist
+
 - [ ] Model at real-world scale (meters)
 - [ ] Origin at hinge point
 - [ ] Clean topology, all quads where possible
@@ -346,6 +369,7 @@ Prop_PulseOx (Prefab Root)
 This is the primary interaction model - the player's hands performing medical procedures.
 
 #### Identity
+
 | Property | Value |
 |----------|-------|
 | **Name** | `Char_Hand_Gloved` |
@@ -363,6 +387,7 @@ This is the primary interaction model - the player's hands performing medical pr
 | **Origin Point** | Wrist joint |
 
 **Mesh Hierarchy:**
+
 ```
 Char_Hand_Gloved_L (Left Hand)
 ├── Hand_Palm_L
@@ -385,6 +410,7 @@ Char_Hand_Gloved_L (Left Hand)
 #### Rigging & Range of Motion
 
 **Bone Hierarchy:**
+
 ```
 Armature
 └── Wrist_L
@@ -468,6 +494,7 @@ Armature
 | 0 | `MAT_Glove_Nitrile` | `#6B8BA4` (blue) | Slight specular, SSS |
 
 **Material Variants:**
+
 - `MAT_Glove_Nitrile_Blue` - Standard exam gloves
 - `MAT_Glove_Nitrile_Purple` - Alternative color
 - `MAT_Glove_Latex_White` - Sterile procedure gloves
@@ -475,6 +502,7 @@ Armature
 #### Unity Setup
 
 **Prefab Structure:**
+
 ```
 Char_Hand_Gloved_Pair (Prefab Root)
 ├── Hand_L (Left Hand FBX)
@@ -538,6 +566,7 @@ Char_Hand_Gloved_Pair (Prefab Root)
 ```
 
 #### Blender File Checklist
+
 - [ ] Both hands modeled (L and R, or mirror modifier)
 - [ ] Real-world scale (19cm length)
 - [ ] Origin at wrist
@@ -556,6 +585,7 @@ Char_Hand_Gloved_Pair (Prefab Root)
 ### Vehicles
 
 #### Ambulance
+
 | Asset | Poly Budget | Dimensions | Rig | Animations |
 |-------|-------------|------------|-----|------------|
 | `Prop_Ambulance_Exterior` | 8-12k tris | 6m × 2.5m × 2.8m | None | - |
@@ -563,6 +593,7 @@ Char_Hand_Gloved_Pair (Prefab Root)
 | `Prop_Ambulance_Stretcher_Mount` | 2k tris | Standard | Latch | Lock, Unlock |
 
 **Design Notes**:
+
 - Recognizable Type II/III ambulance shape
 - "AMBULANCE" text and star of life emblem
 - Interior shows bench, cabinets, stretcher mount point
@@ -574,43 +605,51 @@ Char_Hand_Gloved_Pair (Prefab Root)
 These are primary interaction items, rendered at higher detail.
 
 #### Stethoscope
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_Stethoscope` | 2-3k tris | 128x128 | Flat, Hanging, In-use |
 
 **Design Notes**:
+
 - Classic dual-tube design with diaphragm and bell
 - Earpieces clearly visible
 - Tubing shows slight curve/drape
 
 #### BVM (Bag Valve Mask)
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_BVM` | 2-3k tris | 128x128 | Idle, Squeezed (2 frames) |
 
 **Design Notes**:
+
 - Blue/clear bag, clear mask
 - Visible valve mechanism
 - Animation: bag compression for ventilation
 
 #### Cardiac Monitor / Defibrillator
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_Monitor_Defib` | 4-6k tris | 192x192 | Front, With-pads |
 | `Prop_Defib_Pads` | 500 tris | 96x64 | Pair, On-patient |
 
 **Design Notes**:
+
 - Combined monitor/defib unit (like Zoll or Philips)
 - Screen shows ECG waveform, vitals readout
 - Defibrillator pads with cables
 - Screen states: Off, Normal sinus, V-fib, Asystole, Charging
 
 #### Laryngoscope
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_Laryngoscope` | 1-2k tris | 96x64 | Closed, Open/lit |
 
 **Design Notes**:
+
 - Metal handle with curved blade
 - Light at blade tip (emissive when open)
 
@@ -619,6 +658,7 @@ These are primary interaction items, rendered at higher detail.
 ### IV / Line Equipment
 
 #### IV Bag & Line
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_IV_Bag` | 1k tris | 64x128 | Full, Half, Empty |
@@ -626,26 +666,31 @@ These are primary interaction items, rendered at higher detail.
 | `Prop_IV_Pole` | 800 tris | 48x192 | With bag, Empty |
 
 **Design Notes**:
+
 - Clear bag with visible fluid level
 - Drip chamber visible in line
 - Roller clamp on tubing
 
 #### IV Start Kit / Catheter
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_IV_Catheter` | 500 tris | 64x32 | Packaged, Ready |
 | `Prop_IV_StartKit` | 1.5k tris | 128x96 | Open kit view |
 
 **Design Notes**:
+
 - Catheter with flash chamber
 - Kit includes: catheter, tegaderm, alcohol wipes, tape
 
 #### IO Drill
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_IO_Drill` | 1.5k tris | 96x96 | Idle, With needle |
 
 **Design Notes**:
+
 - Recognizable EZ-IO style drill
 - Needle attachment visible
 
@@ -654,27 +699,32 @@ These are primary interaction items, rendered at higher detail.
 ### Airway & Oxygen Equipment
 
 #### Oxygen Mask
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_O2_Mask` | 1k tris | 96x96 | Flat, On-face |
 | `Prop_O2_NonRebreather` | 1.2k tris | 96x96 | With reservoir bag |
 
 #### Nasal Cannula
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_O2_NasalCannula` | 500 tris | 96x48 | Flat, On-face |
 
 #### Oxygen Tank
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_O2_Tank` | 1k tris | 64x128 | Upright, Laying |
 
 **Design Notes**:
+
 - Green cylinder (US standard)
 - Regulator and flowmeter visible
 - Gauge showing pressure
 
 #### OPA / NPA Airways
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_OPA` | 300 tris | 64x32 | Multiple sizes (color-coded) |
@@ -685,21 +735,25 @@ These are primary interaction items, rendered at higher detail.
 ### Monitoring Equipment
 
 #### BP Cuff
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_BP_Cuff` | 1k tris | 96x64 | Flat, On-arm |
 | `Prop_BP_Bulb` | 500 tris | 48x64 | Squeezed, Relaxed |
 
 #### Pulse Oximeter
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_PulseOx` | 500 tris | 48x48 | Open, On-finger |
 
 **Design Notes**:
+
 - Finger clip style
 - Small LED display showing SpO2 and pulse
 
 #### ECG Leads
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_ECG_Leads` | 800 tris | 128x64 | 3-lead set, 12-lead set |
@@ -710,27 +764,32 @@ These are primary interaction items, rendered at higher detail.
 ### Large Equipment
 
 #### Stretcher / Gurney
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_Stretcher` | 4-6k tris | 256x128 | Flat, Raised-head, Folded |
 
 **Design Notes**:
+
 - Orange/yellow frame (high visibility)
 - White mattress pad
 - Visible wheels and rails
 - Restraint straps
 
 #### Backboard
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_Backboard` | 500 tris | 192x64 | With straps, With head blocks |
 
 #### Jump Bag
+
 | Asset | 3D Poly Budget | Sprite Size | Views/Frames |
 |-------|----------------|-------------|--------------|
 | `Prop_JumpBag` | 2k tris | 128x96 | Closed, Open (contents visible) |
 
 **Design Notes**:
+
 - Red or orange medical bag
 - Multiple compartments when open
 - Cross or star of life emblem
@@ -767,6 +826,7 @@ These are lower-detail items, often shown in inventory or during specific action
 Characters are rigged 3D models rendered to sprite sheets for various poses and states.
 
 #### Patient
+
 | Asset | 3D Poly Budget | Sprite Size | Poses/States |
 |-------|----------------|-------------|--------------|
 | `Char_Patient_Male` | 5-8k tris | 256x192 | See below |
@@ -775,6 +835,7 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 | `Char_Patient_Elderly` | 5-8k tris | 256x192 | See below |
 
 **Patient Poses**:
+
 - Lying supine (default)
 - Lying with head elevated
 - Sitting up
@@ -782,6 +843,7 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 - Standing (ambulatory patient)
 
 **Patient States** (texture/shader variants):
+
 - Normal skin tone
 - Pale (shock, blood loss)
 - Cyanotic (blue tint - hypoxia)
@@ -789,18 +851,21 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 - Diaphoretic (sweat overlay)
 
 **Clothing Variants**:
+
 - Casual clothes
 - Nightwear/pajamas
 - Work clothes
 - Hospital gown
 
 #### Paramedic / EMT
+
 | Asset | 3D Poly Budget | Sprite Size | Poses |
 |-------|----------------|-------------|-------|
 | `Char_Paramedic_Male` | 4-6k tris | 128x256 | See below |
 | `Char_Paramedic_Female` | 4-6k tris | 128x256 | See below |
 
 **Paramedic Poses**:
+
 - Standing idle
 - Kneeling at patient
 - Performing CPR (2-frame loop)
@@ -808,12 +873,14 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 - Using radio
 
 **Uniform**:
+
 - Navy/dark blue EMS uniform
 - Reflective strips
 - Badge and patches
 - Gloves (optional overlay)
 
 #### Bystander / NPC
+
 | Asset | 3D Poly Budget | Sprite Size | Poses |
 |-------|----------------|-------------|-------|
 | `Char_Bystander_A` | 3-4k tris | 96x192 | Standing, Pointing |
@@ -821,6 +888,7 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 | `Char_Bystander_C` | 3-4k tris | 96x192 | Standing, On phone |
 
 #### Player Hands (First-Person Actions)
+
 | Asset | 3D Poly Budget | Sprite Size | Poses |
 |-------|----------------|-------------|-------|
 | `Char_Hands_Gloved` | 2k tris | 128x96 | Open, Gripping, Pointing, Action-specific |
@@ -864,6 +932,7 @@ UI icons rendered from 3D at small sizes with extra-bold outlines.
 ## Animation Guidelines
 
 ### Limited Animation Approach
+
 - **Frame count**: 2-4 frames per animation (not fluid, stylized)
 - **Timing**: Hold frames longer for snappy, cartoon feel
 - **Loops**: Breathing (2 frames), Equipment use (2-3 frames)
@@ -890,6 +959,7 @@ Medical interventions require multi-step animated sequences showing the procedur
 ### Animation Sequence Format
 
 Each procedural sequence is rendered as a **sprite sheet** with accompanying **JSON metadata** defining:
+
 - Frame dimensions and count
 - Timing per frame (ms)
 - Key event triggers (sound cues, state changes)
@@ -1025,6 +1095,7 @@ Art/Sprites/Sequences/
 ```
 
 **Standard Sequence Sizes:**
+
 - Small (hands + small equipment): 256x192 per frame
 - Medium (patient interaction): 320x240 per frame
 - Large (full body procedures): 480x320 per frame
@@ -1042,6 +1113,7 @@ Layer Stack (bottom to top):
 ```
 
 This allows:
+
 - Swapping patient skin tones without re-rendering
 - Reusing hand animations across similar procedures
 - Adding equipment variants (different IV catheter brands)
@@ -1069,6 +1141,7 @@ The first playable sequence will compose three individual procedures into a comp
 | **Total** | | **8s** | Complete initial vitals assessment |
 
 **Composition Notes:**
+
 - Each procedure is a standalone, reusable animation
 - Transition frames (0.5s) blend between procedures
 - Camera may shift focus between patient's hand/wrist/arm
@@ -1078,23 +1151,27 @@ The first playable sequence will compose three individual procedures into a comp
 ### Sequence Priority (Implementation Order)
 
 **Phase 0 — Initial Test (First Playable):**
+
 1. `Seq_PulseOx_Apply` — Clipping pulse ox onto finger
 2. `Seq_Radial_Pulse` — Palpating radial pulse at wrist
 3. `Seq_BP_Cuff_Apply` — Wrapping and inflating BP cuff
 4. `Seq_Initial_Assessment` — Composed sequence of above three
 
 **Phase 1 — Core Assessment:**
+
 1. `Seq_Stethoscope_Listen`
 2. `Seq_Monitor_Hookup`
 3. `Seq_Pupils_Check`
 
 **Phase 2 — Airway & Breathing:**
+
 1. `Seq_O2_Mask_Apply`
 2. `Seq_BVM_Setup`
 3. `Seq_BVM_Ventilate`
 4. `Seq_OPA_Insert`
 
 **Phase 3 — Circulation:**
+
 1. `Seq_IV_Start`
 2. `Seq_IV_Med_Push`
 3. `Seq_Defib_Pads_Apply`
@@ -1102,6 +1179,7 @@ The first playable sequence will compose three individual procedures into a comp
 5. `Seq_CPR_Cycle`
 
 **Phase 4 — Advanced & Polish:**
+
 1. All remaining sequences
 2. Failure state variants
 3. Speed/skill level variants
@@ -1129,6 +1207,7 @@ Freestyle Settings:
 ```
 
 ### Export Checklist
+
 - [ ] Transparent background (RGBA PNG)
 - [ ] Render at 2x target resolution
 - [ ] Apply slight Gaussian blur before downscale (anti-aliasing)
@@ -1169,6 +1248,7 @@ Art/
 ## Asset Priority (Implementation Order)
 
 ### Phase 1 — Core Playable
+
 1. `Char_Patient_Male` (lying, basic states)
 2. `Prop_Stethoscope`
 3. `Prop_BP_Cuff`
@@ -1178,6 +1258,7 @@ Art/
 7. UI Icons for above
 
 ### Phase 2 — Airway & Circulation
+
 1. `Prop_BVM`
 2. `Prop_O2_Mask`
 3. `Prop_O2_Tank`
@@ -1185,6 +1266,7 @@ Art/
 5. `Char_Hands_Gloved`
 
 ### Phase 3 — Full Scenario Support
+
 1. `Prop_Stretcher`
 2. `Prop_JumpBag`
 3. `Char_Paramedic_Male/Female`
@@ -1193,6 +1275,7 @@ Art/
 6. Additional patient variants
 
 ### Phase 4 — Polish & Variety
+
 1. All remaining props
 2. Bystander characters
 3. Additional backgrounds
@@ -1204,6 +1287,7 @@ Art/
 ## Technical Notes
 
 ### Unity Import Settings
+
 - **Sprites**:
   - Texture Type: Sprite (2D and UI)
   - Filter Mode: Bilinear
@@ -1211,6 +1295,7 @@ Art/
   - Pixels Per Unit: 100 (adjust based on game scale)
 
 ### Sprite Atlasing
+
 - Group sprites by category for efficient atlasing
 - Keep frequently-used sprites in same atlas
 - Maximum atlas size: 2048x2048

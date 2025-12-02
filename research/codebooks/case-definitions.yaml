@@ -49,4 +49,3 @@ conditions:
       - utstein_variables_present: true
     proxy:
       - arrest_true: true
-

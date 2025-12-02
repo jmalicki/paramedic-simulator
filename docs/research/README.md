@@ -25,5 +25,3 @@ Index:
   - [Tension Pneumothorax](trauma/tension-pneumothorax.md)
 - Special Populations
   - [Obstetrics: Normal Delivery, PPH, Neonatal Resuscitation](special/obstetrics-normal-delivery-pph-nrp.md)
-
-

@@ -728,5 +728,3 @@ This document specifies a rigorous, medically grounded, and technically feasible
 - Use a Markdown-to-PDF tool that supports page headers/footers and TOC generation (e.g., Pandoc with `--toc`).
 - Code blocks include language tags for syntax highlighting.
 - Anchors follow GitHub-style automatic IDs; PDF tools typically preserve them in TOC.
-
-

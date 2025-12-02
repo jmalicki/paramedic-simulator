@@ -1,6 +1,7 @@
 ## Unity Architecture — Paramedic Simulator
 
 ### Project Structure
+
 ```
 UnityProject/
   Assets/
@@ -23,6 +24,7 @@ UnityProject/
 ```
 
 ### Core Systems
+
 - Simulation Core
   - Fixed‑step deterministic loop; single writer principle for patient state.
   - Time controls: pause, speed 0.5×/1×/2×; step‑through for teaching.
@@ -56,6 +58,7 @@ UnityProject/
   - Privacy: scrub identifiers; optional encryption of artifacts at rest.
 
 ### Data Flow
+
 1. Player action → Interaction System emits command.
 2. Device or Scenario translates command → Simulation intent.
 3. Patient Model Adapter builds request from current state + intents.
@@ -63,24 +66,27 @@ UnityProject/
 5. Scenario evaluates objectives; UI updates; telemetry logs tick.
 
 ### Determinism Strategy
+
 - Single authoritative patient state updated only in the sim step.
 - Pure functions for state transition where possible; seeded RNG per session.
 - Explicit unit conversions; no reliance on `Time.deltaTime` inside sim code.
 
 ### Error Handling & Reliability
+
 - Unified Result type and guardrails around network/IO with retries and circuit breakers.
 - Health checks for model service; degrade gracefully to offline rules.
 
 ### Performance Targets
+
 - 60 FPS on mid‑range hardware; CPU for sim < 2 ms; GC allocs < 1 KB/frame avg.
 - Use Addressables for content; pool common prefabs; bake lighting.
 
 ### Security & Privacy
+
 - No PII in logs; redact payloads; optional offline‑only mode.
 - All outbound traffic behind a single client with allowlisted hosts.
 
 ### Extensibility
+
 - Feature flags per device and scenario systems.
 - ScriptableObjects for scenarios/devices; JSON schema for model I/O.
-
-

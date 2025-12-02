@@ -20,6 +20,7 @@ blender --background --python ../compose.py -- --sequence initial_assessment
 ## Why Modular?
 
 The modular system in `../procedures/` allows:
+
 - Reusing individual procedures in different sequences
 - Composing procedures in any order
 - Sharing models and materials across procedures

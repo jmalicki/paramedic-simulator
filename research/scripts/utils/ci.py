@@ -21,5 +21,3 @@ def wilson_ci(successes: int, n: int, alpha: float = 0.05):
     center = (p + z * z / (2 * n)) / denom
     margin = (z * sqrt((p * (1 - p) + z * z / (4 * n)) / n)) / denom
     return (max(0.0, center - margin), min(1.0, center + margin))
-
-
