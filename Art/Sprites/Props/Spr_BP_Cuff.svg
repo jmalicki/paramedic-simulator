@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" width="96" height="64">
+  <!-- BP Cuff - Cartoonish Style -->
+  <defs>
+    <linearGradient id="cuffGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D4A6D"/>
+      <stop offset="100%" style="stop-color:#1A3A5C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Cuff body (unrolled view) -->
+  <rect x="5" y="15" width="65" height="35" rx="3" fill="url(#cuffGradient)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Cuff velcro area -->
+  <rect x="8" y="18" width="59" height="10" rx="2" fill="#3D5A7D"/>
+
+  <!-- Bladder indication -->
+  <rect x="15" y="32" width="45" height="14" rx="2" fill="#1A3A5C" stroke="#0D2A4C" stroke-width="1"/>
+
+  <!-- Artery marker -->
+  <circle cx="37" cy="39" r="3" fill="#E63946" stroke="#2D2D2D" stroke-width="1"/>
+
+  <!-- Tubing connection -->
+  <circle cx="70" cy="32" r="6" fill="#4A4A4A" stroke="#2D2D2D" stroke-width="2"/>
+  <circle cx="70" cy="32" r="3" fill="#2D2D2D"/>
+
+  <!-- Tubing -->
+  <path d="M76 32 Q85 32 88 25 Q90 20 88 15" fill="none" stroke="#2D2D2D" stroke-width="4" stroke-linecap="round"/>
+  <path d="M76 32 Q85 32 88 25 Q90 20 88 15" fill="none" stroke="#4A4A4A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Gauge/Manometer -->
+  <circle cx="88" cy="10" r="8" fill="#E8E8E8" stroke="#2D2D2D" stroke-width="2"/>
+  <circle cx="88" cy="10" r="5" fill="#FFFFFF"/>
+  <line x1="88" y1="10" x2="88" y2="6" stroke="#E63946" stroke-width="1.5"/>
+  <text x="88" y="13" font-family="Arial" font-size="4" fill="#2D2D2D" text-anchor="middle">mmHg</text>
+
+  <!-- Size indicator -->
+  <text x="37" y="28" font-family="Arial" font-size="6" fill="#FFFFFF" text-anchor="middle">ADULT</text>
+</svg>

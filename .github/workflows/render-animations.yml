@@ -1,0 +1,181 @@
+---
+name: Render Animations
+
+"on":
+  push:
+    branches:
+      - main
+    paths:
+      - "Art/Source/3D/Sequences/**"
+      - ".github/workflows/render-animations.yml"
+  pull_request:
+    paths:
+      - "Art/Source/3D/Sequences/**"
+  workflow_dispatch:
+    inputs:
+      sequence:
+        description: 'Sequence to render (or "all" for all sequences)'
+        required: false
+        default: "initial_assessment"
+      resolution:
+        description: "Resolution (e.g., 1280x720, 1920x1080)"
+        required: false
+        default: "1280x720"
+
+jobs:
+  render:
+    name: Render Animation Sequence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Blender
+        run: |
+          # Download Blender portable from official source
+          BLENDER_VERSION="4.2.0"
+          BLENDER_URL="https://download.blender.org/release/Blender4.2/blender-${BLENDER_VERSION}-linux-x64.tar.xz"
+
+          echo "Downloading Blender ${BLENDER_VERSION}..."
+          wget -q "${BLENDER_URL}" -O blender.tar.xz
+
+          echo "Extracting Blender..."
+          tar -xf blender.tar.xz
+
+          # Add to PATH
+          BLENDER_DIR="$(pwd)/blender-${BLENDER_VERSION}-linux-x64"
+          echo "${BLENDER_DIR}" >> $GITHUB_PATH
+
+          # Verify installation
+          "${BLENDER_DIR}/blender" --version
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libxkbcommon0 libgl1 libegl1 libxcb-cursor0
+          ffmpeg -version | head -1
+
+      - name: Create output directory
+        run: mkdir -p Art/Source/3D/Sequences/output
+
+      - name: Parse resolution
+        id: resolution
+        run: |
+          RES="${{ github.event.inputs.resolution || '1280x720' }}"
+          WIDTH=$(echo $RES | cut -d'x' -f1)
+          HEIGHT=$(echo $RES | cut -d'x' -f2)
+          echo "width=$WIDTH" >> $GITHUB_OUTPUT
+          echo "height=$HEIGHT" >> $GITHUB_OUTPUT
+
+      - name: Render initial_assessment sequence
+        if: >-
+          ${{ github.event.inputs.sequence == 'initial_assessment' ||
+          github.event.inputs.sequence == 'all' ||
+          github.event.inputs.sequence == '' }}
+        run: |
+          cd Art/Source/3D/Sequences
+          blender --background --python compose.py -- \
+            --sequence initial_assessment \
+            --output initial_assessment \
+            --dir ./output
+        env:
+          BLENDER_USER_CONFIG: /tmp/blender_config
+
+      - name: List rendered files
+        run: |
+          echo "=== Rendered files ==="
+          ls -la Art/Source/3D/Sequences/output/ || echo "No output directory"
+          find Art/Source/3D/Sequences/output -type f -name "*.mp4" -o -name "*.avi" 2>/dev/null || echo "No video files found"
+
+      - name: Rename output file (remove frame range suffix)
+        run: |
+          cd Art/Source/3D/Sequences/output
+          # Blender adds frame range to filename, rename to clean name
+          for f in *.mp4; do
+            if [[ "$f" =~ ^(.+)[0-9]{4}-[0-9]{4}\.mp4$ ]]; then
+              mv "$f" "${BASH_REMATCH[1]}.mp4" 2>/dev/null || true
+            fi
+          done
+          ls -la
+
+      - name: Upload animation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-animations
+          path: Art/Source/3D/Sequences/output/*.mp4
+          retention-days: 30
+          if-no-files-found: warn
+          compression-level: 0
+
+      - name: Generate artifact summary
+        run: |
+          echo "## Rendered Animations" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          for f in Art/Source/3D/Sequences/output/*.mp4; do
+            if [ -f "$f" ]; then
+              SIZE=$(du -h "$f" | cut -f1)
+              NAME=$(basename "$f")
+              echo "| $NAME | $SIZE |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download from the **Artifacts** section above." >> $GITHUB_STEP_SUMMARY
+
+  # Create a release with the video when pushing to main
+  release:
+    name: Create Release with Videos
+    needs: render
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download rendered animations
+        uses: actions/download-artifact@v4
+        with:
+          name: rendered-animations
+          path: ./videos
+
+      - name: List downloaded videos
+        run: ls -la ./videos/
+
+      - name: Get short SHA
+        id: sha
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: animations-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.short }}
+          name: Animation Renders - ${{ steps.date.outputs.date }}
+          body: |
+            ## Rendered Animation Sequences
+
+            Automatically generated animation videos from the procedural sequence system.
+
+            ### Included Sequences
+            - **initial_assessment.mp4** - Pulse ox + Radial pulse + BP cuff (~9.5s)
+
+            ### Commit
+            ${{ github.sha }}
+
+            ### How to Use
+            These videos are rendered from the Blender scripts in `Art/Source/3D/Sequences/`.
+            To render locally: `./Art/Source/3D/Sequences/render.sh`
+          files: ./videos/*.mp4
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

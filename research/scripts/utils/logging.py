@@ -14,5 +14,3 @@ def write_log(step: str, lines: list[str]):
         for line in lines:
             f.write(str(line) + "\n")
     return path
-
-

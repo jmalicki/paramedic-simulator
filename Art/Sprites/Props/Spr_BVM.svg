@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- BVM (Bag Valve Mask) - Cartoonish Style -->
+  <defs>
+    <linearGradient id="bagGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5BA3C6"/>
+      <stop offset="100%" style="stop-color:#2E86AB"/>
+    </linearGradient>
+    <linearGradient id="maskGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8F4F8"/>
+      <stop offset="100%" style="stop-color:#C5DCE8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Bag body -->
+  <ellipse cx="70" cy="65" rx="45" ry="35" fill="url(#bagGradient)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Bag ridges/segments -->
+  <path d="M35 50 Q70 45 105 50" fill="none" stroke="#1E6A8A" stroke-width="2" opacity="0.6"/>
+  <path d="M30 65 Q70 58 110 65" fill="none" stroke="#1E6A8A" stroke-width="2" opacity="0.6"/>
+  <path d="M35 80 Q70 85 105 80" fill="none" stroke="#1E6A8A" stroke-width="2" opacity="0.6"/>
+
+  <!-- Valve housing -->
+  <rect x="18" y="55" width="20" height="25" rx="4" fill="#4A4A4A" stroke="#2D2D2D" stroke-width="3"/>
+  <rect x="20" y="58" width="16" height="8" rx="2" fill="#6A6A6A"/>
+
+  <!-- Valve ports -->
+  <circle cx="28" cy="72" r="4" fill="#2D2D2D"/>
+  <circle cx="28" cy="72" r="2" fill="#5A5A5A"/>
+
+  <!-- Mask connector tube -->
+  <rect x="8" y="62" width="14" height="10" rx="2" fill="#87CEEB" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Face mask -->
+  <path d="M-5 55 Q-15 67 -5 80 Q10 90 25 80 Q35 67 25 55 Q10 45 -5 55"
+        transform="translate(10, 0)"
+        fill="url(#maskGradient)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Mask cushion rim -->
+  <path d="M5 55 Q-5 67 5 80" fill="none" stroke="#A8C8D8" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Reservoir bag connector (back) -->
+  <rect x="110" y="58" width="10" height="14" rx="2" fill="#4A4A4A" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Reservoir bag indication -->
+  <ellipse cx="118" cy="65" rx="6" ry="20" fill="#5BA3C680" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Highlight on bag -->
+  <ellipse cx="55" cy="52" rx="15" ry="8" fill="#FFFFFF" opacity="0.3"/>
+
+  <!-- Oxygen tubing port -->
+  <circle cx="85" cy="95" r="5" fill="#228B22" stroke="#2D2D2D" stroke-width="2"/>
+  <circle cx="85" cy="95" r="2" fill="#1A6A1A"/>
+</svg>

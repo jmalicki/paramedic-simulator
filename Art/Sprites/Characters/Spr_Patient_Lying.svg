@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 128" width="256" height="128">
+  <!-- Patient Lying Down - Cartoonish Style -->
+  <defs>
+    <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFDAB9"/>
+      <stop offset="100%" style="stop-color:#E8C4A0"/>
+    </linearGradient>
+    <linearGradient id="shirtGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5BA3C6"/>
+      <stop offset="100%" style="stop-color:#4A8AAD"/>
+    </linearGradient>
+    <linearGradient id="pantsGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A5568"/>
+      <stop offset="100%" style="stop-color:#2D3748"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Body lying on back, head to the left -->
+
+  <!-- Legs -->
+  <ellipse cx="200" cy="75" rx="40" ry="18" fill="url(#pantsGradient)" stroke="#2D2D2D" stroke-width="3"/>
+  <ellipse cx="200" cy="95" rx="40" ry="18" fill="url(#pantsGradient)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Feet -->
+  <ellipse cx="242" cy="75" rx="12" ry="10" fill="url(#skinGradient)" stroke="#2D2D2D" stroke-width="2"/>
+  <ellipse cx="242" cy="95" rx="12" ry="10" fill="url(#skinGradient)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Torso -->
+  <ellipse cx="120" cy="85" rx="55" ry="30" fill="url(#shirtGradient)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Shirt details -->
+  <line x1="120" y1="58" x2="120" y2="112" stroke="#4A8AAD" stroke-width="2"/>
+  <ellipse cx="110" cy="70" rx="4" ry="3" fill="#4A8AAD"/>
+  <ellipse cx="110" cy="82" rx="4" ry="3" fill="#4A8AAD"/>
+  <ellipse cx="110" cy="94" rx="4" ry="3" fill="#4A8AAD"/>
+
+  <!-- Arms at sides -->
+  <ellipse cx="75" cy="110" rx="30" ry="10" fill="url(#shirtGradient)" stroke="#2D2D2D" stroke-width="2"/>
+  <ellipse cx="165" cy="110" rx="30" ry="10" fill="url(#shirtGradient)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Hands -->
+  <ellipse cx="45" cy="110" rx="10" ry="8" fill="url(#skinGradient)" stroke="#2D2D2D" stroke-width="2"/>
+  <ellipse cx="195" cy="110" rx="10" ry="8" fill="url(#skinGradient)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Neck -->
+  <ellipse cx="48" cy="70" rx="12" ry="15" fill="url(#skinGradient)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Head -->
+  <ellipse cx="35" cy="50" rx="28" ry="25" fill="url(#skinGradient)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Hair -->
+  <path d="M15 35 Q35 15 55 35 Q60 30 58 40"
+        fill="#4A3728" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Face features -->
+  <!-- Eyes (closed - patient resting) -->
+  <path d="M25 45 Q30 42 35 45" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+  <path d="M40 45 Q45 42 50 45" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Eyebrows -->
+  <path d="M23 40 Q30 37 37 40" fill="none" stroke="#4A3728" stroke-width="2"/>
+  <path d="M38 40 Q45 37 52 40" fill="none" stroke="#4A3728" stroke-width="2"/>
+
+  <!-- Nose -->
+  <path d="M37 48 L38 55 L35 56" fill="none" stroke="#D4A574" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Mouth (slightly open - breathing) -->
+  <ellipse cx="37" cy="62" rx="6" ry="3" fill="#C4847A" stroke="#2D2D2D" stroke-width="1"/>
+
+  <!-- Ear -->
+  <ellipse cx="12" cy="50" rx="5" ry="8" fill="url(#skinGradient)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Chest rise indicator (breathing) -->
+  <path d="M100 60 Q120 55 140 60" fill="none" stroke="#4A8AAD" stroke-width="1" opacity="0.5"/>
+</svg>

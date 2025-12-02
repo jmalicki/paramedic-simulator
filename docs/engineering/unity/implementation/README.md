@@ -7,5 +7,3 @@ This folder contains detailed, checkbox‑driven implementation plans for each s
 - Sprint 3 — Interaction + Device MVPs: `sprint-3-interaction-devices.md`
 - Sprint 4 — Authoring + Assessment + Gen Setup: `sprint-4-authoring-assessment-gen.md`
 - Sprint 5 — Generative + Art Production: `sprint-5-generative-art.md`
-
-

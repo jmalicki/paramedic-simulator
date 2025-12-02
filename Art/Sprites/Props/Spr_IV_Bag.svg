@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 128" width="64" height="128">
+  <!-- IV Bag - Cartoonish Style -->
+  <defs>
+    <linearGradient id="fluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8F4F8"/>
+      <stop offset="60%" style="stop-color:#87CEEB"/>
+      <stop offset="100%" style="stop-color:#5BA3C6"/>
+    </linearGradient>
+    <linearGradient id="bagClear" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="50%" style="stop-color:#E8F4F8" stop-opacity="0.6"/>
+      <stop offset="100%" style="stop-color:#FFFFFF" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Hanging hole -->
+  <circle cx="32" cy="8" r="5" fill="none" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Bag body -->
+  <path d="M12 15 L12 95 Q12 105 22 105 L42 105 Q52 105 52 95 L52 15 Q52 10 42 10 L22 10 Q12 10 12 15"
+        fill="url(#bagClear)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Fluid inside -->
+  <path d="M15 35 L15 92 Q15 100 23 100 L41 100 Q49 100 49 92 L49 35 Q32 40 15 35"
+        fill="url(#fluidGradient)" opacity="0.7"/>
+
+  <!-- Fluid level line -->
+  <path d="M15 35 Q32 42 49 35" fill="none" stroke="#5BA3C6" stroke-width="2"/>
+
+  <!-- Label -->
+  <rect x="18" y="50" width="28" height="20" rx="2" fill="#FFFFFF" stroke="#2D2D2D" stroke-width="1"/>
+  <text x="32" y="58" font-family="Arial" font-size="6" fill="#2D2D2D" text-anchor="middle">0.9%</text>
+  <text x="32" y="66" font-family="Arial" font-size="5" fill="#2D2D2D" text-anchor="middle">NaCl</text>
+
+  <!-- Volume markings -->
+  <line x1="50" y1="30" x2="54" y2="30" stroke="#2D2D2D" stroke-width="1"/>
+  <line x1="50" y1="50" x2="54" y2="50" stroke="#2D2D2D" stroke-width="1"/>
+  <line x1="50" y1="70" x2="54" y2="70" stroke="#2D2D2D" stroke-width="1"/>
+  <line x1="50" y1="90" x2="54" y2="90" stroke="#2D2D2D" stroke-width="1"/>
+  <text x="56" y="32" font-family="Arial" font-size="4" fill="#2D2D2D">1000</text>
+  <text x="56" y="52" font-family="Arial" font-size="4" fill="#2D2D2D">750</text>
+  <text x="56" y="72" font-family="Arial" font-size="4" fill="#2D2D2D">500</text>
+  <text x="56" y="92" font-family="Arial" font-size="4" fill="#2D2D2D">250</text>
+
+  <!-- Port at bottom -->
+  <rect x="27" y="105" width="10" height="8" rx="2" fill="#4A90D9" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Spike port cap -->
+  <rect x="29" y="113" width="6" height="5" fill="#2E86AB" stroke="#2D2D2D" stroke-width="1"/>
+
+  <!-- Drip chamber -->
+  <rect x="28" y="118" width="8" height="15" rx="3" fill="#E8F4F8" stroke="#2D2D2D" stroke-width="2"/>
+  <ellipse cx="32" cy="128" rx="2" ry="3" fill="#87CEEB"/>
+
+  <!-- Highlight -->
+  <path d="M18 20 L18 80" stroke="#FFFFFF" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+</svg>

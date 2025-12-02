@@ -1,0 +1,52 @@
+{
+  "name": "PulseOx_Apply",
+  "description": "Applying pulse oximeter to patient's finger",
+  "spriteSheet": "Seq_PulseOx_Apply_Sheet.png",
+  "frameWidth": 256,
+  "frameHeight": 192,
+  "framesPerRow": 4,
+  "totalFrames": 4,
+  "sheetWidth": 1024,
+  "sheetHeight": 192,
+  "defaultFrameMs": 500,
+  "totalDurationMs": 2000,
+  "frames": [
+    {
+      "index": 0,
+      "duration": 500,
+      "event": null,
+      "label": "approach",
+      "description": "Hand approaching with pulse oximeter"
+    },
+    {
+      "index": 1,
+      "duration": 400,
+      "event": "sfx_click",
+      "label": "open_clip",
+      "description": "Opening pulse oximeter clip"
+    },
+    {
+      "index": 2,
+      "duration": 500,
+      "event": null,
+      "label": "place_on_finger",
+      "description": "Placing pulse oximeter on finger"
+    },
+    {
+      "index": 3,
+      "duration": 600,
+      "event": "sfx_beep",
+      "label": "complete",
+      "description": "Pulse oximeter clipped on, reading displayed"
+    }
+  ],
+  "outcomes": {
+    "success": {
+      "gotoFrame": 3,
+      "nextState": "monitoring_spo2",
+      "event": "sfx_success"
+    }
+  },
+  "patientVariants": ["skin_light", "skin_medium", "skin_dark"],
+  "sourceFile": "Art/Source/3D/Sequences/PulseOx_Apply/create_pulseox_sequence.py"
+}

@@ -23,5 +23,3 @@ def main(years):
 if __name__ == "__main__":
     ys = [int(a) for a in sys.argv[1:]] if len(sys.argv) > 1 else list(range(2019, 2025))
     main(ys)
-
-

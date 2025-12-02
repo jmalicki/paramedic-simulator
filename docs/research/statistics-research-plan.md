@@ -1,16 +1,19 @@
 # EMS Condition Frequency and Epidemiology — Research Plan
 
 ## Objectives
+
 - Quantify how common key conditions/presentations are in EMS encounters (overall and stratified).
 - Produce comparable rates per 1,000 EMS incidents and per 10,000 population, with 95% CIs.
 - Provide system-relevant breakdowns (age group, sex, region/urbanicity, chief complaint vs final impression).
 
 ## Scope (Initial Conditions)
+
 - Medical: Acute decompensated heart failure (CHF/APE), opioid overdose.
 - Trauma: Tension pneumothorax (as proxy via procedure + indicators).
 - Special: Prehospital delivery, postpartum hemorrhage, neonatal resuscitation triggers.
 
 ## Data Sources (Priority Order)
+
 1. NEMSIS v3 (2019–2024): national EMS dataset; variables for eSituation, eInjury, eArrest, eVitals, eProcedures, eMedications, eOutcome.
 2. CARES (Cardiac Arrest Registry to Enhance Survival): OHCA incidence, Utstein variables, outcomes; for benchmarking simulation incidence/algorithms (subject to data-use agreements).
 3. State/Regional EMS annual reports (e.g., Texas, California) for cross-check.
@@ -29,6 +32,7 @@
 16. NFIRS: fire incident data including many EMS responses; operational denominators; Access: public extracts.
 
 ## Case Definitions (Operational)
+
 - CHF/Acute Pulmonary Edema: any of
   - Provider impression includes CHF/APE; AND/OR
   - CPAP/NIV administered AND diuretic/nitrate given AND respiratory distress primary; AND/OR
@@ -44,6 +48,7 @@
   - Procedure codes indicating delivery; newborn assessment; excessive maternal bleeding coded; neonatal resuscitation steps performed.
 
 ## Variables to Extract
+
 - Demographics: age group (peds/adult/geriatric), sex
 - Call info: urbanicity, region/state (if available), response type
 - Clinical: chief complaint, provider impression, vitals at arrival, procedures, meds
@@ -51,22 +56,26 @@
 - Outcomes: transport/non-transport, destination type, ED disposition (if linked)
 
 ## Denominators and Rates
+
 - Primary denominator: total EMS incidents meeting inclusion criteria (per 1,000 incidents)
 - Secondary: population-based rates where state population denominators available (per 10,000 pop)
 - Report both raw counts and rates with 95% CIs (Wilson or Poisson exact depending on counts)
 
 ## Stratifications
+
 - Age: 0–17, 18–64, 65+
 - Sex: male, female (as recorded)
 - Geography: census region if available; urban vs rural classification
 - Temporal: year, quarter; time-of-day for OD sensitivity
 
 ## Data Quality & Bias Handling
+
 - Handle missing/imputed values transparently (report % missing).
 - Sensitivity analyses with alternative definitions (e.g., naloxone-only vs naloxone+RR<10 for OD).
 - Weighting: if NEMSIS provides state participation variability, include sensitivity to coverage.
 
 ## Methodological Principles for Prehospital Data
+
 - Use proxy definitions when documentation is incomplete (procedures/meds/vitals-based logic) and report both proxy and strict estimates.
 - Prefer incident-based denominators; avoid double-counting by collapsing multiple assessments per incident.
 - Flag implausible vitals/time stamps and apply conservative cleaning rules; report exclusion counts.
@@ -76,58 +85,68 @@
 - For cardiac arrest statistics, use CARES definitions (Utstein) when available; reconcile with NEMSIS eArrest elements where CARES linkage is not accessible.
 
 ### First-Pass Sources (for this project phase)
+
 - Primary: NEMSIS v3 (2019–2024) extracts.
 - Benchmarking OHCA: CARES annual statistics (or DUA access if feasible in timeline).
 - Denominators/triangulation: CDC WISQARS and HCUP-NEDS/NIS/NHAMCS published stats.
 - Cross-checks: State EMS annual reports.
 
 ## Analysis Methods
+
 - Descriptive statistics: frequencies, proportions, rates with 95% CIs.
 - Trend analysis: yearly rate ratios; segmented regression if notable policy changes.
 - Cross-check: compare EMS-derived rates with ED datasets (NHAMCS/HCUP) for face validity.
 
 ## Outputs
+
 - Tables (CSV + Markdown): counts and rates per condition × stratification.
 - Figures: bar charts of rates by age/sex; line plots for yearly trends.
 - Methods appendix: exact code lists, variable maps, and case-definition logic.
 
 ## Tooling & Reproducibility
+
 - Data processing: Python (pandas) or R (tidyverse); scripts committed under `research/scripts/`.
 - Version control of code lists (ICD-10, SNOMED, NEMSIS element IDs) in YAML.
 - Document limitations and data-use agreements; avoid row-level PHI.
 
 ## Timeline (initial pass)
+
 - Week 1: Finalize definitions; acquire NEMSIS access; prototype extracts.
 - Week 2: Compute national-level rates; produce first tables/figures.
 - Week 3: Stratifications, sensitivity analyses; documentation.
 
 ## Citations Plan
+
 - NEMSIS data dictionaries and annual reports.
 - CARES annual report and methodology documentation (Utstein definitions).
 - PEC/JEMS articles reporting EMS NIV, naloxone, prehospital delivery incidence.
 - CDC WISQARS, HCUP/NHCS methodology pages for denominators and comparators.
 
 ## Next Actions
+
 - Confirm condition list and definitions with SME.
 - Request/prepare NEMSIS extracts.
 - Build reproducible pipeline skeleton and table templates.
- - Assess feasibility of CARES access (DUA); alternatively, use published CARES annual statistics for benchmarking OHCA incidence/outcomes.
+- Assess feasibility of CARES access (DUA); alternatively, use published CARES annual statistics for benchmarking OHCA incidence/outcomes.
 
 ## Implementation Checklist (Detailed Steps)
 
 ### Access & Governance
+
 - [ ] Confirm final condition list for phase 1 (CHF/APE, opioid OD, tension PTX proxy, OB delivery/PPH/NRP, OHCA benchmarking)
 - [ ] Identify data owners and submit access requests (NEMSIS state permissions as needed)
 - [ ] Determine CARES access path (DUA) or confirm use of published annual stats
 - [ ] Document data-use agreements and PHI handling (no row-level PHI in outputs)
 
 ### Case Definitions & Codebooks
+
 - [ ] Draft strict and proxy definitions per condition (logic trees)
 - [ ] Map NEMSIS v3 elements (eSituation, eImpression, eVitals, eProcedures, eMedications, eArrest, eDisposition)
 - [ ] Enumerate ICD-10/SNOMED/CPT/code lists; save in YAML under `research/codebooks/`
 - [ ] Peer review of definitions with SME and revise
 
 ### Extraction Pipeline
+
 - [ ] Create project structure `research/scripts/` (Python/R) and `research/outputs/`
 - [ ] Implement extract module to load/filter NEMSIS years 2019–2024
 - [ ] Implement per-condition selectors (strict vs proxy)
@@ -136,6 +155,7 @@
 - [ ] Calculate rates per 1,000 incidents and 95% CIs (Poisson/Wilson)
 
 ### Quality Assurance
+
 - [ ] Build missingness tables for key fields (impression, procedures, meds, vitals)
 - [ ] Apply outlier/implausible value filters (document thresholds)
 - [ ] Sensitivity analyses (strict vs proxy) — produce comparison tables
@@ -143,17 +163,20 @@
 - [ ] Triangulate selected metrics with HCUP/NEDS or WISQARS where applicable
 
 ### OHCA Benchmarking (CARES/NEMSIS eArrest)
+
 - [ ] Align variables with Utstein definitions (witnessed, initial rhythm, bystander CPR, ROSC)
 - [ ] Produce OHCA incidence and outcome summary for benchmarking
 - [ ] Document reconciliation approach when CARES not directly accessible
 
 ### Outputs & Reporting
+
 - [ ] Export CSV tables: counts, rates, CIs per condition × stratification
 - [ ] Create Markdown summaries with key findings and caveats in `docs/research/outputs/`
 - [ ] Generate figure stubs (bar/line plots) or Vega-Lite specs
 - [ ] Write short methods appendix (variable maps, logic, exclusions)
 
 ### Reproducibility & Review
+
 - [ ] Commit scripts, codebooks, and documentation to repo
 - [ ] Tag data version and code hash for reproducibility
 - [ ] SME review of results and definitions; incorporate feedback
@@ -162,6 +185,7 @@
 ## Master Detailed Checklist (Granular Execution Steps)
 
 ### A. Repository and Environment Setup
+
 - [ ] Create directories: `research/scripts/{nemsis,benchmarks,utils}`, `research/{outputs,inputs,codebooks}`, `docs/research/outputs`, `research/outputs/logs`, `research/outputs/nemsis`, `research/outputs/benchmarks`, `research/inputs/state_reports`
 - [ ] Initialize Python environment (3.11+), `requirements.txt` with pandas, pyarrow, numpy, scipy, pyyaml, tqdm
 - [ ] Create `research/scripts/utils/io.py` with helpers for reading CSV/Parquet, writing CSV with schema
@@ -170,6 +194,7 @@
 - [ ] Add `.gitattributes` for CSV/MD text normalization; `.gitkeep` files for empty dirs
 
 ### B. Codebooks and Definitions
+
 - [ ] Draft `research/codebooks/nemsis-elements.yaml` mapping required elements to descriptions and types
 - [ ] Draft `research/codebooks/case-definitions.yaml` with strict & proxy logic trees for: `chf_ape`, `opioid_od`, `tension_ptx_proxy`, `ob_delivery_pph_nrp`, `ohca`
 - [ ] Draft `research/codebooks/codes-icd10.yaml` with I50.x (HF), T40.x (opioids), S27.0 (pneumothorax), O72.x (PPH)
@@ -180,6 +205,7 @@
 - [ ] SME review of `case-definitions.yaml`; capture revisions
 
 ### C. Data Acquisition (NEMSIS)
+
 - [ ] Confirm legal access path (national/state portal or local extracts)
 - [ ] For each YEAR=2019..2024: obtain `nemsis_v3_{YEAR}.parquet` (preferred) or CSV
 - [ ] Save raw files under `research/inputs/nemsis/nemsis_v3_{YEAR}.parquet`
@@ -187,6 +213,7 @@
 - [ ] Document any state participation/coverage notes per year in `docs/research/outputs/nemsis_coverage_notes.md`
 
 ### D. Load and Clean (NEMSIS)
+
 - [ ] Implement `research/scripts/nemsis/load_and_clean.py`
 - [ ] Read YEAR files with pyarrow for types; coerce dates/times to UTC-naive
 - [ ] Normalize categorical codes to upper-case strings
@@ -197,11 +224,13 @@
 - [ ] Emit cleaning report `research/outputs/logs/{stamp}__nemsis_clean_{YEAR}.log`
 
 ### E. Denominators and Incident Collapsing
+
 - [ ] Define unique incident key (eScene + eTimes or provided incident number)
 - [ ] Collapse multiple vitals/assessments per incident as needed (first-on-scene vs highest acuity rule)
 - [ ] Compute per-YEAR total incident denominators; write `nemsis__denominators__{YEAR}.csv`
 
 ### F. Case Selection (Per Condition)
+
 - [ ] Implement `research/scripts/nemsis/select_cases.py`
 - [ ] Encode strict logic for CHF/APE (impression CHF/APE OR CPAP+resp distress+NTG)
 - [ ] Encode proxy logic for CHF/APE (CPAP OR NTG with resp distress)
@@ -215,6 +244,7 @@
 - [ ] Log counts for strict vs proxy per condition and YEAR
 
 ### G. Stratification and Measures
+
 - [ ] Implement `research/scripts/nemsis/compute_measures.py`
 - [ ] Derive age bands from `age-bands.yaml`
 - [ ] Map urbanicity from `urbanicity-map.yaml`
@@ -224,16 +254,19 @@
 - [ ] Write CSVs: `nemsis__{condition}__{YEAR}__by_age_sex_urbanicity.csv`
 
 ### H. Sensitivity Analyses
+
 - [ ] For each condition & YEAR: build strict vs proxy comparison table (counts, rates, deltas)
 - [ ] Write `nemsis__{condition}__{YEAR}__strict_vs_proxy.csv`
 - [ ] Summarize differences and likely bias directions in MD summaries
 
 ### I. Missingness and Outliers
+
 - [ ] Compute NA rates for impression, procedures, medications, vitals per YEAR
 - [ ] Write `nemsis/{condition}__missingness__{YEAR}.csv`
 - [ ] Document applied filters (thresholds, exclusions) in `methods_missingness.md`
 
 ### J. CARES (OHCA)
+
 - [ ] Determine DUA feasibility and timeline
 - [ ] If DUA: obtain `cares_ohca_{YEAR}.csv` with Utstein fields
 - [ ] Implement `benchmarks/cares_summarize.py` to compute incidence, ROSC, survival
@@ -242,36 +275,42 @@
 - [ ] Write MD summary `cares__ohca__summary.md`
 
 ### K. WISQARS / HCUP / NHAMCS (Benchmarks)
+
 - [ ] Download WISQARS mechanism CSVs for target years; save to `research/outputs/benchmarks`
 - [ ] Record query parameters used (age, mechanism, geography) in `wisqars__notes.md`
 - [ ] Identify HCUP/NHAMCS tables for CHF/APE, opioid OD, chest trauma, OB emergencies
 - [ ] Extract published table values to CSV with sources and URLs in `hcup__{topic}__summary.md`
 
 ### L. State EMS Annual Reports
+
 - [ ] Collect PDFs/CSVs for target states/years; save to `research/inputs/state_reports`
 - [ ] Catalog metadata with `state_reports_catalog.py` (state, year, URL, metrics available)
 - [ ] Where CSV available, parse key metrics into `state__{STATE}__{YEAR}__key_metrics.csv`
 - [ ] For PDFs, manually transcribe key tables and cite page numbers in MD summaries
 
 ### M. Outputs and Documentation
+
 - [ ] Generate per-condition MD summaries under `docs/research/outputs/nemsis__{condition}__summary.md`
 - [ ] Include: definition used, denominators, counts, rates, CIs, sensitivity results, data quality notes
 - [ ] Create overview `docs/research/outputs/phase1_summary.md` aggregating all conditions
 - [ ] Store figure-ready CSVs and Vega-Lite specs if used
 
 ### N. Reproducibility
+
 - [ ] Commit codebooks and scripts with version tags
 - [ ] Record data file hashes (SHA256) in `research/outputs/logs/data_hashes_{stamp}.txt`
 - [ ] Pin Python package versions in `requirements.txt`
 - [ ] Add `README.md` in `research/scripts` explaining run order
 
 ### O. Review and Sign-off
+
 - [ ] Internal QA pass on numbers (spot-check vs raw)
 - [ ] SME review meeting; collect action items
 - [ ] Apply fixes and re-run impacted steps; update logs and summaries
 - [ ] Final sign-off and tag release `stats-phase1-v1`
 
 ## Immediate Next Steps (Execution Checklist)
+
 1. Element mapping/codebook
    - Map NEMSIS v3 elements to each case definition (e.g., eInjury, eSituation, eVitals, eProcedures, eMedications, eDisposition).
    - Enumerate ICD-10/SNOMED codes used when available; store in YAML.
@@ -284,4 +323,3 @@
    - Missingness tables, outlier filters applied, coverage caveats (state participation).
 5. Deliverables
    - Markdown + CSV tables, figure stubs, and a short memo summarizing key rates and caveats.
-
