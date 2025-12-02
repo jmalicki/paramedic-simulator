@@ -84,6 +84,7 @@ jobs:
           name: ${{ inputs.procedure }}
           path: Art/Source/3D/Sequences/output/*.mp4
           retention-days: 7
+          compression-level: 0
 
       - name: Summary
         run: |
