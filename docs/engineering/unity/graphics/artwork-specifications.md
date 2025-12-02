@@ -118,7 +118,7 @@ All tools in this pipeline are free or open source:
 
 ### Workflow: Blender → Unity (Real-time 3D)
 
-```
+```text
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │  3D Modeling    │ ──▶ │  Export FBX     │ ──▶ │  Unity Import   │
 │  (Blender)      │     │  + Animations   │     │  + Toon Shader  │
@@ -151,7 +151,7 @@ All tools in this pipeline are free or open source:
 
 ### Unity Toon Shader Setup
 
-```
+```text
 Shader Properties:
 ├── Base Color (from color palette)
 ├── Shadow Color (darker variant, ~70% brightness)
@@ -167,7 +167,7 @@ Shader Properties:
 
 Each 3D model is specified with the following information:
 
-```
+```text
 Model Specification Template:
 ├── Identity
 │   ├── Name, Category, Description
@@ -224,7 +224,7 @@ Model Specification Template:
 
 **Mesh Hierarchy:**
 
-```
+```text
 Prop_PulseOx (Empty/Armature)
 ├── PulseOx_Body         # Main housing (top half)
 │   ├── PulseOx_Screen   # OLED display area
@@ -290,7 +290,7 @@ Prop_PulseOx (Empty/Armature)
 
 **Prefab Structure:**
 
-```
+```text
 Prop_PulseOx (Prefab Root)
 ├── Model (FBX instance)
 │   └── Armature
@@ -313,7 +313,7 @@ Prop_PulseOx (Prefab Root)
 
 **Animator States:**
 
-```
+```text
 ┌─────────┐    trigger:Open    ┌─────────┐
 │  Idle   │ ─────────────────▶ │ Opening │
 │ (closed)│                    │         │
@@ -329,7 +329,7 @@ Prop_PulseOx (Prefab Root)
 
 #### Reference Diagram
 
-```
+```text
         TOP VIEW                    SIDE VIEW (Open)
     ┌─────────────┐                    ╱───────╲
     │ ┌─────────┐ │                   ╱  Body   ╲
@@ -368,7 +368,7 @@ Prop_PulseOx (Prefab Root)
 
 This is the primary interaction model - the player's hands performing medical procedures.
 
-#### Identity
+#### Hand Identity
 
 | Property                 | Value                                            |
 | ------------------------ | ------------------------------------------------ |
@@ -377,7 +377,7 @@ This is the primary interaction model - the player's hands performing medical pr
 | **Description**          | First-person gloved hands for medical procedures |
 | **Real-world reference** | Nitrile exam gloves on adult hands               |
 
-#### Geometry
+#### Hand Geometry
 
 | Property             | Specification                     |
 | -------------------- | --------------------------------- |
@@ -388,7 +388,7 @@ This is the primary interaction model - the player's hands performing medical pr
 
 **Mesh Hierarchy:**
 
-```
+```text
 Char_Hand_Gloved_L (Left Hand)
 ├── Hand_Palm_L
 ├── Hand_Thumb_L
@@ -407,11 +407,11 @@ Char_Hand_Gloved_L (Left Hand)
     └── (same structure)
 ```
 
-#### Rigging & Range of Motion
+#### Hand Rigging & Range of Motion
 
 **Bone Hierarchy:**
 
-```
+```text
 Armature
 └── Wrist_L
     ├── Palm_L
@@ -487,7 +487,7 @@ Armature
 | `BVM_Squeeze` | 1s | Compress bag (loopable) |
 | `Defib_Clear` | 0.5s | Hands raised, "clear" gesture |
 
-#### Materials
+#### Hand Materials
 
 | Slot | Material Name       | Base Color       | Properties           |
 | ---- | ------------------- | ---------------- | -------------------- |
@@ -499,11 +499,11 @@ Armature
 - `MAT_Glove_Nitrile_Purple` - Alternative color
 - `MAT_Glove_Latex_White` - Sterile procedure gloves
 
-#### Unity Setup
+#### Hand Unity Setup
 
 **Prefab Structure:**
 
-```
+```text
 Char_Hand_Gloved_Pair (Prefab Root)
 ├── Hand_L (Left Hand FBX)
 │   └── Armature_L
@@ -533,9 +533,9 @@ Char_Hand_Gloved_Pair (Prefab Root)
 | `ProcedureClip` | Trigger | Triggers procedure animation |
 | `IsHolding` | Bool | Whether holding an item |
 
-#### Reference Diagram
+#### Hand Reference Diagram
 
-```
+```text
     PALM VIEW (Left Hand)           RANGE OF MOTION
 
          Middle                     MCP: 0° to 90° flex
@@ -565,7 +565,7 @@ Char_Hand_Gloved_Pair (Prefab Root)
         │                 │             ╱
 ```
 
-#### Blender File Checklist
+#### Hand Blender File Checklist
 
 - [ ] Both hands modeled (L and R, or mirror modifier)
 - [ ] Real-world scale (19cm length)
@@ -967,7 +967,7 @@ Each procedural sequence is rendered as a **sprite sheet** with accompanying **J
 
 ### Directory Structure for Sequences
 
-```
+```text
 Art/Sprites/Sequences/
 ├── IV_Start/
 │   ├── Seq_IV_Start_Sheet.png       # Sprite sheet (all frames)
@@ -1084,7 +1084,7 @@ Art/Sprites/Sequences/
 
 ### Sequence Sprite Sheet Layout
 
-```
+```text
 ┌────────────────────────────────────────────────────────┐
 │  Frame 0  │  Frame 1  │  Frame 2  │  Frame 3  │        │  Row 1
 ├───────────┼───────────┼───────────┼───────────┤        │
@@ -1104,7 +1104,7 @@ Art/Sprites/Sequences/
 
 For flexibility, some sequences may use **layered compositing** instead of flat sprite sheets:
 
-```
+```text
 Layer Stack (bottom to top):
 ├── Background (patient body part or surface)
 ├── Equipment Layer (IV catheter, leads, etc.)
@@ -1190,7 +1190,7 @@ The first playable sequence will compose three individual procedures into a comp
 
 ### Blender Cel-Shade Setup
 
-```
+```text
 Material Setup:
 ├── Shader to RGB node (captures lighting)
 ├── Color Ramp (2-3 stops for toon bands)
@@ -1218,7 +1218,7 @@ Freestyle Settings:
 
 ## Directory Structure
 
-```
+```text
 Art/
 ├── Source/
 │   └── 3D/
@@ -1286,7 +1286,7 @@ Art/
 
 ## Technical Notes
 
-### Unity Import Settings
+### Sprite Import Settings
 
 - **Sprites**:
   - Texture Type: Sprite (2D and UI)

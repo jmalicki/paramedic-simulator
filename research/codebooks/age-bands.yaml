@@ -1,3 +1,4 @@
+---
 # Age band definitions
 bands:
   - { name: pediatric, min: 0, max: 17 }

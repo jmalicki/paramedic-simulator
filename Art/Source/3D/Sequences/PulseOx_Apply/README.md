@@ -65,7 +65,7 @@ cp Seq_PulseOx_Apply.json ../../../Sprites/Sequences/PulseOx_Apply/
 | 2     | 500ms    | -         | Placing on finger                    |
 | 3     | 600ms    | sfx_beep  | Clipped on, complete                 |
 
-**Total duration: 2 seconds**
+### Total duration: 2 seconds
 
 ## Customization
 
@@ -126,7 +126,7 @@ Outlines use a solidify modifier. Check that modifiers are enabled in render.
 
 After assembly, the sprite sheet will look like:
 
-```
+```text
 ┌─────────┬─────────┬─────────┬─────────┐
 │ Frame 0 │ Frame 1 │ Frame 2 │ Frame 3 │
 │ 256x192 │ 256x192 │ 256x192 │ 256x192 │

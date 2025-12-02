@@ -4,9 +4,9 @@ author: Project Team
 date: 2025-11-04
 ---
 
-# Paramedic Simulator: Comprehensive Design Document
+## Paramedic Simulator: Comprehensive Design Document
 
-[Download this document as Markdown](#) · [Convert to PDF](#)
+<!-- Navigation links removed - use Pandoc to convert: pandoc -o output.pdf input.md -->
 
 ---
 
@@ -195,13 +195,13 @@ All scenarios are grounded in current evidence-based guidelines:
 
 Vital signs evolve via differential-equation-inspired dynamics:
 
-```
+```text
 BP(t) = BP_base + f(cardiac_output, SVR, blood_volume) + noise
 cardiac_output = heart_rate × stroke_volume
 SVR = systemic vascular resistance
 ```
 
-```
+```text
 SpO2 = f(hemoglobin, PaO2, V/Q ratio, shunt fraction)
 ```
 
@@ -209,20 +209,20 @@ Condition-specific parameters are applied (e.g., asthma, hemorrhagic shock, CHF,
 
 Example condition parameterizations:
 
-**Acute Decompensated Heart Failure (CHF/Pulmonary Edema)**
+#### Acute Decompensated Heart Failure (CHF/Pulmonary Edema)
 
 - Preload: elevated; Afterload: elevated
 - Lung water: increasing over time without intervention
 - Response to CPAP: ↑SpO2, ↓work of breathing within minutes
 - Response to nitrates: ↓SVR/afterload → improved CO and BP (if hypertensive)
 
-**Tension Pneumothorax**
+#### Tension Pneumothorax
 
 - Intrathoracic pressure: rising → ↓venous return → hypotension
 - Breath sounds: unilateral decrease; tracheal deviation (late)
 - Needle decompression: immediate improvement in BP and SpO2; risk of recurrence
 
-**Opioid Overdose**
+#### Opioid Overdose
 
 - Respiratory drive: depressed (RR ↓, EtCO2 ↑, SpO2 ↓)
 - Pinpoint pupils common
@@ -277,14 +277,14 @@ Example subgraph (cardiac): demographics → comorbidities → CAD/rupture → S
 
 ### 6.3 Dynamic State Modeling
 
-```
+```text
 State(t) = [HR, SBP, DBP, RR, SpO2, EtCO2, GCS, Pain, Glucose, ...]
 State(t+Δt) = f(State(t), Interventions, Time, Patient Factors) + Noise
 ```
 
 Example hypovolemia dynamics:
 
-```
+```text
 d(BP)/dt = k1*HR - k2*BloodVolume - k3*SVR
 d(HR)/dt = k4*(NormalBP - BP) + k5*Pain
 d(BloodVolume)/dt = -BleedRate + k6*FluidAdministered
@@ -292,7 +292,7 @@ d(BloodVolume)/dt = -BleedRate + k6*FluidAdministered
 
 Additional examples:
 
-```
+```text
 # Acute decompensated heart failure (simplified)
 d(AlveolarFluid)/dt = LeakRate(PCWP) - Clearance(CPAP, diuretics)
 d(SpO2)/dt = g(Ventilation, AlveolarFluid, FiO2) - h(Shunt)

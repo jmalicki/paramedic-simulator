@@ -1,3 +1,4 @@
+---
 # ICD-10 code lists (incomplete; extend during analysis)
 heart_failure:
   - I50.2 # Systolic HF

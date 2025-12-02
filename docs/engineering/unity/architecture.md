@@ -2,7 +2,7 @@
 
 ### Project Structure
 
-```
+```text
 UnityProject/
   Assets/
     Scripts/

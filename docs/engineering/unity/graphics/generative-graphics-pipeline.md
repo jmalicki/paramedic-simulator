@@ -23,34 +23,34 @@ Goal: accelerate art production while preserving clinical realism and performanc
 
 1. Concept → Moodboards
 
-- Generate SDXL boards with strict prompt templates and negative lists for realism
-- Approve palettes and material references (medical plastics, metals, fabrics)
+   - Generate SDXL boards with strict prompt templates and negative lists for realism
+   - Approve palettes and material references (medical plastics, metals, fabrics)
 
-2. Texture Authoring
+1. Texture Authoring
 
-- Start from scan/photo or base material; generate albedo variants with SDXL (Tile)
-- Derive roughness/metalness heuristically; generate normals from depth/photometric cues
-- Validate seams, tileability, and PBR ranges; bake to 1k/2k atlases
+   - Start from scan/photo or base material; generate albedo variants with SDXL (Tile)
+   - Derive roughness/metalness heuristically; generate normals from depth/photometric cues
+   - Validate seams, tileability, and PBR ranges; bake to 1k/2k atlases
 
-3. Decals & States
+1. Decals & States
 
-- Generate blood/dirt/wear as decal sheets; ensure physically plausible color and gloss
-- Author state machine: clean → used → contaminated; swap materials/decals at runtime
+   - Generate blood/dirt/wear as decal sheets; ensure physically plausible color and gloss
+   - Author state machine: clean → used → contaminated; swap materials/decals at runtime
 
-4. Equipment Screens & Labels
+1. Equipment Screens & Labels
 
-- Generate high‑res UI backgrounds/textures with SDXL; vectorize critical glyphs
-- Super‑resolve and sharpen; export to 1k–2k atlases; ensure legibility at 1–2 meters
+   - Generate high‑res UI backgrounds/textures with SDXL; vectorize critical glyphs
+   - Super‑resolve and sharpen; export to 1k–2k atlases; ensure legibility at 1–2 meters
 
-5. Proxy 3D & Retopo
+1. Proxy 3D & Retopo
 
-- For simple props, use TripoSR on reference photos to get a coarse mesh
-- Manual retopo in DCC; UV unwrap; bake maps; replace proxy with production mesh
+   - For simple props, use TripoSR on reference photos to get a coarse mesh
+   - Manual retopo in DCC; UV unwrap; bake maps; replace proxy with production mesh
 
-6. Motion/Poses
+1. Motion/Poses
 
-- Generate short breathing/pain micro‑motions via motion diffusion; retarget to Humanoid
-- Blend as additive layers; ensure loopability and subtlety
+   - Generate short breathing/pain micro‑motions via motion diffusion; retarget to Humanoid
+   - Blend as additive layers; ensure loopability and subtlety
 
 ### Performance/Quality Guards
 

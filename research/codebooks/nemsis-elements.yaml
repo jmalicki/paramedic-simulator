@@ -1,3 +1,4 @@
+---
 # NEMSIS v3 element map (skeleton)
 required_elements:
   eSituation.11: { name: Primary Impression, type: string }
