@@ -4,11 +4,28 @@
 
 This document specifies the artwork pipeline for the Paramedic Simulator. The game uses **real-time 3D rendering with cel/toon shading** in Unity. 3D models are created in Blender, exported as FBX, and rendered in Unity with custom toon shaders to achieve a stylized, cartoonish look while maintaining smooth, continuous animation.
 
+### Camera Perspective
+- **View**: First-person POV of the paramedic (entire game)
+- **Player sees**: Their own gloved hands, equipment, patient, environment
+- **Player does NOT see**: Their own body, face, or full character model
+- **No third-person**: The game is entirely first-person with no camera mode switches
+
 ### Rendering Approach
 - **Engine**: Unity 6000 LTS with URP (Universal Render Pipeline)
 - **Shading**: Real-time toon/cel shaders with outline pass
 - **Animation**: Smooth interpolated animation (not frame-by-frame sprites)
 - **Benefit**: True 60fps motion, camera flexibility, runtime variations
+
+### Implications for Art Assets
+| Asset Type | Visibility | Detail Level |
+|------------|------------|--------------|
+| Player Hands | Always visible | High detail (hero asset) |
+| Held Equipment | Always visible | High detail |
+| Patient | Primary focus | High detail, multiple states |
+| Environment | Background | Medium detail |
+| Partner Paramedic | Occasionally visible | Medium detail |
+| Player Body | Never visible | Not needed |
+| Bystanders/NPCs | Peripheral | Lower detail |
 
 ---
 
