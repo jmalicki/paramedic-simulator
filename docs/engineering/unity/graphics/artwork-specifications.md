@@ -27,17 +27,17 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 
 ### Implications for Art Assets
 
-| Asset Type | Visibility | Detail Level |
-|------------|------------|--------------|
-| Player Hands/Arms | Always visible | High detail (hero asset) |
-| Player Legs/Feet | When crouching/looking down | High detail |
-| Player Knees | When kneeling | High detail |
-| Player Torso | Peripheral (looking down) | Medium detail |
-| Held Equipment | Always visible | High detail |
-| Patient | Primary focus | High detail, multiple states |
-| Environment | Background | Medium detail |
-| Partner Paramedic | Frequently visible | Medium-high detail |
-| Bystanders/NPCs | Scene dependent | Medium detail |
+| Asset Type        | Visibility                  | Detail Level                 |
+| ----------------- | --------------------------- | ---------------------------- |
+| Player Hands/Arms | Always visible              | High detail (hero asset)     |
+| Player Legs/Feet  | When crouching/looking down | High detail                  |
+| Player Knees      | When kneeling               | High detail                  |
+| Player Torso      | Peripheral (looking down)   | Medium detail                |
+| Held Equipment    | Always visible              | High detail                  |
+| Patient           | Primary focus               | High detail, multiple states |
+| Environment       | Background                  | Medium detail                |
+| Partner Paramedic | Frequently visible          | Medium-high detail           |
+| Bystanders/NPCs   | Scene dependent             | Medium detail                |
 
 ---
 
@@ -55,26 +55,26 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 
 #### Primary Colors
 
-| Use | Hex | Description |
-|-----|-----|-------------|
-| Medical Blue | `#2E86AB` | Equipment, uniforms |
-| Clinical White | `#F5F5F5` | Sheets, gauze, clean items |
-| Emergency Red | `#E63946` | Alerts, blood, urgency indicators |
-| Safety Orange | `#F4A261` | Warning elements, stretcher accents |
-| Skin Base Light | `#FFDAB9` | Character skin (light) |
-| Skin Base Medium | `#D2956D` | Character skin (medium) |
-| Skin Base Dark | `#8D5524` | Character skin (dark) |
+| Use              | Hex       | Description                         |
+| ---------------- | --------- | ----------------------------------- |
+| Medical Blue     | `#2E86AB` | Equipment, uniforms                 |
+| Clinical White   | `#F5F5F5` | Sheets, gauze, clean items          |
+| Emergency Red    | `#E63946` | Alerts, blood, urgency indicators   |
+| Safety Orange    | `#F4A261` | Warning elements, stretcher accents |
+| Skin Base Light  | `#FFDAB9` | Character skin (light)              |
+| Skin Base Medium | `#D2956D` | Character skin (medium)             |
+| Skin Base Dark   | `#8D5524` | Character skin (dark)               |
 
 #### Medical Equipment Colors
 
-| Equipment | Primary | Secondary | Accent |
-|-----------|---------|-----------|--------|
-| Stethoscope | `#2D2D2D` (black) | `#C0C0C0` (silver) | `#4A90D9` (tubing) |
-| Monitor | `#3D3D3D` (housing) | `#1A1A2E` (screen) | `#00FF00` (vitals) |
-| IV Bag | `#E8F4F8` (clear) | `#87CEEB` (fluid) | `#FFFFFF` (label) |
-| Defibrillator | `#FF6B35` (orange) | `#2D2D2D` (black) | `#00FF00` (ready) |
-| O2 Tank | `#228B22` (green) | `#C0C0C0` (valve) | `#FFFFFF` (label) |
-| Stretcher | `#FF8C00` (frame) | `#FFFFFF` (pad) | `#2D2D2D` (wheels) |
+| Equipment     | Primary             | Secondary          | Accent             |
+| ------------- | ------------------- | ------------------ | ------------------ |
+| Stethoscope   | `#2D2D2D` (black)   | `#C0C0C0` (silver) | `#4A90D9` (tubing) |
+| Monitor       | `#3D3D3D` (housing) | `#1A1A2E` (screen) | `#00FF00` (vitals) |
+| IV Bag        | `#E8F4F8` (clear)   | `#87CEEB` (fluid)  | `#FFFFFF` (label)  |
+| Defibrillator | `#FF6B35` (orange)  | `#2D2D2D` (black)  | `#00FF00` (ready)  |
+| O2 Tank       | `#228B22` (green)   | `#C0C0C0` (valve)  | `#FFFFFF` (label)  |
+| Stretcher     | `#FF8C00` (frame)   | `#FFFFFF` (pad)    | `#2D2D2D` (wheels) |
 
 ---
 
@@ -84,12 +84,12 @@ All tools in this pipeline are free or open source:
 
 ### Core Pipeline
 
-| Tool | Purpose | License | Notes |
-|------|---------|---------|-------|
-| **Blender** | 3D modeling, rigging, animation | GPL | Primary DCC for all 3D assets |
-| **Unity URP** | Real-time rendering | Unity license | Universal Render Pipeline (free tier) |
-| **GIMP** | Texture editing | GPL | Texture touch-ups and edits |
-| **Inkscape** | Vector graphics | GPL | UI elements, reference diagrams |
+| Tool          | Purpose                         | License       | Notes                                 |
+| ------------- | ------------------------------- | ------------- | ------------------------------------- |
+| **Blender**   | 3D modeling, rigging, animation | GPL           | Primary DCC for all 3D assets         |
+| **Unity URP** | Real-time rendering             | Unity license | Universal Render Pipeline (free tier) |
+| **GIMP**      | Texture editing                 | GPL           | Texture touch-ups and edits           |
+| **Inkscape**  | Vector graphics                 | GPL           | UI elements, reference diagrams       |
 
 ### Unity Packages (Free)
 
@@ -106,11 +106,11 @@ All tools in this pipeline are free or open source:
 
 ### Toon Shader Options (Free)
 
-| Shader | Source | Notes |
-|--------|--------|-------|
-| **URP Toon Lit** | Unity Asset Store (free) | Good starting point |
-| **Shader Graph Custom** | Create in Unity | Full control, recommended |
-| **Toony Colors Free** | Asset Store | Popular, well-documented |
+| Shader                  | Source                   | Notes                     |
+| ----------------------- | ------------------------ | ------------------------- |
+| **URP Toon Lit**        | Unity Asset Store (free) | Good starting point       |
+| **Shader Graph Custom** | Create in Unity          | Full control, recommended |
+| **Toony Colors Free**   | Asset Store              | Popular, well-documented  |
 
 ---
 
@@ -200,21 +200,21 @@ Model Specification Template:
 
 #### Identity
 
-| Property | Value |
-|----------|-------|
-| **Name** | `Prop_PulseOx` |
-| **Category** | Medical Equipment / Monitoring |
-| **Description** | Finger-clip pulse oximeter for measuring SpO2 and pulse rate |
-| **Real-world reference** | Nonin Onyx, Masimo MightySat, generic fingertip oximeter |
+| Property                 | Value                                                        |
+| ------------------------ | ------------------------------------------------------------ |
+| **Name**                 | `Prop_PulseOx`                                               |
+| **Category**             | Medical Equipment / Monitoring                               |
+| **Description**          | Finger-clip pulse oximeter for measuring SpO2 and pulse rate |
+| **Real-world reference** | Nonin Onyx, Masimo MightySat, generic fingertip oximeter     |
 
 #### Geometry
 
-| Property | Specification |
-|----------|---------------|
-| **Poly Budget** | 800-1,200 triangles |
-| **Dimensions** | 6cm × 3.5cm × 3cm (L×W×H) |
+| Property             | Specification              |
+| -------------------- | -------------------------- |
+| **Poly Budget**      | 800-1,200 triangles        |
+| **Dimensions**       | 6cm × 3.5cm × 3cm (L×W×H)  |
 | **Scale in Blender** | 0.06 × 0.035 × 0.03 meters |
-| **Origin Point** | Center of hinge/pivot |
+| **Origin Point**     | Center of hinge/pivot      |
 
 **Topology Requirements:**
 
@@ -236,11 +236,11 @@ Prop_PulseOx (Empty/Armature)
 
 #### Rigging & Range of Motion
 
-| Bone | Parent | Purpose |
-|------|--------|---------|
-| `root` | - | Root bone at hinge point |
-| `body` | root | Controls top housing |
-| `clip` | root | Controls bottom clip, rotates to open/close |
+| Bone   | Parent | Purpose                                     |
+| ------ | ------ | ------------------------------------------- |
+| `root` | -      | Root bone at hinge point                    |
+| `body` | root   | Controls top housing                        |
+| `clip` | root   | Controls bottom clip, rotates to open/close |
 
 **Range of Motion:**
 | Part | Axis | Min | Max | Notes |
@@ -271,13 +271,13 @@ Prop_PulseOx (Empty/Armature)
 
 #### Materials
 
-| Slot | Material Name | Base Color | Properties |
-|------|---------------|------------|------------|
-| 0 | `MAT_PulseOx_Body` | `#E8E8E8` (light gray) | Standard toon |
-| 1 | `MAT_PulseOx_Clip` | `#4A4A4A` (dark gray) | Standard toon |
-| 2 | `MAT_PulseOx_Screen` | `#1A1A2E` (dark blue) | Emissive when active |
-| 3 | `MAT_PulseOx_LED` | `#FF0000` (red) | Emissive, animated |
-| 4 | `MAT_PulseOx_Sensor` | `#300000` (dark red) | Slight emissive (IR) |
+| Slot | Material Name        | Base Color             | Properties           |
+| ---- | -------------------- | ---------------------- | -------------------- |
+| 0    | `MAT_PulseOx_Body`   | `#E8E8E8` (light gray) | Standard toon        |
+| 1    | `MAT_PulseOx_Clip`   | `#4A4A4A` (dark gray)  | Standard toon        |
+| 2    | `MAT_PulseOx_Screen` | `#1A1A2E` (dark blue)  | Emissive when active |
+| 3    | `MAT_PulseOx_LED`    | `#FF0000` (red)        | Emissive, animated   |
+| 4    | `MAT_PulseOx_Sensor` | `#300000` (dark red)   | Slight emissive (IR) |
 
 **Screen Display (Dynamic):**
 
@@ -370,21 +370,21 @@ This is the primary interaction model - the player's hands performing medical pr
 
 #### Identity
 
-| Property | Value |
-|----------|-------|
-| **Name** | `Char_Hand_Gloved` |
-| **Category** | Character / Player |
-| **Description** | First-person gloved hands for medical procedures |
-| **Real-world reference** | Nitrile exam gloves on adult hands |
+| Property                 | Value                                            |
+| ------------------------ | ------------------------------------------------ |
+| **Name**                 | `Char_Hand_Gloved`                               |
+| **Category**             | Character / Player                               |
+| **Description**          | First-person gloved hands for medical procedures |
+| **Real-world reference** | Nitrile exam gloves on adult hands               |
 
 #### Geometry
 
-| Property | Specification |
-|----------|---------------|
-| **Poly Budget** | 3,000-5,000 triangles (per hand) |
-| **Dimensions** | ~19cm length (wrist to fingertip) |
-| **Scale in Blender** | 0.19m length |
-| **Origin Point** | Wrist joint |
+| Property             | Specification                     |
+| -------------------- | --------------------------------- |
+| **Poly Budget**      | 3,000-5,000 triangles (per hand)  |
+| **Dimensions**       | ~19cm length (wrist to fingertip) |
+| **Scale in Blender** | 0.19m length                      |
+| **Origin Point**     | Wrist joint                       |
 
 **Mesh Hierarchy:**
 
@@ -489,9 +489,9 @@ Armature
 
 #### Materials
 
-| Slot | Material Name | Base Color | Properties |
-|------|---------------|------------|------------|
-| 0 | `MAT_Glove_Nitrile` | `#6B8BA4` (blue) | Slight specular, SSS |
+| Slot | Material Name       | Base Color       | Properties           |
+| ---- | ------------------- | ---------------- | -------------------- |
+| 0    | `MAT_Glove_Nitrile` | `#6B8BA4` (blue) | Slight specular, SSS |
 
 **Material Variants:**
 
@@ -586,11 +586,11 @@ Char_Hand_Gloved_Pair (Prefab Root)
 
 #### Ambulance
 
-| Asset | Poly Budget | Dimensions | Rig | Animations |
-|-------|-------------|------------|-----|------------|
-| `Prop_Ambulance_Exterior` | 8-12k tris | 6m × 2.5m × 2.8m | None | - |
-| `Prop_Ambulance_Interior` | 10-15k tris | (interior space) | Doors | Doors_Open, Doors_Close |
-| `Prop_Ambulance_Stretcher_Mount` | 2k tris | Standard | Latch | Lock, Unlock |
+| Asset                            | Poly Budget | Dimensions       | Rig   | Animations              |
+| -------------------------------- | ----------- | ---------------- | ----- | ----------------------- |
+| `Prop_Ambulance_Exterior`        | 8-12k tris  | 6m × 2.5m × 2.8m | None  | -                       |
+| `Prop_Ambulance_Interior`        | 10-15k tris | (interior space) | Doors | Doors_Open, Doors_Close |
+| `Prop_Ambulance_Stretcher_Mount` | 2k tris     | Standard         | Latch | Lock, Unlock            |
 
 **Design Notes**:
 
@@ -606,9 +606,9 @@ These are primary interaction items, rendered at higher detail.
 
 #### Stethoscope
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_Stethoscope` | 2-3k tris | 128x128 | Flat, Hanging, In-use |
+| Asset              | 3D Poly Budget | Sprite Size | Views/Frames          |
+| ------------------ | -------------- | ----------- | --------------------- |
+| `Prop_Stethoscope` | 2-3k tris      | 128x128     | Flat, Hanging, In-use |
 
 **Design Notes**:
 
@@ -618,9 +618,9 @@ These are primary interaction items, rendered at higher detail.
 
 #### BVM (Bag Valve Mask)
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_BVM` | 2-3k tris | 128x128 | Idle, Squeezed (2 frames) |
+| Asset      | 3D Poly Budget | Sprite Size | Views/Frames              |
+| ---------- | -------------- | ----------- | ------------------------- |
+| `Prop_BVM` | 2-3k tris      | 128x128     | Idle, Squeezed (2 frames) |
 
 **Design Notes**:
 
@@ -630,10 +630,10 @@ These are primary interaction items, rendered at higher detail.
 
 #### Cardiac Monitor / Defibrillator
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_Monitor_Defib` | 4-6k tris | 192x192 | Front, With-pads |
-| `Prop_Defib_Pads` | 500 tris | 96x64 | Pair, On-patient |
+| Asset                | 3D Poly Budget | Sprite Size | Views/Frames     |
+| -------------------- | -------------- | ----------- | ---------------- |
+| `Prop_Monitor_Defib` | 4-6k tris      | 192x192     | Front, With-pads |
+| `Prop_Defib_Pads`    | 500 tris       | 96x64       | Pair, On-patient |
 
 **Design Notes**:
 
@@ -644,9 +644,9 @@ These are primary interaction items, rendered at higher detail.
 
 #### Laryngoscope
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_Laryngoscope` | 1-2k tris | 96x64 | Closed, Open/lit |
+| Asset               | 3D Poly Budget | Sprite Size | Views/Frames     |
+| ------------------- | -------------- | ----------- | ---------------- |
+| `Prop_Laryngoscope` | 1-2k tris      | 96x64       | Closed, Open/lit |
 
 **Design Notes**:
 
@@ -659,11 +659,11 @@ These are primary interaction items, rendered at higher detail.
 
 #### IV Bag & Line
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_IV_Bag` | 1k tris | 64x128 | Full, Half, Empty |
-| `Prop_IV_Line` | 500 tris | 32x128 | Straight, Curved |
-| `Prop_IV_Pole` | 800 tris | 48x192 | With bag, Empty |
+| Asset          | 3D Poly Budget | Sprite Size | Views/Frames      |
+| -------------- | -------------- | ----------- | ----------------- |
+| `Prop_IV_Bag`  | 1k tris        | 64x128      | Full, Half, Empty |
+| `Prop_IV_Line` | 500 tris       | 32x128      | Straight, Curved  |
+| `Prop_IV_Pole` | 800 tris       | 48x192      | With bag, Empty   |
 
 **Design Notes**:
 
@@ -673,10 +673,10 @@ These are primary interaction items, rendered at higher detail.
 
 #### IV Start Kit / Catheter
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_IV_Catheter` | 500 tris | 64x32 | Packaged, Ready |
-| `Prop_IV_StartKit` | 1.5k tris | 128x96 | Open kit view |
+| Asset              | 3D Poly Budget | Sprite Size | Views/Frames    |
+| ------------------ | -------------- | ----------- | --------------- |
+| `Prop_IV_Catheter` | 500 tris       | 64x32       | Packaged, Ready |
+| `Prop_IV_StartKit` | 1.5k tris      | 128x96      | Open kit view   |
 
 **Design Notes**:
 
@@ -685,9 +685,9 @@ These are primary interaction items, rendered at higher detail.
 
 #### IO Drill
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_IO_Drill` | 1.5k tris | 96x96 | Idle, With needle |
+| Asset           | 3D Poly Budget | Sprite Size | Views/Frames      |
+| --------------- | -------------- | ----------- | ----------------- |
+| `Prop_IO_Drill` | 1.5k tris      | 96x96       | Idle, With needle |
 
 **Design Notes**:
 
@@ -700,22 +700,22 @@ These are primary interaction items, rendered at higher detail.
 
 #### Oxygen Mask
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_O2_Mask` | 1k tris | 96x96 | Flat, On-face |
-| `Prop_O2_NonRebreather` | 1.2k tris | 96x96 | With reservoir bag |
+| Asset                   | 3D Poly Budget | Sprite Size | Views/Frames       |
+| ----------------------- | -------------- | ----------- | ------------------ |
+| `Prop_O2_Mask`          | 1k tris        | 96x96       | Flat, On-face      |
+| `Prop_O2_NonRebreather` | 1.2k tris      | 96x96       | With reservoir bag |
 
 #### Nasal Cannula
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_O2_NasalCannula` | 500 tris | 96x48 | Flat, On-face |
+| Asset                  | 3D Poly Budget | Sprite Size | Views/Frames  |
+| ---------------------- | -------------- | ----------- | ------------- |
+| `Prop_O2_NasalCannula` | 500 tris       | 96x48       | Flat, On-face |
 
 #### Oxygen Tank
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_O2_Tank` | 1k tris | 64x128 | Upright, Laying |
+| Asset          | 3D Poly Budget | Sprite Size | Views/Frames    |
+| -------------- | -------------- | ----------- | --------------- |
+| `Prop_O2_Tank` | 1k tris        | 64x128      | Upright, Laying |
 
 **Design Notes**:
 
@@ -725,10 +725,10 @@ These are primary interaction items, rendered at higher detail.
 
 #### OPA / NPA Airways
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_OPA` | 300 tris | 64x32 | Multiple sizes (color-coded) |
-| `Prop_NPA` | 300 tris | 64x32 | With lubricant |
+| Asset      | 3D Poly Budget | Sprite Size | Views/Frames                 |
+| ---------- | -------------- | ----------- | ---------------------------- |
+| `Prop_OPA` | 300 tris       | 64x32       | Multiple sizes (color-coded) |
+| `Prop_NPA` | 300 tris       | 64x32       | With lubricant               |
 
 ---
 
@@ -736,16 +736,16 @@ These are primary interaction items, rendered at higher detail.
 
 #### BP Cuff
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_BP_Cuff` | 1k tris | 96x64 | Flat, On-arm |
-| `Prop_BP_Bulb` | 500 tris | 48x64 | Squeezed, Relaxed |
+| Asset          | 3D Poly Budget | Sprite Size | Views/Frames      |
+| -------------- | -------------- | ----------- | ----------------- |
+| `Prop_BP_Cuff` | 1k tris        | 96x64       | Flat, On-arm      |
+| `Prop_BP_Bulb` | 500 tris       | 48x64       | Squeezed, Relaxed |
 
 #### Pulse Oximeter
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_PulseOx` | 500 tris | 48x48 | Open, On-finger |
+| Asset          | 3D Poly Budget | Sprite Size | Views/Frames    |
+| -------------- | -------------- | ----------- | --------------- |
+| `Prop_PulseOx` | 500 tris       | 48x48       | Open, On-finger |
 
 **Design Notes**:
 
@@ -754,10 +754,10 @@ These are primary interaction items, rendered at higher detail.
 
 #### ECG Leads
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_ECG_Leads` | 800 tris | 128x64 | 3-lead set, 12-lead set |
-| `Prop_ECG_Electrode` | 100 tris | 32x32 | Single pad |
+| Asset                | 3D Poly Budget | Sprite Size | Views/Frames            |
+| -------------------- | -------------- | ----------- | ----------------------- |
+| `Prop_ECG_Leads`     | 800 tris       | 128x64      | 3-lead set, 12-lead set |
+| `Prop_ECG_Electrode` | 100 tris       | 32x32       | Single pad              |
 
 ---
 
@@ -765,9 +765,9 @@ These are primary interaction items, rendered at higher detail.
 
 #### Stretcher / Gurney
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_Stretcher` | 4-6k tris | 256x128 | Flat, Raised-head, Folded |
+| Asset            | 3D Poly Budget | Sprite Size | Views/Frames              |
+| ---------------- | -------------- | ----------- | ------------------------- |
+| `Prop_Stretcher` | 4-6k tris      | 256x128     | Flat, Raised-head, Folded |
 
 **Design Notes**:
 
@@ -778,15 +778,15 @@ These are primary interaction items, rendered at higher detail.
 
 #### Backboard
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_Backboard` | 500 tris | 192x64 | With straps, With head blocks |
+| Asset            | 3D Poly Budget | Sprite Size | Views/Frames                  |
+| ---------------- | -------------- | ----------- | ----------------------------- |
+| `Prop_Backboard` | 500 tris       | 192x64      | With straps, With head blocks |
 
 #### Jump Bag
 
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_JumpBag` | 2k tris | 128x96 | Closed, Open (contents visible) |
+| Asset          | 3D Poly Budget | Sprite Size | Views/Frames                    |
+| -------------- | -------------- | ----------- | ------------------------------- |
+| `Prop_JumpBag` | 2k tris        | 128x96      | Closed, Open (contents visible) |
 
 **Design Notes**:
 
@@ -800,24 +800,24 @@ These are primary interaction items, rendered at higher detail.
 
 These are lower-detail items, often shown in inventory or during specific actions.
 
-| Asset | 3D Poly Budget | Sprite Size | Frames |
-|-------|----------------|-------------|--------|
-| `Prop_Syringe_3ml` | 300 tris | 64x24 | Empty, Full |
-| `Prop_Syringe_10ml` | 300 tris | 80x24 | Empty, Full |
-| `Prop_MedVial` | 200 tris | 32x48 | Generic, Labeled variants |
-| `Prop_MedAmpule` | 150 tris | 24x40 | Intact, Broken |
-| `Prop_Epi_Auto` | 400 tris | 48x64 | Capped, Deployed |
-| `Prop_Tape_Roll` | 200 tris | 48x48 | Full, Partial |
-| `Prop_Gloves_Box` | 300 tris | 64x48 | Closed, Open |
-| `Prop_Gloves_Pair` | 200 tris | 48x32 | Flat |
-| `Prop_Gauze_Pack` | 150 tris | 48x32 | Sealed, Open |
-| `Prop_Bandage_Roll` | 200 tris | 40x40 | Rolled |
-| `Prop_Scissors_Trauma` | 400 tris | 64x32 | Open, Closed |
-| `Prop_Penlight` | 200 tris | 48x16 | Off, On |
-| `Prop_Thermometer` | 200 tris | 56x16 | - |
-| `Prop_Glucometer` | 400 tris | 48x64 | With strip |
-| `Prop_Tourniquet` | 300 tris | 64x32 | Flat, Applied |
-| `Prop_CCollar` | 600 tris | 96x48 | Flat, Applied |
+| Asset                  | 3D Poly Budget | Sprite Size | Frames                    |
+| ---------------------- | -------------- | ----------- | ------------------------- |
+| `Prop_Syringe_3ml`     | 300 tris       | 64x24       | Empty, Full               |
+| `Prop_Syringe_10ml`    | 300 tris       | 80x24       | Empty, Full               |
+| `Prop_MedVial`         | 200 tris       | 32x48       | Generic, Labeled variants |
+| `Prop_MedAmpule`       | 150 tris       | 24x40       | Intact, Broken            |
+| `Prop_Epi_Auto`        | 400 tris       | 48x64       | Capped, Deployed          |
+| `Prop_Tape_Roll`       | 200 tris       | 48x48       | Full, Partial             |
+| `Prop_Gloves_Box`      | 300 tris       | 64x48       | Closed, Open              |
+| `Prop_Gloves_Pair`     | 200 tris       | 48x32       | Flat                      |
+| `Prop_Gauze_Pack`      | 150 tris       | 48x32       | Sealed, Open              |
+| `Prop_Bandage_Roll`    | 200 tris       | 40x40       | Rolled                    |
+| `Prop_Scissors_Trauma` | 400 tris       | 64x32       | Open, Closed              |
+| `Prop_Penlight`        | 200 tris       | 48x16       | Off, On                   |
+| `Prop_Thermometer`     | 200 tris       | 56x16       | -                         |
+| `Prop_Glucometer`      | 400 tris       | 48x64       | With strip                |
+| `Prop_Tourniquet`      | 300 tris       | 64x32       | Flat, Applied             |
+| `Prop_CCollar`         | 600 tris       | 96x48       | Flat, Applied             |
 
 ---
 
@@ -827,12 +827,12 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 
 #### Patient
 
-| Asset | 3D Poly Budget | Sprite Size | Poses/States |
-|-------|----------------|-------------|--------------|
-| `Char_Patient_Male` | 5-8k tris | 256x192 | See below |
-| `Char_Patient_Female` | 5-8k tris | 256x192 | See below |
-| `Char_Patient_Child` | 4-6k tris | 192x128 | See below |
-| `Char_Patient_Elderly` | 5-8k tris | 256x192 | See below |
+| Asset                  | 3D Poly Budget | Sprite Size | Poses/States |
+| ---------------------- | -------------- | ----------- | ------------ |
+| `Char_Patient_Male`    | 5-8k tris      | 256x192     | See below    |
+| `Char_Patient_Female`  | 5-8k tris      | 256x192     | See below    |
+| `Char_Patient_Child`   | 4-6k tris      | 192x128     | See below    |
+| `Char_Patient_Elderly` | 5-8k tris      | 256x192     | See below    |
 
 **Patient Poses**:
 
@@ -859,10 +859,10 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 
 #### Paramedic / EMT
 
-| Asset | 3D Poly Budget | Sprite Size | Poses |
-|-------|----------------|-------------|-------|
-| `Char_Paramedic_Male` | 4-6k tris | 128x256 | See below |
-| `Char_Paramedic_Female` | 4-6k tris | 128x256 | See below |
+| Asset                   | 3D Poly Budget | Sprite Size | Poses     |
+| ----------------------- | -------------- | ----------- | --------- |
+| `Char_Paramedic_Male`   | 4-6k tris      | 128x256     | See below |
+| `Char_Paramedic_Female` | 4-6k tris      | 128x256     | See below |
 
 **Paramedic Poses**:
 
@@ -881,17 +881,17 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 
 #### Bystander / NPC
 
-| Asset | 3D Poly Budget | Sprite Size | Poses |
-|-------|----------------|-------------|-------|
-| `Char_Bystander_A` | 3-4k tris | 96x192 | Standing, Pointing |
-| `Char_Bystander_B` | 3-4k tris | 96x192 | Standing, Worried |
-| `Char_Bystander_C` | 3-4k tris | 96x192 | Standing, On phone |
+| Asset              | 3D Poly Budget | Sprite Size | Poses              |
+| ------------------ | -------------- | ----------- | ------------------ |
+| `Char_Bystander_A` | 3-4k tris      | 96x192      | Standing, Pointing |
+| `Char_Bystander_B` | 3-4k tris      | 96x192      | Standing, Worried  |
+| `Char_Bystander_C` | 3-4k tris      | 96x192      | Standing, On phone |
 
 #### Player Hands (First-Person Actions)
 
-| Asset | 3D Poly Budget | Sprite Size | Poses |
-|-------|----------------|-------------|-------|
-| `Char_Hands_Gloved` | 2k tris | 128x96 | Open, Gripping, Pointing, Action-specific |
+| Asset               | 3D Poly Budget | Sprite Size | Poses                                     |
+| ------------------- | -------------- | ----------- | ----------------------------------------- |
+| `Char_Hands_Gloved` | 2k tris        | 128x96      | Open, Gripping, Pointing, Action-specific |
 
 ---
 
@@ -899,14 +899,14 @@ Characters are rigged 3D models rendered to sprite sheets for various poses and 
 
 Backgrounds are larger scene renders, potentially layered for parallax.
 
-| Asset | 3D Poly Budget | Sprite Size | Variants |
-|-------|----------------|-------------|----------|
-| `BG_Ambulance_Interior` | 15-20k tris | 1920x1080 | Day, Night |
-| `BG_Street_Residential` | 10-15k tris | 1920x1080 | Day, Night, Rain |
-| `BG_Street_Urban` | 10-15k tris | 1920x1080 | Day, Night |
-| `BG_Apartment_LivingRoom` | 8-12k tris | 1920x1080 | Clean, Messy |
-| `BG_Apartment_Bedroom` | 8-12k tris | 1920x1080 | - |
-| `BG_ER_Bay` | 12-18k tris | 1920x1080 | Empty, Staffed |
+| Asset                     | 3D Poly Budget | Sprite Size | Variants         |
+| ------------------------- | -------------- | ----------- | ---------------- |
+| `BG_Ambulance_Interior`   | 15-20k tris    | 1920x1080   | Day, Night       |
+| `BG_Street_Residential`   | 10-15k tris    | 1920x1080   | Day, Night, Rain |
+| `BG_Street_Urban`         | 10-15k tris    | 1920x1080   | Day, Night       |
+| `BG_Apartment_LivingRoom` | 8-12k tris     | 1920x1080   | Clean, Messy     |
+| `BG_Apartment_Bedroom`    | 8-12k tris     | 1920x1080   | -                |
+| `BG_ER_Bay`               | 12-18k tris    | 1920x1080   | Empty, Staffed   |
 
 ---
 
@@ -914,18 +914,18 @@ Backgrounds are larger scene renders, potentially layered for parallax.
 
 UI icons rendered from 3D at small sizes with extra-bold outlines.
 
-| Asset | Source | Size | Notes |
-|-------|--------|------|-------|
-| `UI_Icon_Stethoscope` | From 3D | 64x64 | Inventory icon |
-| `UI_Icon_BVM` | From 3D | 64x64 | |
-| `UI_Icon_IV` | From 3D | 64x64 | |
-| `UI_Icon_Monitor` | From 3D | 64x64 | |
-| `UI_Icon_O2` | From 3D | 64x64 | |
-| `UI_Icon_Defib` | From 3D | 64x64 | |
-| `UI_Icon_Meds` | From 3D | 64x64 | |
-| `UI_Icon_Airway` | From 3D | 64x64 | |
-| `UI_Icon_Assessment` | 2D | 64x64 | Clipboard/checklist |
-| `UI_Icon_Radio` | From 3D | 64x64 | |
+| Asset                 | Source  | Size  | Notes               |
+| --------------------- | ------- | ----- | ------------------- |
+| `UI_Icon_Stethoscope` | From 3D | 64x64 | Inventory icon      |
+| `UI_Icon_BVM`         | From 3D | 64x64 |                     |
+| `UI_Icon_IV`          | From 3D | 64x64 |                     |
+| `UI_Icon_Monitor`     | From 3D | 64x64 |                     |
+| `UI_Icon_O2`          | From 3D | 64x64 |                     |
+| `UI_Icon_Defib`       | From 3D | 64x64 |                     |
+| `UI_Icon_Meds`        | From 3D | 64x64 |                     |
+| `UI_Icon_Airway`      | From 3D | 64x64 |                     |
+| `UI_Icon_Assessment`  | 2D      | 64x64 | Clipboard/checklist |
+| `UI_Icon_Radio`       | From 3D | 64x64 |                     |
 
 ---
 
@@ -939,16 +939,16 @@ UI icons rendered from 3D at small sizes with extra-bold outlines.
 
 ### Key Ambient Animations
 
-| Animation | Frames | Loop |
-|-----------|--------|------|
-| Patient breathing (normal) | 2 | Yes |
-| Patient breathing (labored) | 3 | Yes |
-| Patient unconscious/still | 1 | No |
-| BVM squeeze | 2 | No |
-| CPR compression | 2 | Yes |
-| Monitor beep pulse | 2 | Yes |
-| Defibrillator charge | 3 | No |
-| IV drip | 2 | Yes |
+| Animation                   | Frames | Loop |
+| --------------------------- | ------ | ---- |
+| Patient breathing (normal)  | 2      | Yes  |
+| Patient breathing (labored) | 3      | Yes  |
+| Patient unconscious/still   | 1      | No   |
+| BVM squeeze                 | 2      | No   |
+| CPR compression             | 2      | Yes  |
+| Monitor beep pulse          | 2      | Yes  |
+| Defibrillator charge        | 3      | No   |
+| IV drip                     | 2      | Yes  |
 
 ---
 
@@ -1021,66 +1021,66 @@ Art/Sprites/Sequences/
 
 #### Assessment & Monitoring
 
-| Sequence | Frames | Duration | Description |
-|----------|--------|----------|-------------|
-| `Seq_PulseOx_Apply` | 4 | 2s | Clipping pulse ox onto finger |
-| `Seq_Radial_Pulse` | 5 | 3s | Palpating radial pulse at wrist |
-| `Seq_BP_Cuff_Apply` | 6 | 3s | Wrapping cuff, positioning, inflating |
-| `Seq_Stethoscope_Listen` | 5 | 3s | Placing stethoscope, listening positions |
-| `Seq_Monitor_Hookup` | 10 | 5s | Applying ECG leads, connecting cables |
-| `Seq_Pupils_Check` | 4 | 2s | Penlight check, pupil response |
+| Sequence                 | Frames | Duration | Description                              |
+| ------------------------ | ------ | -------- | ---------------------------------------- |
+| `Seq_PulseOx_Apply`      | 4      | 2s       | Clipping pulse ox onto finger            |
+| `Seq_Radial_Pulse`       | 5      | 3s       | Palpating radial pulse at wrist          |
+| `Seq_BP_Cuff_Apply`      | 6      | 3s       | Wrapping cuff, positioning, inflating    |
+| `Seq_Stethoscope_Listen` | 5      | 3s       | Placing stethoscope, listening positions |
+| `Seq_Monitor_Hookup`     | 10     | 5s       | Applying ECG leads, connecting cables    |
+| `Seq_Pupils_Check`       | 4      | 2s       | Penlight check, pupil response           |
 
 #### Airway Management
 
-| Sequence | Frames | Duration | Description |
-|----------|--------|----------|-------------|
-| `Seq_OPA_Insert` | 6 | 3s | Measuring, inserting oral airway |
-| `Seq_NPA_Insert` | 6 | 3s | Measuring, lubricating, inserting nasal airway |
-| `Seq_BVM_Setup` | 5 | 2.5s | Connecting mask, oxygen, positioning |
-| `Seq_BVM_Ventilate` | 4 | 2s | Head tilt, mask seal, squeeze (loopable) |
-| `Seq_Suction_Oral` | 6 | 3s | Suctioning airway |
-| `Seq_O2_Mask_Apply` | 4 | 2s | Placing mask, adjusting strap, setting flow |
-| `Seq_Intubation` | 12 | 8s | Laryngoscopy and tube placement (advanced) |
+| Sequence            | Frames | Duration | Description                                    |
+| ------------------- | ------ | -------- | ---------------------------------------------- |
+| `Seq_OPA_Insert`    | 6      | 3s       | Measuring, inserting oral airway               |
+| `Seq_NPA_Insert`    | 6      | 3s       | Measuring, lubricating, inserting nasal airway |
+| `Seq_BVM_Setup`     | 5      | 2.5s     | Connecting mask, oxygen, positioning           |
+| `Seq_BVM_Ventilate` | 4      | 2s       | Head tilt, mask seal, squeeze (loopable)       |
+| `Seq_Suction_Oral`  | 6      | 3s       | Suctioning airway                              |
+| `Seq_O2_Mask_Apply` | 4      | 2s       | Placing mask, adjusting strap, setting flow    |
+| `Seq_Intubation`    | 12     | 8s       | Laryngoscopy and tube placement (advanced)     |
 
 #### Circulation & IV Access
 
-| Sequence | Frames | Duration | Description |
-|----------|--------|----------|-------------|
-| `Seq_IV_Start` | 12 | 6s | Full IV start procedure |
-| `Seq_IV_Flush` | 4 | 2s | Flushing line, checking patency |
-| `Seq_IV_Med_Push` | 6 | 3s | Drawing med, pushing through line |
-| `Seq_IO_Insert` | 8 | 4s | IO drill placement |
-| `Seq_Tourniquet_Apply` | 4 | 2s | Applying tourniquet for bleeding |
-| `Seq_Bleeding_Control` | 6 | 3s | Direct pressure, packing wound |
+| Sequence               | Frames | Duration | Description                       |
+| ---------------------- | ------ | -------- | --------------------------------- |
+| `Seq_IV_Start`         | 12     | 6s       | Full IV start procedure           |
+| `Seq_IV_Flush`         | 4      | 2s       | Flushing line, checking patency   |
+| `Seq_IV_Med_Push`      | 6      | 3s       | Drawing med, pushing through line |
+| `Seq_IO_Insert`        | 8      | 4s       | IO drill placement                |
+| `Seq_Tourniquet_Apply` | 4      | 2s       | Applying tourniquet for bleeding  |
+| `Seq_Bleeding_Control` | 6      | 3s       | Direct pressure, packing wound    |
 
 #### Cardiac Care
 
-| Sequence | Frames | Duration | Description |
-|----------|--------|----------|-------------|
-| `Seq_Defib_Pads_Apply` | 6 | 3s | Placing defibrillator pads |
-| `Seq_Defib_Analyze` | 4 | 3s | Analyzing rhythm (monitor screen focus) |
-| `Seq_Defib_Shock` | 5 | 2s | Charging, clearing, delivering shock |
-| `Seq_CPR_Cycle` | 6 | 4s | Compression cycle (30 compressions) |
-| `Seq_CPR_Position` | 4 | 2s | Hand positioning for compressions |
+| Sequence               | Frames | Duration | Description                             |
+| ---------------------- | ------ | -------- | --------------------------------------- |
+| `Seq_Defib_Pads_Apply` | 6      | 3s       | Placing defibrillator pads              |
+| `Seq_Defib_Analyze`    | 4      | 3s       | Analyzing rhythm (monitor screen focus) |
+| `Seq_Defib_Shock`      | 5      | 2s       | Charging, clearing, delivering shock    |
+| `Seq_CPR_Cycle`        | 6      | 4s       | Compression cycle (30 compressions)     |
+| `Seq_CPR_Position`     | 4      | 2s       | Hand positioning for compressions       |
 
 #### Medications
 
-| Sequence | Frames | Duration | Description |
-|----------|--------|----------|-------------|
-| `Seq_Med_Draw_Vial` | 6 | 3s | Drawing medication from vial |
-| `Seq_Med_Draw_Ampule` | 6 | 3s | Breaking ampule, drawing medication |
-| `Seq_Epi_Auto_Inject` | 5 | 2.5s | EpiPen administration |
-| `Seq_Narcan_IN` | 4 | 2s | Intranasal Narcan administration |
-| `Seq_Nebulizer_Setup` | 5 | 2.5s | Setting up nebulizer treatment |
+| Sequence              | Frames | Duration | Description                         |
+| --------------------- | ------ | -------- | ----------------------------------- |
+| `Seq_Med_Draw_Vial`   | 6      | 3s       | Drawing medication from vial        |
+| `Seq_Med_Draw_Ampule` | 6      | 3s       | Breaking ampule, drawing medication |
+| `Seq_Epi_Auto_Inject` | 5      | 2.5s     | EpiPen administration               |
+| `Seq_Narcan_IN`       | 4      | 2s       | Intranasal Narcan administration    |
+| `Seq_Nebulizer_Setup` | 5      | 2.5s     | Setting up nebulizer treatment      |
 
 #### Trauma & Immobilization
 
-| Sequence | Frames | Duration | Description |
-|----------|--------|----------|-------------|
-| `Seq_CCollar_Apply` | 8 | 4s | Sizing and applying cervical collar |
-| `Seq_Splint_Apply` | 8 | 4s | Applying splint to extremity |
-| `Seq_Backboard_Log` | 10 | 6s | Log roll onto backboard |
-| `Seq_Bandage_Wrap` | 6 | 3s | Wrapping bandage around wound |
+| Sequence            | Frames | Duration | Description                         |
+| ------------------- | ------ | -------- | ----------------------------------- |
+| `Seq_CCollar_Apply` | 8      | 4s       | Sizing and applying cervical collar |
+| `Seq_Splint_Apply`  | 8      | 4s       | Applying splint to extremity        |
+| `Seq_Backboard_Log` | 10     | 6s       | Log roll onto backboard             |
+| `Seq_Bandage_Wrap`  | 6      | 3s       | Wrapping bandage around wound       |
 
 ### Sequence Sprite Sheet Layout
 
@@ -1133,12 +1133,12 @@ The first playable sequence will compose three individual procedures into a comp
 
 **Test Sequence: `Seq_Initial_Assessment`**
 
-| Step | Procedure | Duration | Description |
-|------|-----------|----------|-------------|
-| 1 | `Seq_PulseOx_Apply` | 2s | Apply pulse oximeter to patient's finger |
-| 2 | `Seq_Radial_Pulse` | 3s | Palpate radial pulse at patient's wrist |
-| 3 | `Seq_BP_Cuff_Apply` | 3s | Apply BP cuff and take blood pressure |
-| **Total** | | **8s** | Complete initial vitals assessment |
+| Step      | Procedure           | Duration | Description                              |
+| --------- | ------------------- | -------- | ---------------------------------------- |
+| 1         | `Seq_PulseOx_Apply` | 2s       | Apply pulse oximeter to patient's finger |
+| 2         | `Seq_Radial_Pulse`  | 3s       | Palpate radial pulse at patient's wrist  |
+| 3         | `Seq_BP_Cuff_Apply` | 3s       | Apply BP cuff and take blood pressure    |
+| **Total** |                     | **8s**   | Complete initial vitals assessment       |
 
 **Composition Notes:**
 
@@ -1304,6 +1304,6 @@ Art/
 
 ## Revision History
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 | 2024-XX-XX | Initial 2D cel-based specification |
+| Version | Date       | Changes                            |
+| ------- | ---------- | ---------------------------------- |
+| 1.0     | 2024-XX-XX | Initial 2D cel-based specification |

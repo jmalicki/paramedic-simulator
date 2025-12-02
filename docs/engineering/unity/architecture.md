@@ -26,29 +26,35 @@ UnityProject/
 ### Core Systems
 
 - Simulation Core
+
   - Fixed‑step deterministic loop; single writer principle for patient state.
   - Time controls: pause, speed 0.5×/1×/2×; step‑through for teaching.
 
 - Patient Model Adapter
+
   - Transport: HTTP/2 gRPC preferred; HTTP/JSON fallback; exponential backoff.
   - Contracts: versioned JSON schema, explicit units (SI), timestamps, seed.
   - Caching: memoize recent requests by input hash; TTL by policy.
   - Offline: rules table fallback for critical vitals when model unavailable.
 
 - Scenario Engine
+
   - State machine per scenario: initial, running, success, fail, timeout, aborted.
   - Triggers: time‑based, action‑based, physiological thresholds.
   - Rubric: weighted criteria; produces assessment with human‑readable rationales.
 
 - Interaction System
+
   - Input System package; action maps for gameplay/UI; interaction rays + prompts.
   - Toolbelt inventory; contextual affordances; simple IK for hands optional later.
 
 - Devices
+
   - Each device encapsulates UI + logic; communicates via Device API to Adapter.
   - Device actions emit events (e.g., start NIBP measurement) consumed by sim.
 
 - UI/UX
+
   - HUD: vitals, timers, objectives; device UIs in-world or screen‑space overlay.
   - Localization with Smart Strings; high contrast and colorblind‑safe palettes.
 

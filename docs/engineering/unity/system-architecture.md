@@ -4,17 +4,19 @@ Purpose: describe how the Unity client interacts with the generative patient mod
 
 ### Topology Options
 
-1) In‑Process Model Runner (single‑process)
+1. In‑Process Model Runner (single‑process)
+
    - Unity hosts a native/managed runner that loads the model locally.
    - Pros: lowest latency; simpler deployment; fewer moving parts.
    - Cons: memory/VRAM pressure inside editor/player; harder to sandbox; model updates require app updates.
 
-2) Local Model Service (recommended baseline)
+2. Local Model Service (recommended baseline)
+
    - Unity talks to a localhost service over gRPC (preferred) or HTTP/JSON.
    - Pros: isolates model memory/VRAM usage; independent lifecycle; hot‑swap versions; easier observability; sandboxable.
    - Cons: slightly higher latency; requires a local daemon.
 
-3) Remote Model Service (fallback/ops)
+3. Remote Model Service (fallback/ops)
    - Same API, remote host; used for CI, shared labs, or heavy models.
    - Requires strict PII controls and offline capability locally.
 

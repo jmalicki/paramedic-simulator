@@ -76,11 +76,7 @@
       "description": "No radial pulse palpable"
     }
   },
-  "patientVariants": [
-    "skin_light",
-    "skin_medium",
-    "skin_dark"
-  ],
+  "patientVariants": ["skin_light", "skin_medium", "skin_dark"],
   "anatomyNotes": {
     "location": "Radial artery at wrist, lateral to flexor carpi radialis tendon",
     "fingerPlacement": "Index and middle fingers, NOT thumb",

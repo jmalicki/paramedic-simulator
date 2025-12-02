@@ -202,18 +202,18 @@ COLORS = {
 
 ## Available Procedures
 
-| Procedure | Duration | Description |
-|-----------|----------|-------------|
-| `pulseox_apply` | 2.0s | Clip pulse oximeter onto finger |
-| `radial_pulse` | 3.0s | Palpate radial pulse at wrist |
-| `bp_cuff_apply` | 3.0s | Wrap and inflate BP cuff |
+| Procedure       | Duration | Description                     |
+| --------------- | -------- | ------------------------------- |
+| `pulseox_apply` | 2.0s     | Clip pulse oximeter onto finger |
+| `radial_pulse`  | 3.0s     | Palpate radial pulse at wrist   |
+| `bp_cuff_apply` | 3.0s     | Wrap and inflate BP cuff        |
 
 ## Predefined Sequences
 
-| Sequence | Procedures | Description |
-|----------|------------|-------------|
-| `initial_assessment` | pulseox + radial + bp | Complete initial vitals |
-| `vital_signs` | pulseox + radial + bp | Same as initial_assessment |
+| Sequence             | Procedures            | Description                |
+| -------------------- | --------------------- | -------------------------- |
+| `initial_assessment` | pulseox + radial + bp | Complete initial vitals    |
+| `vital_signs`        | pulseox + radial + bp | Same as initial_assessment |
 
 ## CI / GitHub Actions
 
@@ -229,6 +229,7 @@ Animations are automatically rendered in CI when changes are pushed to the `Art/
 Trigger renders manually from the Actions tab:
 
 1. **Render Animations** - Render full sequences
+
    - Go to Actions → Render Animations → Run workflow
    - Select sequence and resolution
 

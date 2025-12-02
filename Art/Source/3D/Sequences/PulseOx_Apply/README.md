@@ -4,11 +4,11 @@ This directory contains the source files for the `Seq_PulseOx_Apply` animation s
 
 ## Files
 
-| File | Description |
-|------|-------------|
+| File                         | Description                                                |
+| ---------------------------- | ---------------------------------------------------------- |
 | `create_pulseox_sequence.py` | Blender Python script that creates 3D models and animation |
-| `assemble_spritesheet.py` | Python script to combine rendered frames into sprite sheet |
-| `renders/` | Directory for rendered frames (created by Blender) |
+| `assemble_spritesheet.py`    | Python script to combine rendered frames into sprite sheet |
+| `renders/`                   | Directory for rendered frames (created by Blender)         |
 
 ## Quick Start
 
@@ -58,12 +58,12 @@ cp Seq_PulseOx_Apply.json ../../../Sprites/Sequences/PulseOx_Apply/
 
 ## Animation Frames
 
-| Frame | Duration | Event | Description |
-|-------|----------|-------|-------------|
-| 0 | 500ms | - | Hand approaching with pulse oximeter |
-| 1 | 400ms | sfx_click | Opening pulse oximeter clip |
-| 2 | 500ms | - | Placing on finger |
-| 3 | 600ms | sfx_beep | Clipped on, complete |
+| Frame | Duration | Event     | Description                          |
+| ----- | -------- | --------- | ------------------------------------ |
+| 0     | 500ms    | -         | Hand approaching with pulse oximeter |
+| 1     | 400ms    | sfx_click | Opening pulse oximeter clip          |
+| 2     | 500ms    | -         | Placing on finger                    |
+| 3     | 600ms    | sfx_beep  | Clipped on, complete                 |
 
 **Total duration: 2 seconds**
 

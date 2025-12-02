@@ -47,10 +47,6 @@
       "event": "sfx_success"
     }
   },
-  "patientVariants": [
-    "skin_light",
-    "skin_medium",
-    "skin_dark"
-  ],
+  "patientVariants": ["skin_light", "skin_medium", "skin_dark"],
   "sourceFile": "Art/Source/3D/Sequences/PulseOx_Apply/create_pulseox_sequence.py"
 }

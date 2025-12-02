@@ -7,19 +7,19 @@ Place NEMSIS files:
 
 Run steps:
 
-1) Clean
+1. Clean
 
 ```
 python -m research.scripts.nemsis.load_and_clean 2019 2020 2021 2022 2023 2024
 ```
 
-2) Select cases
+2. Select cases
 
 ```
 python -m research.scripts.nemsis.select_cases 2019 2020 2021 2022 2023 2024
 ```
 
-3) Compute measures
+3. Compute measures
 
 ```
 python -m research.scripts.nemsis.compute_measures 2019 2020 2021 2022 2023 2024

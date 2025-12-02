@@ -126,10 +126,5 @@
       "placement": "Standard 4-lead configuration"
     }
   },
-  "patientVariants": [
-    "skin_light",
-    "skin_medium",
-    "skin_dark",
-    "chest_hair"
-  ]
+  "patientVariants": ["skin_light", "skin_medium", "skin_dark", "chest_hair"]
 }

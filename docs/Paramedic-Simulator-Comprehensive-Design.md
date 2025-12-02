@@ -580,13 +580,13 @@ Integrate Austin-Travis County (ATCEMS) clinical practice guidelines (CPGs) as a
   "protocol_id": "ATCEMS_CARDIAC_STEMI_v2025.1",
   "entry": "suspected_chest_pain",
   "nodes": {
-    "suspected_chest_pain": {"type": "decision", "expr": "cc == 'chest_pain'"},
-    "ecg": {"type": "action", "do": "ECG_12_LEAD"},
-    "stemi": {"type": "decision", "expr": "ecg.st_elevation == true"},
-    "aspirin": {"type": "action", "do": "ASPIRIN_324_PO_CHEWED"},
-    "nitro_ok": {"type": "decision", "expr": "sbp >= 100 && !pde5 && !rv_infarct"},
-    "nitro": {"type": "action", "do": "NITRO_0_4MG_SL_Q5MIN_X3"},
-    "transport": {"type": "action", "do": "ACTIVATE_STEMI_ALERT_AND_TRANSPORT"}
+    "suspected_chest_pain": { "type": "decision", "expr": "cc == 'chest_pain'" },
+    "ecg": { "type": "action", "do": "ECG_12_LEAD" },
+    "stemi": { "type": "decision", "expr": "ecg.st_elevation == true" },
+    "aspirin": { "type": "action", "do": "ASPIRIN_324_PO_CHEWED" },
+    "nitro_ok": { "type": "decision", "expr": "sbp >= 100 && !pde5 && !rv_infarct" },
+    "nitro": { "type": "action", "do": "NITRO_0_4MG_SL_Q5MIN_X3" },
+    "transport": { "type": "action", "do": "ACTIVATE_STEMI_ALERT_AND_TRANSPORT" }
   },
   "edges": [
     ["suspected_chest_pain", "ecg"],
@@ -607,12 +607,16 @@ Additional protocol snippets:
   "protocol_id": "ATCEMS_RESP_TENSION_PTX_v2025.1",
   "entry": "suspected_tension_ptx",
   "nodes": {
-    "suspected_tension_ptx": {"type": "decision", "expr": "trauma && hypotension && unilateral_breath_sounds"},
-    "oxygen": {"type": "action", "do": "HIGH_FLOW_OXYGEN"},
-    "decompress": {"type": "action", "do": "NEEDLE_DECOMPRESSION_2NDICS_MCL_OR_4TH5TH_AAL"},
-    "reassess": {"type": "action", "do": "REASSESS_VITALS_AND_BREATH_SOUNDS"}
+    "suspected_tension_ptx": { "type": "decision", "expr": "trauma && hypotension && unilateral_breath_sounds" },
+    "oxygen": { "type": "action", "do": "HIGH_FLOW_OXYGEN" },
+    "decompress": { "type": "action", "do": "NEEDLE_DECOMPRESSION_2NDICS_MCL_OR_4TH5TH_AAL" },
+    "reassess": { "type": "action", "do": "REASSESS_VITALS_AND_BREATH_SOUNDS" }
   },
-  "edges": [["suspected_tension_ptx", "oxygen"], ["oxygen", "decompress"], ["decompress", "reassess"]]
+  "edges": [
+    ["suspected_tension_ptx", "oxygen"],
+    ["oxygen", "decompress"],
+    ["decompress", "reassess"]
+  ]
 }
 ```
 
@@ -621,11 +625,15 @@ Additional protocol snippets:
   "protocol_id": "ATCEMS_TOX_OPIOID_OD_v2025.1",
   "entry": "respiratory_depression_with_opioid_signs",
   "nodes": {
-    "support_airway": {"type": "action", "do": "BVM_VENTILATION"},
-    "naloxone": {"type": "action", "do": "NALOXONE_TITRATE_IV_IM_IN"},
-    "monitor": {"type": "action", "do": "MONITOR_FOR_RESEDATION"}
+    "support_airway": { "type": "action", "do": "BVM_VENTILATION" },
+    "naloxone": { "type": "action", "do": "NALOXONE_TITRATE_IV_IM_IN" },
+    "monitor": { "type": "action", "do": "MONITOR_FOR_RESEDATION" }
   },
-  "edges": [["respiratory_depression_with_opioid_signs", "support_airway"], ["support_airway", "naloxone"], ["naloxone", "monitor"]]
+  "edges": [
+    ["respiratory_depression_with_opioid_signs", "support_airway"],
+    ["support_airway", "naloxone"],
+    ["naloxone", "monitor"]
+  ]
 }
 ```
 
@@ -634,13 +642,19 @@ Additional protocol snippets:
   "protocol_id": "ATCEMS_OB_NORMAL_DELIVERY_v2025.1",
   "entry": "impending_delivery",
   "nodes": {
-    "prepare": {"type": "action", "do": "OB_PREPARE_FIELD_DELIVERY"},
-    "deliver": {"type": "action", "do": "CONTROLLED_DELIVERY_SUPPORT_HEAD"},
-    "newborn": {"type": "action", "do": "NEONATAL_RESUSCITATION_NRP_STEPS"},
-    "pph": {"type": "decision", "expr": "excessive_bleeding"},
-    "pph_mgmt": {"type": "action", "do": "FUNDAL_MASSAGE_OXYTOCIN_IF_AVAILABLE"}
+    "prepare": { "type": "action", "do": "OB_PREPARE_FIELD_DELIVERY" },
+    "deliver": { "type": "action", "do": "CONTROLLED_DELIVERY_SUPPORT_HEAD" },
+    "newborn": { "type": "action", "do": "NEONATAL_RESUSCITATION_NRP_STEPS" },
+    "pph": { "type": "decision", "expr": "excessive_bleeding" },
+    "pph_mgmt": { "type": "action", "do": "FUNDAL_MASSAGE_OXYTOCIN_IF_AVAILABLE" }
   },
-  "edges": [["impending_delivery", "prepare"], ["prepare", "deliver"], ["deliver", "newborn"], ["deliver", "pph"], ["pph", "pph_mgmt", "if_true"]]
+  "edges": [
+    ["impending_delivery", "prepare"],
+    ["prepare", "deliver"],
+    ["deliver", "newborn"],
+    ["deliver", "pph"],
+    ["pph", "pph_mgmt", "if_true"]
+  ]
 }
 ```
 
