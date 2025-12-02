@@ -1,3 +1,4 @@
+---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
@@ -37,7 +38,7 @@ repos:
     hooks:
       - id: prettier
         additional_dependencies: ["prettier@3.3.3"]
-        files: "\.(md|json|yml|yaml|mdx)$"
+        files: '\.(md|json|yml|yaml|mdx)$'
 
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v3.28.0
@@ -47,4 +48,3 @@ repos:
 
 ci:
   autoupdate_schedule: quarterly
-

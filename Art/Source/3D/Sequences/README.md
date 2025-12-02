@@ -6,7 +6,7 @@ Modular, reusable animation system for generating medical procedure videos.
 
 ## Architecture
 
-```
+```text
 Sequences/
 ├── compose.py              # Main composer script
 ├── render.sh               # CLI wrapper
@@ -153,7 +153,7 @@ def animate(context, start_time):
     return start_time + DURATION
 ```
 
-2. Register in `procedures/__init__.py`:
+1. Register in `procedures/__init__.py`:
 
 ```python
 from . import new_procedure
@@ -164,7 +164,7 @@ PROCEDURES = {
 }
 ```
 
-3. Use it:
+1. Use it:
 
 ```bash
 ./render.sh -p pulseox_apply new_procedure bp_cuff_apply
@@ -243,7 +243,7 @@ Trigger renders manually from the Actions tab:
 
 ### Workflow Files
 
-```
+```text
 .github/workflows/
 ├── render-animations.yml    # Full sequence rendering + releases
 └── render-procedure.yml     # Single procedure rendering
