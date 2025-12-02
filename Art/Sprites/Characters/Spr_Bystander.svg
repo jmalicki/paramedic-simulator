@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 192" width="96" height="192">
+  <!-- Bystander - Cartoonish Style (Worried pose) -->
+  <defs>
+    <linearGradient id="skinGradientB" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D2956D"/>
+      <stop offset="100%" style="stop-color:#B8835D"/>
+    </linearGradient>
+    <linearGradient id="shirtGradientB" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B8E23"/>
+      <stop offset="100%" style="stop-color:#556B2F"/>
+    </linearGradient>
+    <linearGradient id="jeansGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4169E1"/>
+      <stop offset="100%" style="stop-color:#3151B0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Shoes -->
+  <ellipse cx="32" cy="182" rx="14" ry="8" fill="#8B4513" stroke="#2D2D2D" stroke-width="2"/>
+  <ellipse cx="64" cy="182" rx="14" ry="8" fill="#8B4513" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Legs (jeans) -->
+  <rect x="25" y="115" width="16" height="68" rx="4" fill="url(#jeansGradient)" stroke="#2D2D2D" stroke-width="2"/>
+  <rect x="55" y="115" width="16" height="68" rx="4" fill="url(#jeansGradient)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Torso -->
+  <path d="M25 55 L25 118 L71 118 L71 55 Q71 42 48 42 Q25 42 25 55"
+        fill="url(#shirtGradientB)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Shirt collar (V-neck) -->
+  <path d="M38 42 L48 55 L58 42" fill="none" stroke="#556B2F" stroke-width="2"/>
+
+  <!-- Arms raised in worried gesture -->
+  <path d="M25 58 L12 50 L8 35 L18 32 L25 48"
+        fill="url(#shirtGradientB)" stroke="#2D2D2D" stroke-width="2"/>
+  <path d="M71 58 L84 50 L88 35 L78 32 L71 48"
+        fill="url(#shirtGradientB)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Hands (raised near face - worried) -->
+  <ellipse cx="10" cy="30" rx="7" ry="9" fill="url(#skinGradientB)" stroke="#2D2D2D" stroke-width="2"/>
+  <ellipse cx="86" cy="30" rx="7" ry="9" fill="url(#skinGradientB)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Fingers spread -->
+  <line x1="5" y1="23" x2="3" y2="18" stroke="url(#skinGradientB)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="10" y1="22" x2="10" y2="16" stroke="url(#skinGradientB)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="15" y1="23" x2="17" y2="18" stroke="url(#skinGradientB)" stroke-width="3" stroke-linecap="round"/>
+
+  <line x1="81" y1="23" x2="79" y2="18" stroke="url(#skinGradientB)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="86" y1="22" x2="86" y2="16" stroke="url(#skinGradientB)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="91" y1="23" x2="93" y2="18" stroke="url(#skinGradientB)" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Neck -->
+  <rect x="40" y="32" width="16" height="12" rx="3" fill="url(#skinGradientB)" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Head -->
+  <ellipse cx="48" cy="20" rx="18" ry="20" fill="url(#skinGradientB)" stroke="#2D2D2D" stroke-width="3"/>
+
+  <!-- Hair (curly/afro style) -->
+  <path d="M32 12 Q30 -2 48 -2 Q66 -2 64 12 Q70 8 68 18 Q72 15 68 22 L28 22 Q24 15 28 18 Q26 8 32 12"
+        fill="#2D2D2D" stroke="#1A1A1A" stroke-width="2"/>
+
+  <!-- Worried eyes (wide open) -->
+  <ellipse cx="40" cy="18" rx="5" ry="6" fill="#FFFFFF" stroke="#2D2D2D" stroke-width="1"/>
+  <ellipse cx="56" cy="18" rx="5" ry="6" fill="#FFFFFF" stroke="#2D2D2D" stroke-width="1"/>
+  <circle cx="40" cy="19" r="3" fill="#4A3728"/>
+  <circle cx="56" cy="19" r="3" fill="#4A3728"/>
+  <!-- Eye highlights -->
+  <circle cx="38" cy="17" r="1" fill="#FFFFFF"/>
+  <circle cx="54" cy="17" r="1" fill="#FFFFFF"/>
+
+  <!-- Raised eyebrows (worried) -->
+  <path d="M33 10 Q40 6 47 11" fill="none" stroke="#2D2D2D" stroke-width="2"/>
+  <path d="M49 11 Q56 6 63 10" fill="none" stroke="#2D2D2D" stroke-width="2"/>
+
+  <!-- Nose -->
+  <path d="M48 20 L49 27 L46 28" fill="none" stroke="#A67B5B" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Mouth (open - worried/gasping) -->
+  <ellipse cx="48" cy="34" rx="5" ry="4" fill="#8B4040" stroke="#2D2D2D" stroke-width="1"/>
+  <path d="M44 32 Q48 30 52 32" fill="none" stroke="#A67B5B" stroke-width="1"/>
+
+  <!-- Ears -->
+  <ellipse cx="30" cy="22" rx="3" ry="5" fill="url(#skinGradientB)" stroke="#2D2D2D" stroke-width="2"/>
+  <ellipse cx="66" cy="22" rx="3" ry="5" fill="url(#skinGradientB)" stroke="#2D2D2D" stroke-width="2"/>
+</svg>
