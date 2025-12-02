@@ -6,8 +6,15 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 
 ### Camera Perspective
 - **View**: First-person POV of the paramedic (entire game)
-- **Player sees**: Their own gloved hands, equipment, patient, environment
-- **Player does NOT see**: Their own body, face, or full character model
+- **Player sees**:
+  - Their own gloved hands and arms (always)
+  - Their legs/feet (when crouching or looking down)
+  - Their knees (when kneeling at patient)
+  - Their torso edge (peripheral, when looking down)
+  - Held equipment, patient, environment
+  - Partner paramedic (working alongside)
+  - Bystanders/NPCs (in scene)
+- **Player does NOT see**: Their own face
 - **No third-person**: The game is entirely first-person with no camera mode switches
 
 ### Rendering Approach
@@ -19,13 +26,15 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 ### Implications for Art Assets
 | Asset Type | Visibility | Detail Level |
 |------------|------------|--------------|
-| Player Hands | Always visible | High detail (hero asset) |
+| Player Hands/Arms | Always visible | High detail (hero asset) |
+| Player Legs/Feet | When crouching/looking down | High detail |
+| Player Knees | When kneeling | High detail |
+| Player Torso | Peripheral (looking down) | Medium detail |
 | Held Equipment | Always visible | High detail |
 | Patient | Primary focus | High detail, multiple states |
 | Environment | Background | Medium detail |
-| Partner Paramedic | Occasionally visible | Medium detail |
-| Player Body | Never visible | Not needed |
-| Bystanders/NPCs | Peripheral | Lower detail |
+| Partner Paramedic | Frequently visible | Medium-high detail |
+| Bystanders/NPCs | Scene dependent | Medium detail |
 
 ---
 
@@ -945,6 +954,7 @@ Art/Sprites/Sequences/
 | Sequence | Frames | Duration | Description |
 |----------|--------|----------|-------------|
 | `Seq_PulseOx_Apply` | 4 | 2s | Clipping pulse ox onto finger |
+| `Seq_Radial_Pulse` | 5 | 3s | Palpating radial pulse at wrist |
 | `Seq_BP_Cuff_Apply` | 6 | 3s | Wrapping cuff, positioning, inflating |
 | `Seq_Stethoscope_Listen` | 5 | 3s | Placing stethoscope, listening positions |
 | `Seq_Monitor_Hookup` | 10 | 5s | Applying ECG leads, connecting cables |
@@ -1045,13 +1055,38 @@ This allows:
 5. **Generate Metadata**: Create JSON with timing and events (Python script or manual)
 6. **Export**: PNG sprite sheet + JSON to `Art/Sprites/Sequences/[Name]/`
 
+### Initial Test Sequence
+
+The first playable sequence will compose three individual procedures into a complete assessment workflow. This serves as the proof-of-concept for the animation pipeline.
+
+**Test Sequence: `Seq_Initial_Assessment`**
+
+| Step | Procedure | Duration | Description |
+|------|-----------|----------|-------------|
+| 1 | `Seq_PulseOx_Apply` | 2s | Apply pulse oximeter to patient's finger |
+| 2 | `Seq_Radial_Pulse` | 3s | Palpate radial pulse at patient's wrist |
+| 3 | `Seq_BP_Cuff_Apply` | 3s | Apply BP cuff and take blood pressure |
+| **Total** | | **8s** | Complete initial vitals assessment |
+
+**Composition Notes:**
+- Each procedure is a standalone, reusable animation
+- Transition frames (0.5s) blend between procedures
+- Camera may shift focus between patient's hand/wrist/arm
+- Partner paramedic may be visible in periphery
+- Player sees their own hands performing all actions
+
 ### Sequence Priority (Implementation Order)
 
+**Phase 0 — Initial Test (First Playable):**
+1. `Seq_PulseOx_Apply` — Clipping pulse ox onto finger
+2. `Seq_Radial_Pulse` — Palpating radial pulse at wrist
+3. `Seq_BP_Cuff_Apply` — Wrapping and inflating BP cuff
+4. `Seq_Initial_Assessment` — Composed sequence of above three
+
 **Phase 1 — Core Assessment:**
-1. `Seq_PulseOx_Apply`
-2. `Seq_BP_Cuff_Apply`
-3. `Seq_Stethoscope_Listen`
-4. `Seq_Monitor_Hookup`
+1. `Seq_Stethoscope_Listen`
+2. `Seq_Monitor_Hookup`
+3. `Seq_Pupils_Check`
 
 **Phase 2 — Airway & Breathing:**
 1. `Seq_O2_Mask_Apply`

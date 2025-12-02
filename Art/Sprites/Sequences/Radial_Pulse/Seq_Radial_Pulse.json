@@ -1,0 +1,89 @@
+{
+  "name": "Radial_Pulse",
+  "description": "Palpating radial pulse at patient's wrist",
+  "spriteSheet": "Seq_Radial_Pulse_Sheet.png",
+  "frameWidth": 320,
+  "frameHeight": 240,
+  "framesPerRow": 5,
+  "totalFrames": 5,
+  "defaultFrameMs": 600,
+  "totalDurationMs": 3000,
+  "frames": [
+    {
+      "index": 0,
+      "duration": 500,
+      "event": null,
+      "label": "approach",
+      "description": "Hand approaching patient's wrist"
+    },
+    {
+      "index": 1,
+      "duration": 400,
+      "event": null,
+      "label": "position_fingers",
+      "description": "Positioning two fingers on radial artery"
+    },
+    {
+      "index": 2,
+      "duration": 800,
+      "event": "sfx_heartbeat_loop_start",
+      "label": "palpate_pulse",
+      "description": "Palpating pulse, counting beats"
+    },
+    {
+      "index": 3,
+      "duration": 800,
+      "event": null,
+      "label": "continue_count",
+      "description": "Continuing pulse count (15 seconds conceptually)"
+    },
+    {
+      "index": 4,
+      "duration": 500,
+      "event": "sfx_heartbeat_loop_stop",
+      "label": "complete",
+      "description": "Releasing wrist, pulse count complete"
+    }
+  ],
+  "layers": [
+    {
+      "name": "patient_arm",
+      "zIndex": 0,
+      "description": "Patient's forearm and wrist"
+    },
+    {
+      "name": "hands",
+      "zIndex": 1,
+      "description": "Gloved hands palpating pulse"
+    }
+  ],
+  "outcomes": {
+    "success": {
+      "gotoFrame": 4,
+      "nextState": "pulse_recorded",
+      "event": "sfx_success",
+      "data": ["pulse_rate", "pulse_quality"]
+    },
+    "weak_pulse": {
+      "triggerFrame": 2,
+      "nextState": "pulse_weak",
+      "description": "Weak or thready pulse detected"
+    },
+    "no_pulse": {
+      "triggerFrame": 2,
+      "nextState": "pulse_absent",
+      "event": "sfx_alert",
+      "description": "No radial pulse palpable"
+    }
+  },
+  "patientVariants": [
+    "skin_light",
+    "skin_medium",
+    "skin_dark"
+  ],
+  "anatomyNotes": {
+    "location": "Radial artery at wrist, lateral to flexor carpi radialis tendon",
+    "fingerPlacement": "Index and middle fingers, NOT thumb",
+    "technique": "Apply gentle pressure until pulse is felt"
+  }
+}
