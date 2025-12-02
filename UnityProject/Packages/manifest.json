@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "com.unity.recorder": "4.0.3",
+    "com.unity.render-pipelines.universal": "14.0.11",
+    "com.unity.timeline": "1.7.6",
+    "com.unity.textmeshpro": "3.0.9",
+    "com.unity.ugui": "1.0.0"
+  }
+}

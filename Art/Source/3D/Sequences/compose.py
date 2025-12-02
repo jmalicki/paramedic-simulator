@@ -5,7 +5,16 @@ Sequence Composer
 Composes multiple reusable procedure modules into a single animated sequence.
 
 Usage:
-    # Render default initial assessment sequence
+    # Export FBX for Unity (recommended workflow)
+    blender --background --python compose.py -- --fbx
+
+    # Export specific sequence as FBX
+    blender --background --python compose.py -- --fbx --sequence initial_assessment
+
+    # Export individual procedure as FBX
+    blender --background --python compose.py -- --fbx --procedures pulseox_apply
+
+    # Render to video (legacy)
     blender --background --python compose.py
 
     # Render with custom procedure list
@@ -194,7 +203,7 @@ class SequenceComposer:
                         keyframe.handle_right_type = 'AUTO_CLAMPED'
 
     def render(self, output_name=None, output_dir=None):
-        """Render the composed sequence."""
+        """Render the composed sequence to video."""
         if output_dir:
             CONFIG["output_dir"] = output_dir
         if output_name:
@@ -222,6 +231,70 @@ class SequenceComposer:
         else:
             print("Running in interactive mode.")
             print("Press Ctrl+F12 to render, or run with --background flag.")
+
+    def export_fbx(self, output_name=None, output_dir=None):
+        """Export the composed sequence to FBX for Unity import."""
+        if output_dir:
+            CONFIG["output_dir"] = output_dir
+        if output_name:
+            CONFIG["output_filename"] = output_name
+
+        output_path = os.path.join(
+            CONFIG["output_dir"] or os.path.join(SCRIPT_DIR, "output"),
+            CONFIG["output_filename"] + ".fbx"
+        )
+        os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+
+        print("-" * 60)
+        print(f"Exporting FBX to: {output_path}")
+        print(f"Duration: {self.total_duration}s")
+        print(f"Frames: {bpy.context.scene.frame_start} - {bpy.context.scene.frame_end}")
+
+        # Select all mesh objects for export (exclude camera and lights)
+        bpy.ops.object.select_all(action='DESELECT')
+        for obj in bpy.data.objects:
+            if obj.type in {'MESH', 'ARMATURE', 'EMPTY'}:
+                obj.select_set(True)
+
+        # Export FBX with settings optimized for Unity
+        bpy.ops.export_scene.fbx(
+            filepath=output_path,
+            use_selection=True,
+            # Coordinate system for Unity
+            apply_scale_options='FBX_SCALE_ALL',
+            axis_forward='-Z',
+            axis_up='Y',
+            # Animation settings
+            bake_anim=True,
+            bake_anim_use_all_bones=True,
+            bake_anim_use_nla_strips=False,
+            bake_anim_use_all_actions=False,
+            bake_anim_force_startend_keying=True,
+            bake_anim_step=1.0,
+            bake_anim_simplify_factor=0.0,  # No simplification, keep all keyframes
+            # Mesh settings
+            use_mesh_modifiers=True,
+            mesh_smooth_type='OFF',
+            use_triangles=True,  # Unity prefers triangulated meshes
+            # Object settings
+            object_types={'MESH', 'ARMATURE', 'EMPTY'},
+            use_custom_props=True,
+            # Armature settings (for future rigged models)
+            add_leaf_bones=False,
+            primary_bone_axis='Y',
+            secondary_bone_axis='X',
+            armature_nodetype='NULL',
+        )
+
+        print("=" * 60)
+        print("FBX EXPORT COMPLETE!")
+        print(f"Output: {output_path}")
+        print("")
+        print("To use in Unity:")
+        print(f"  1. Copy {output_path} to UnityProject/Assets/Models/")
+        print("  2. Unity will auto-import the FBX with animations")
+        print("  3. Run: ./UnityProject/render.sh " + (output_name or "sequence"))
+        print("=" * 60)
 
 
 # =============================================================================
@@ -276,6 +349,11 @@ def parse_args():
         action="store_true",
         help="List predefined sequences and exit"
     )
+    parser.add_argument(
+        "--fbx",
+        action="store_true",
+        help="Export to FBX instead of rendering video (for Unity import)"
+    )
 
     return parser.parse_args(args)
 
@@ -317,11 +395,15 @@ def main():
         transition = seq.get("transition_time", 0.5)
         output_name = "initial_assessment"
 
-    # Compose and render
+    # Compose and export/render
     composer = SequenceComposer(procedure_names, transition_time=transition)
     composer.setup()
     composer.animate()
-    composer.render(output_name=output_name, output_dir=args.dir)
+
+    if args.fbx:
+        composer.export_fbx(output_name=output_name, output_dir=args.dir)
+    else:
+        composer.render(output_name=output_name, output_dir=args.dir)
 
 
 if __name__ == "__main__":
