@@ -2,7 +2,13 @@
 
 ## Overview
 
-This document specifies the artwork pipeline for the Paramedic Simulator. The game uses a **cel-based 2D presentation** with **3D source assets** that are rendered to 2D sprites. This approach provides flexibility for re-rendering assets at different angles, poses, and animation states.
+This document specifies the artwork pipeline for the Paramedic Simulator. The game uses **real-time 3D rendering with cel/toon shading** in Unity. 3D models are created in Blender, exported as FBX, and rendered in Unity with custom toon shaders to achieve a stylized, cartoonish look while maintaining smooth, continuous animation.
+
+### Rendering Approach
+- **Engine**: Unity 6000 LTS with URP (Universal Render Pipeline)
+- **Shading**: Real-time toon/cel shaders with outline pass
+- **Animation**: Smooth interpolated animation (not frame-by-frame sprites)
+- **Benefit**: True 60fps motion, camera flexibility, runtime variations
 
 ---
 
@@ -44,67 +50,478 @@ This document specifies the artwork pipeline for the Paramedic Simulator. The ga
 
 All tools in this pipeline are free or open source:
 
+### Core Pipeline
 | Tool | Purpose | License | Notes |
 |------|---------|---------|-------|
-| **Blender** | 3D modeling, rigging, animation, rendering | GPL | Primary DCC for all 3D assets |
-| **GIMP** | 2D image editing, touch-ups | GPL | Post-processing, texture edits |
-| **LibreSprite** | Pixel art, 2D animation | GPL | Aseprite fork, fully free |
-| **Free Texture Packer** | Sprite sheet packing | MIT | Outputs JSON + atlas PNG |
-| **Inkscape** | Vector graphics, SVG editing | GPL | UI elements, icons |
-| **Unity Sprite Editor** | Sprite slicing, atlas | Unity license | Built into Unity (free tier) |
-
-### Blender Addons (Free)
-- **Spritesheet Renderer** - Renders animations directly to sprite sheets
-- **Freestyle SVG Exporter** - Vector outline export
-- **Animation Nodes** (optional) - Procedural animation
+| **Blender** | 3D modeling, rigging, animation | GPL | Primary DCC for all 3D assets |
+| **Unity URP** | Real-time rendering | Unity license | Universal Render Pipeline (free tier) |
+| **GIMP** | Texture editing | GPL | Texture touch-ups and edits |
+| **Inkscape** | Vector graphics | GPL | UI elements, reference diagrams |
 
 ### Unity Packages (Free)
-- **2D Sprite** - Core sprite functionality (built-in)
-- **2D Animation** - Skeletal 2D animation if needed
-- **Sprite Editor** - Automatic sprite sheet slicing
+- **URP (Universal Render Pipeline)** - Required for toon shaders
+- **Shader Graph** - Visual shader creation for toon materials
+- **Animation Rigging** - Runtime IK and procedural animation
+- **Cinemachine** - Camera control during procedures
+- **Timeline** - Sequencing animations and events
 
-### Alternative Free Tools
-| Tool | Use Case |
-|------|----------|
-| **Piskel** | Browser-based pixel art (quick edits) |
-| **Krita** | Digital painting, texture work |
-| **ShoeBox** | Sprite sheet tools (Adobe AIR) |
-| **ImageMagick** | CLI batch image processing |
+### Blender Addons (Free)
+- **Rigify** - Auto-rigging for characters and hands
+- **Animation Nodes** (optional) - Procedural animation
+
+### Toon Shader Options (Free)
+| Shader | Source | Notes |
+|--------|--------|-------|
+| **URP Toon Lit** | Unity Asset Store (free) | Good starting point |
+| **Shader Graph Custom** | Create in Unity | Full control, recommended |
+| **Toony Colors Free** | Asset Store | Popular, well-documented |
 
 ---
 
 ## Asset Pipeline
 
-### Workflow: 3D → 2D Sprites
+### Workflow: Blender → Unity (Real-time 3D)
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  3D Modeling    │ ──▶ │  Cel-Shade      │ ──▶ │  2D Sprite      │
-│  (Blender)      │     │  Render         │     │  Export (PNG)   │
+│  3D Modeling    │ ──▶ │  Export FBX     │ ──▶ │  Unity Import   │
+│  (Blender)      │     │  + Animations   │     │  + Toon Shader  │
 └─────────────────┘     └─────────────────┘     └─────────────────┘
         │                       │                       │
-   Low-poly models        Toon shader +           Final sprites
-   with clean topology    outline render          for Unity
+   Low-poly models         FBX with rig           Real-time render
+   Rigged & animated       and animation clips    with cel-shading
 ```
 
-### Source Files (3D)
-- **Format**: `.blend` (Blender) as primary DCC
-- **Location**: `Art/Source/3D/`
+### Source Files (Blender)
+- **Format**: `.blend` (source), `.fbx` (export)
+- **Location**: `Art/Source/3D/[Category]/`
 - **Naming**: `[Category]_[AssetName].blend`
-  - Example: `Prop_Stethoscope.blend`, `Char_Patient.blend`
+  - Example: `Prop_PulseOx.blend`, `Char_Hand_Gloved.blend`
 
-### Rendered Sprites (2D)
-- **Format**: PNG with transparency
-- **Location**: `Art/Sprites/[Category]/`
-- **Naming**: `Spr_[AssetName]_[Angle]_[Frame].png`
-  - Example: `Spr_Stethoscope_Front_01.png`
+### Export to Unity
+- **Format**: FBX Binary
+- **Scale**: 1 unit = 1 meter (Unity default)
+- **Include**: Mesh, Armature, Animations
+- **Bake Animation**: All actions as separate clips
 
-### Render Settings (Blender)
-- **Engine**: EEVEE or Cycles with Freestyle
-- **Outline**: Freestyle lines, 2-4px, black or dark variant of base color
-- **Shading**: Toon shader with 2-3 color bands
-- **Background**: Transparent (RGBA)
-- **Resolution**: 2x target size, downscale for anti-aliasing
+### Unity Import Settings
+- **Scale Factor**: 1.0
+- **Import Materials**: None (use Unity toon materials)
+- **Animation Type**: Humanoid (characters) or Generic (props)
+- **Animation Compression**: Optimal
+
+### Unity Toon Shader Setup
+```
+Shader Properties:
+├── Base Color (from color palette)
+├── Shadow Color (darker variant, ~70% brightness)
+├── Shadow Threshold (0.3-0.5 for hard edge)
+├── Outline Width (0.002-0.005 world units)
+├── Outline Color (black or dark variant)
+└── Emissive (for screens, LEDs)
+```
+
+---
+
+## 3D Model Specification Format
+
+Each 3D model is specified with the following information:
+
+```
+Model Specification Template:
+├── Identity
+│   ├── Name, Category, Description
+│   └── Real-world reference
+├── Geometry
+│   ├── Poly budget (triangles)
+│   ├── Dimensions (meters, real-world scale)
+│   └── Topology notes
+├── Rigging (if animated)
+│   ├── Bone hierarchy
+│   ├── Constraints
+│   └── Animation clips required
+├── Materials
+│   ├── Material slots
+│   ├── Colors (from palette)
+│   └── Special properties (emissive, transparent)
+├── Unity Setup
+│   ├── Prefab structure
+│   ├── Components
+│   └── Animation controller states
+└── Reference
+    └── Diagrams, photos, dimensions
+```
+
+---
+
+## Detailed Model Specifications
+
+### Example: Pulse Oximeter (`Prop_PulseOx`)
+
+#### Identity
+| Property | Value |
+|----------|-------|
+| **Name** | `Prop_PulseOx` |
+| **Category** | Medical Equipment / Monitoring |
+| **Description** | Finger-clip pulse oximeter for measuring SpO2 and pulse rate |
+| **Real-world reference** | Nonin Onyx, Masimo MightySat, generic fingertip oximeter |
+
+#### Geometry
+
+| Property | Specification |
+|----------|---------------|
+| **Poly Budget** | 800-1,200 triangles |
+| **Dimensions** | 6cm × 3.5cm × 3cm (L×W×H) |
+| **Scale in Blender** | 0.06 × 0.035 × 0.03 meters |
+| **Origin Point** | Center of hinge/pivot |
+
+**Topology Requirements:**
+- Clean quad topology for deformation at hinge
+- Separate mesh objects for: Body (top), Clip (bottom), Screen, LED, Button
+- UV unwrapped for potential texture detail
+
+**Mesh Hierarchy:**
+```
+Prop_PulseOx (Empty/Armature)
+├── PulseOx_Body         # Main housing (top half)
+│   ├── PulseOx_Screen   # OLED display area
+│   ├── PulseOx_LED      # Status LED
+│   └── PulseOx_Button   # Power button
+└── PulseOx_Clip         # Bottom clip (animated)
+    └── PulseOx_Sensor   # IR sensor window
+```
+
+#### Rigging & Range of Motion
+
+| Bone | Parent | Purpose |
+|------|--------|---------|
+| `root` | - | Root bone at hinge point |
+| `body` | root | Controls top housing |
+| `clip` | root | Controls bottom clip, rotates to open/close |
+
+**Range of Motion:**
+| Part | Axis | Min | Max | Notes |
+|------|------|-----|-----|-------|
+| `clip` | Rotation X | -45° | 0° | -45° = fully open, 0° = closed |
+| `body` | (fixed) | - | - | Does not move relative to root |
+| `root` | All | Free | Free | Positioned by hand during interaction |
+
+**Constraints (Blender):**
+- `clip` bone: Limit Rotation constraint
+  - X: Min -45°, Max 0°
+  - Y: Locked (0°)
+  - Z: Locked (0°)
+
+**Animation Clips:**
+| Clip Name | Frames | Duration | Description |
+|-----------|--------|----------|-------------|
+| `Idle` | 1 | 0s | Closed position, static |
+| `Open` | 15 | 0.5s | Clip opens from 0° to -45° |
+| `Close` | 15 | 0.5s | Clip closes from -45° to 0° |
+| `Pulse` | 30 | 1s | LED blinks in sync with reading (loop) |
+
+**Animation Curves:**
+- `Open`/`Close`: Ease-in-out for smooth mechanical motion
+- `Pulse`: Step interpolation for LED on/off
+
+#### Materials
+
+| Slot | Material Name | Base Color | Properties |
+|------|---------------|------------|------------|
+| 0 | `MAT_PulseOx_Body` | `#E8E8E8` (light gray) | Standard toon |
+| 1 | `MAT_PulseOx_Clip` | `#4A4A4A` (dark gray) | Standard toon |
+| 2 | `MAT_PulseOx_Screen` | `#1A1A2E` (dark blue) | Emissive when active |
+| 3 | `MAT_PulseOx_LED` | `#FF0000` (red) | Emissive, animated |
+| 4 | `MAT_PulseOx_Sensor` | `#300000` (dark red) | Slight emissive (IR) |
+
+**Screen Display (Dynamic):**
+- Render texture or UI overlay showing:
+  - SpO2 percentage (large digits)
+  - Pulse rate (smaller)
+  - Plethysmograph waveform (optional)
+
+#### Unity Setup
+
+**Prefab Structure:**
+```
+Prop_PulseOx (Prefab Root)
+├── Model (FBX instance)
+│   └── Armature
+│       ├── Body
+│       └── Clip
+├── Screen_Display (Canvas - World Space)
+│   ├── Text_SpO2
+│   ├── Text_Pulse
+│   └── Image_Waveform
+└── Audio_Source (for beep sounds)
+```
+
+**Components:**
+| Component | Purpose |
+|-----------|---------|
+| `Animator` | Controls Open/Close/Pulse animations |
+| `PulseOxDevice` | Custom script: readings, state |
+| `Interactable` | Interaction system hook |
+| `AudioSource` | Beep sounds synced to pulse |
+
+**Animator States:**
+```
+┌─────────┐    trigger:Open    ┌─────────┐
+│  Idle   │ ─────────────────▶ │ Opening │
+│ (closed)│                    │         │
+└────┬────┘                    └────┬────┘
+     │                              │
+     │ trigger:StartReading         │ auto
+     ▼                              ▼
+┌─────────┐                    ┌─────────┐
+│ Reading │ ◀────────────────── │ Closing │
+│ (pulse) │    trigger:Close   │         │
+└─────────┘                    └─────────┘
+```
+
+#### Reference Diagram
+
+```
+        TOP VIEW                    SIDE VIEW (Open)
+    ┌─────────────┐                    ╱───────╲
+    │ ┌─────────┐ │                   ╱  Body   ╲
+    │ │ Screen  │ │                  ╱───────────╲
+    │ │  98%    │ │                 │    Hinge    │ ← Pivot point
+    │ │  ♥ 72   │ │                  ╲───────────╱
+    │ └─────────┘ │                   ╲  Clip   ╱
+    │     (●)LED  │                    ╲───────╱
+    └─────────────┘                        ↑
+         60mm                         Opens 45°
+
+    FRONT VIEW (Finger Opening)
+    ┌─────────────────┐
+    │   ┌─────────┐   │  ← Body
+    │   │ Finger  │   │
+    │   │ Opening │   │  ← 15mm diameter
+    │   └─────────┘   │
+    └─────────────────┘  ← Clip
+```
+
+#### Blender File Checklist
+- [ ] Model at real-world scale (meters)
+- [ ] Origin at hinge point
+- [ ] Clean topology, all quads where possible
+- [ ] UV unwrapped
+- [ ] Armature with `root`, `body`, `clip` bones
+- [ ] Clip bone rotation limits set
+- [ ] All animation clips created and named
+- [ ] Materials assigned (placeholder colors OK)
+- [ ] FBX exported with armature and animations
+
+---
+
+### Example: Gloved Hand (`Char_Hand_Gloved`)
+
+This is the primary interaction model - the player's hands performing medical procedures.
+
+#### Identity
+| Property | Value |
+|----------|-------|
+| **Name** | `Char_Hand_Gloved` |
+| **Category** | Character / Player |
+| **Description** | First-person gloved hands for medical procedures |
+| **Real-world reference** | Nitrile exam gloves on adult hands |
+
+#### Geometry
+
+| Property | Specification |
+|----------|---------------|
+| **Poly Budget** | 3,000-5,000 triangles (per hand) |
+| **Dimensions** | ~19cm length (wrist to fingertip) |
+| **Scale in Blender** | 0.19m length |
+| **Origin Point** | Wrist joint |
+
+**Mesh Hierarchy:**
+```
+Char_Hand_Gloved_L (Left Hand)
+├── Hand_Palm_L
+├── Hand_Thumb_L
+│   ├── Thumb_Proximal_L
+│   ├── Thumb_Intermediate_L
+│   └── Thumb_Distal_L
+├── Hand_Index_L
+│   ├── Index_Proximal_L
+│   ├── Index_Intermediate_L
+│   └── Index_Distal_L
+├── Hand_Middle_L
+│   └── (same structure)
+├── Hand_Ring_L
+│   └── (same structure)
+└── Hand_Pinky_L
+    └── (same structure)
+```
+
+#### Rigging & Range of Motion
+
+**Bone Hierarchy:**
+```
+Armature
+└── Wrist_L
+    ├── Palm_L
+    │   ├── Thumb_01_L
+    │   │   ├── Thumb_02_L
+    │   │   │   └── Thumb_03_L
+    │   ├── Index_01_L
+    │   │   ├── Index_02_L
+    │   │   │   └── Index_03_L
+    │   ├── Middle_01_L
+    │   │   └── (same)
+    │   ├── Ring_01_L
+    │   │   └── (same)
+    │   └── Pinky_01_L
+    │       └── (same)
+    └── (IK targets - optional)
+```
+
+**Range of Motion - Fingers:**
+| Joint | Axis | Min | Max | Notes |
+|-------|------|-----|-----|-------|
+| Finger_01 (MCP) | Flex X | 0° | 90° | Knuckle curl |
+| Finger_01 (MCP) | Spread Z | -15° | 15° | Finger spread |
+| Finger_02 (PIP) | Flex X | 0° | 110° | Middle joint |
+| Finger_03 (DIP) | Flex X | 0° | 80° | Fingertip |
+
+**Range of Motion - Thumb:**
+| Joint | Axis | Min | Max | Notes |
+|-------|------|-----|-----|-------|
+| Thumb_01 (CMC) | Flex X | -10° | 50° | Base curl |
+| Thumb_01 (CMC) | Spread Z | 0° | 70° | Opposition |
+| Thumb_01 (CMC) | Rotate Y | -30° | 30° | Roll |
+| Thumb_02 (MCP) | Flex X | 0° | 80° | Middle joint |
+| Thumb_03 (IP) | Flex X | 0° | 90° | Tip |
+
+**Range of Motion - Wrist:**
+| Axis | Min | Max | Notes |
+|------|-----|-----|-------|
+| Flex/Extend X | -70° | 70° | Palmar/dorsal flexion |
+| Deviation Z | -20° | 30° | Radial/ulnar deviation |
+| Rotation Y | -80° | 80° | Pronation/supination |
+
+**Pose Presets (Shape Keys or Bone Poses):**
+| Pose Name | Description | Use Case |
+|-----------|-------------|----------|
+| `Open_Relaxed` | Fingers slightly curved, natural | Default/idle |
+| `Open_Flat` | Fingers extended straight | Palpation, pressing |
+| `Fist` | All fingers fully curled | Gripping handles |
+| `Pinch` | Thumb + index touching | Holding small items |
+| `Three_Pinch` | Thumb + index + middle | Holding syringes |
+| `Grip_Cylinder` | Curved around cylinder | Holding BVM, O2 tank |
+| `Point` | Index extended, others curled | Pointing, pressing buttons |
+| `Two_Finger_Spread` | Index + middle spread | Palpating pulse |
+| `Cupped` | Fingers together, curved | Mask seal |
+
+#### Animation Clips
+
+**Generic Hand Animations:**
+| Clip Name | Duration | Description |
+|-----------|----------|-------------|
+| `Idle` | Loop | Subtle finger micro-movements |
+| `Open_To_Fist` | 0.3s | Closing hand to fist |
+| `Fist_To_Open` | 0.3s | Opening from fist |
+| `To_Pinch` | 0.2s | Transition to pinch grip |
+| `To_Grip` | 0.25s | Transition to cylinder grip |
+
+**Procedure-Specific Clips (examples):**
+| Clip Name | Duration | Description |
+|-----------|----------|-------------|
+| `PulseOx_Apply` | 2s | Pick up, open, place on finger, release |
+| `Stethoscope_Place` | 1.5s | Position diaphragm on chest |
+| `IV_Insert` | 3s | Hold catheter, insert, advance |
+| `BVM_Squeeze` | 1s | Compress bag (loopable) |
+| `Defib_Clear` | 0.5s | Hands raised, "clear" gesture |
+
+#### Materials
+
+| Slot | Material Name | Base Color | Properties |
+|------|---------------|------------|------------|
+| 0 | `MAT_Glove_Nitrile` | `#6B8BA4` (blue) | Slight specular, SSS |
+
+**Material Variants:**
+- `MAT_Glove_Nitrile_Blue` - Standard exam gloves
+- `MAT_Glove_Nitrile_Purple` - Alternative color
+- `MAT_Glove_Latex_White` - Sterile procedure gloves
+
+#### Unity Setup
+
+**Prefab Structure:**
+```
+Char_Hand_Gloved_Pair (Prefab Root)
+├── Hand_L (Left Hand FBX)
+│   └── Armature_L
+├── Hand_R (Right Hand FBX)
+│   └── Armature_R
+├── IK_Targets (Empty)
+│   ├── IK_Target_L
+│   └── IK_Target_R
+└── Held_Item_Mount (Empty)
+    ├── Mount_L
+    └── Mount_R
+```
+
+**Components:**
+| Component | Purpose |
+|-----------|---------|
+| `Animator` | Hand pose and procedural animations |
+| `HandController` | Manages grip states, IK targets |
+| `HandIK` (Animation Rigging) | Runtime IK for reaching |
+| `ItemHolder` | Attaches held items to mount points |
+
+**Animator Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `GripState` | Int | 0=Open, 1=Pinch, 2=Grip, 3=Fist |
+| `GripBlend` | Float | 0-1 blend between poses |
+| `ProcedureClip` | Trigger | Triggers procedure animation |
+| `IsHolding` | Bool | Whether holding an item |
+
+#### Reference Diagram
+
+```
+    PALM VIEW (Left Hand)           RANGE OF MOTION
+
+         Middle                     MCP: 0° to 90° flex
+        ╱     ╲                     PIP: 0° to 110° flex
+    Index       Ring                DIP: 0° to 80° flex
+      │    │    │
+      │    │    │   Pinky
+      ╲    │    ╱   ╱
+       ╲   │   ╱  ╱
+        ╲  │  ╱ ╱               Thumb opposition:
+    Thumb ─┼──╱                  70° spread range
+      ╲    │
+       ╲   │                    Wrist:
+        ╲  │                     ±70° flex/extend
+         ──┴──                   ±25° deviation
+          Wrist                  ±80° rotation
+           │
+       (Origin)
+
+
+    SIDE VIEW - Finger Curl
+
+    Extended (0°)    Mid (45°)    Curled (90°)
+        │               ╲              ╲
+        │                ╲              ╲
+        │                 │              ─
+        │                 │             ╱
+```
+
+#### Blender File Checklist
+- [ ] Both hands modeled (L and R, or mirror modifier)
+- [ ] Real-world scale (19cm length)
+- [ ] Origin at wrist
+- [ ] Full finger rig with 3 bones per finger
+- [ ] Thumb with full opposition range
+- [ ] Rotation limits on all joints
+- [ ] Pose library with preset grips
+- [ ] UV unwrapped for glove texture
+- [ ] Weight painted for clean deformation
+- [ ] Test animations for each grip type
 
 ---
 
@@ -113,11 +530,11 @@ All tools in this pipeline are free or open source:
 ### Vehicles
 
 #### Ambulance
-| Asset | 3D Poly Budget | Sprite Size | Views/Frames |
-|-------|----------------|-------------|--------------|
-| `Prop_Ambulance_Exterior` | 3-5k tris | 512x256 | Side, Rear, 3/4 |
-| `Prop_Ambulance_Interior` | 5-8k tris | 1024x512 | Front-facing (background) |
-| `Prop_Ambulance_Doors` | 1k tris | 256x256 | Open, Closed |
+| Asset | Poly Budget | Dimensions | Rig | Animations |
+|-------|-------------|------------|-----|------------|
+| `Prop_Ambulance_Exterior` | 8-12k tris | 6m × 2.5m × 2.8m | None | - |
+| `Prop_Ambulance_Interior` | 10-15k tris | (interior space) | Doors | Doors_Open, Doors_Close |
+| `Prop_Ambulance_Stretcher_Mount` | 2k tris | Standard | Latch | Lock, Unlock |
 
 **Design Notes**:
 - Recognizable Type II/III ambulance shape
