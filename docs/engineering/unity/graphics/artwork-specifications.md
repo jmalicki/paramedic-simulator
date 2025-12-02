@@ -392,7 +392,7 @@ UI icons rendered from 3D at small sizes with extra-bold outlines.
 - **Timing**: Hold frames longer for snappy, cartoon feel
 - **Loops**: Breathing (2 frames), Equipment use (2-3 frames)
 
-### Key Animations Needed
+### Key Ambient Animations
 
 | Animation | Frames | Loop |
 |-----------|--------|------|
@@ -404,6 +404,205 @@ UI icons rendered from 3D at small sizes with extra-bold outlines.
 | Monitor beep pulse | 2 | Yes |
 | Defibrillator charge | 3 | No |
 | IV drip | 2 | Yes |
+
+---
+
+## Procedural Animation Sequences
+
+Medical interventions require multi-step animated sequences showing the procedure being performed. These are more complex than ambient animations and show the player's hands interacting with equipment and patient.
+
+### Animation Sequence Format
+
+Each procedural sequence is rendered as a **sprite sheet** with accompanying **JSON metadata** defining:
+- Frame dimensions and count
+- Timing per frame (ms)
+- Key event triggers (sound cues, state changes)
+- Composite layer information
+
+### Directory Structure for Sequences
+
+```
+Art/Sprites/Sequences/
+├── IV_Start/
+│   ├── Seq_IV_Start_Sheet.png       # Sprite sheet (all frames)
+│   ├── Seq_IV_Start.json            # Animation metadata
+│   └── Seq_IV_Start_Preview.gif     # Preview (for reference)
+├── Monitor_Hookup/
+├── Defib_Shock/
+├── BVM_Ventilation/
+└── ...
+```
+
+### Sequence Metadata Format (JSON)
+
+```json
+{
+  "name": "IV_Start",
+  "description": "Starting an IV line on patient's arm",
+  "spriteSheet": "Seq_IV_Start_Sheet.png",
+  "frameWidth": 320,
+  "frameHeight": 240,
+  "framesPerRow": 4,
+  "totalFrames": 12,
+  "defaultFrameMs": 500,
+  "frames": [
+    { "index": 0, "duration": 600, "event": null, "label": "select_site" },
+    { "index": 1, "duration": 400, "event": "sfx_alcohol_wipe", "label": "clean_site" },
+    { "index": 2, "duration": 400, "event": null, "label": "clean_site" },
+    { "index": 3, "duration": 500, "event": "sfx_tourniquet", "label": "apply_tourniquet" },
+    { "index": 4, "duration": 300, "event": null, "label": "prep_catheter" },
+    { "index": 5, "duration": 600, "event": null, "label": "insert_needle" },
+    { "index": 6, "duration": 400, "event": "sfx_flash", "label": "flash_confirm" },
+    { "index": 7, "duration": 400, "event": null, "label": "advance_catheter" },
+    { "index": 8, "duration": 300, "event": null, "label": "remove_needle" },
+    { "index": 9, "duration": 400, "event": "sfx_click", "label": "connect_tubing" },
+    { "index": 10, "duration": 500, "event": null, "label": "secure_site" },
+    { "index": 11, "duration": 400, "event": "sfx_success", "label": "complete" }
+  ],
+  "layers": [
+    { "name": "patient_arm", "zIndex": 0 },
+    { "name": "equipment", "zIndex": 1 },
+    { "name": "hands", "zIndex": 2 }
+  ],
+  "outcomes": {
+    "success": { "gotoFrame": 11, "nextState": "iv_running" },
+    "failure": { "gotoFrame": 6, "nextState": "iv_failed", "event": "sfx_miss" }
+  }
+}
+```
+
+### Required Procedural Sequences
+
+#### Assessment & Monitoring
+
+| Sequence | Frames | Duration | Description |
+|----------|--------|----------|-------------|
+| `Seq_PulseOx_Apply` | 4 | 2s | Clipping pulse ox onto finger |
+| `Seq_BP_Cuff_Apply` | 6 | 3s | Wrapping cuff, positioning, inflating |
+| `Seq_Stethoscope_Listen` | 5 | 3s | Placing stethoscope, listening positions |
+| `Seq_Monitor_Hookup` | 10 | 5s | Applying ECG leads, connecting cables |
+| `Seq_Pupils_Check` | 4 | 2s | Penlight check, pupil response |
+
+#### Airway Management
+
+| Sequence | Frames | Duration | Description |
+|----------|--------|----------|-------------|
+| `Seq_OPA_Insert` | 6 | 3s | Measuring, inserting oral airway |
+| `Seq_NPA_Insert` | 6 | 3s | Measuring, lubricating, inserting nasal airway |
+| `Seq_BVM_Setup` | 5 | 2.5s | Connecting mask, oxygen, positioning |
+| `Seq_BVM_Ventilate` | 4 | 2s | Head tilt, mask seal, squeeze (loopable) |
+| `Seq_Suction_Oral` | 6 | 3s | Suctioning airway |
+| `Seq_O2_Mask_Apply` | 4 | 2s | Placing mask, adjusting strap, setting flow |
+| `Seq_Intubation` | 12 | 8s | Laryngoscopy and tube placement (advanced) |
+
+#### Circulation & IV Access
+
+| Sequence | Frames | Duration | Description |
+|----------|--------|----------|-------------|
+| `Seq_IV_Start` | 12 | 6s | Full IV start procedure |
+| `Seq_IV_Flush` | 4 | 2s | Flushing line, checking patency |
+| `Seq_IV_Med_Push` | 6 | 3s | Drawing med, pushing through line |
+| `Seq_IO_Insert` | 8 | 4s | IO drill placement |
+| `Seq_Tourniquet_Apply` | 4 | 2s | Applying tourniquet for bleeding |
+| `Seq_Bleeding_Control` | 6 | 3s | Direct pressure, packing wound |
+
+#### Cardiac Care
+
+| Sequence | Frames | Duration | Description |
+|----------|--------|----------|-------------|
+| `Seq_Defib_Pads_Apply` | 6 | 3s | Placing defibrillator pads |
+| `Seq_Defib_Analyze` | 4 | 3s | Analyzing rhythm (monitor screen focus) |
+| `Seq_Defib_Shock` | 5 | 2s | Charging, clearing, delivering shock |
+| `Seq_CPR_Cycle` | 6 | 4s | Compression cycle (30 compressions) |
+| `Seq_CPR_Position` | 4 | 2s | Hand positioning for compressions |
+
+#### Medications
+
+| Sequence | Frames | Duration | Description |
+|----------|--------|----------|-------------|
+| `Seq_Med_Draw_Vial` | 6 | 3s | Drawing medication from vial |
+| `Seq_Med_Draw_Ampule` | 6 | 3s | Breaking ampule, drawing medication |
+| `Seq_Epi_Auto_Inject` | 5 | 2.5s | EpiPen administration |
+| `Seq_Narcan_IN` | 4 | 2s | Intranasal Narcan administration |
+| `Seq_Nebulizer_Setup` | 5 | 2.5s | Setting up nebulizer treatment |
+
+#### Trauma & Immobilization
+
+| Sequence | Frames | Duration | Description |
+|----------|--------|----------|-------------|
+| `Seq_CCollar_Apply` | 8 | 4s | Sizing and applying cervical collar |
+| `Seq_Splint_Apply` | 8 | 4s | Applying splint to extremity |
+| `Seq_Backboard_Log` | 10 | 6s | Log roll onto backboard |
+| `Seq_Bandage_Wrap` | 6 | 3s | Wrapping bandage around wound |
+
+### Sequence Sprite Sheet Layout
+
+```
+┌────────────────────────────────────────────────────────┐
+│  Frame 0  │  Frame 1  │  Frame 2  │  Frame 3  │        │  Row 1
+├───────────┼───────────┼───────────┼───────────┤        │
+│  Frame 4  │  Frame 5  │  Frame 6  │  Frame 7  │        │  Row 2
+├───────────┼───────────┼───────────┼───────────┤        │
+│  Frame 8  │  Frame 9  │  Frame 10 │  Frame 11 │        │  Row 3
+└───────────┴───────────┴───────────┴───────────┴────────┘
+```
+
+**Standard Sequence Sizes:**
+- Small (hands + small equipment): 256x192 per frame
+- Medium (patient interaction): 320x240 per frame
+- Large (full body procedures): 480x320 per frame
+
+### Compositing Approach
+
+For flexibility, some sequences may use **layered compositing** instead of flat sprite sheets:
+
+```
+Layer Stack (bottom to top):
+├── Background (patient body part or surface)
+├── Equipment Layer (IV catheter, leads, etc.)
+├── Hands Layer (gloved hands performing action)
+└── Overlay Effects (blood flash, success indicator)
+```
+
+This allows:
+- Swapping patient skin tones without re-rendering
+- Reusing hand animations across similar procedures
+- Adding equipment variants (different IV catheter brands)
+
+### Animation Rendering Workflow (Blender)
+
+1. **Scene Setup**: Position camera for consistent framing across sequence
+2. **Keyframe Actions**: Animate hands and equipment through procedure steps
+3. **Render Frames**: Output individual frames with transparency
+4. **Assemble Sheet**: Combine frames into sprite sheet (use TexturePacker or similar)
+5. **Generate Metadata**: Create JSON with timing and events
+6. **Export**: PNG sprite sheet + JSON to `Art/Sprites/Sequences/[Name]/`
+
+### Sequence Priority (Implementation Order)
+
+**Phase 1 — Core Assessment:**
+1. `Seq_PulseOx_Apply`
+2. `Seq_BP_Cuff_Apply`
+3. `Seq_Stethoscope_Listen`
+4. `Seq_Monitor_Hookup`
+
+**Phase 2 — Airway & Breathing:**
+1. `Seq_O2_Mask_Apply`
+2. `Seq_BVM_Setup`
+3. `Seq_BVM_Ventilate`
+4. `Seq_OPA_Insert`
+
+**Phase 3 — Circulation:**
+1. `Seq_IV_Start`
+2. `Seq_IV_Med_Push`
+3. `Seq_Defib_Pads_Apply`
+4. `Seq_Defib_Shock`
+5. `Seq_CPR_Cycle`
+
+**Phase 4 — Advanced & Polish:**
+1. All remaining sequences
+2. Failure state variants
+3. Speed/skill level variants
 
 ---
 

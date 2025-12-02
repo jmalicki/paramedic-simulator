@@ -1,0 +1,157 @@
+{
+  "name": "IV_Start",
+  "description": "Starting an IV line on patient's arm",
+  "spriteSheet": "Seq_IV_Start_Sheet.png",
+  "frameWidth": 320,
+  "frameHeight": 240,
+  "framesPerRow": 4,
+  "totalFrames": 12,
+  "defaultFrameMs": 500,
+  "frames": [
+    {
+      "index": 0,
+      "duration": 600,
+      "event": null,
+      "label": "select_site",
+      "description": "Hand palpating arm to find vein"
+    },
+    {
+      "index": 1,
+      "duration": 400,
+      "event": "sfx_alcohol_wipe",
+      "label": "clean_site",
+      "description": "Alcohol prep pad cleaning insertion site"
+    },
+    {
+      "index": 2,
+      "duration": 400,
+      "event": null,
+      "label": "clean_site_2",
+      "description": "Continue cleaning in circular motion"
+    },
+    {
+      "index": 3,
+      "duration": 500,
+      "event": "sfx_tourniquet",
+      "label": "apply_tourniquet",
+      "description": "Tourniquet being applied above site"
+    },
+    {
+      "index": 4,
+      "duration": 300,
+      "event": "sfx_package_open",
+      "label": "prep_catheter",
+      "description": "Opening catheter package, removing cap"
+    },
+    {
+      "index": 5,
+      "duration": 600,
+      "event": null,
+      "label": "insert_needle",
+      "description": "Catheter being inserted at angle"
+    },
+    {
+      "index": 6,
+      "duration": 400,
+      "event": "sfx_flash",
+      "label": "flash_confirm",
+      "description": "Blood flash in chamber confirms vein access"
+    },
+    {
+      "index": 7,
+      "duration": 400,
+      "event": null,
+      "label": "advance_catheter",
+      "description": "Advancing catheter while withdrawing needle"
+    },
+    {
+      "index": 8,
+      "duration": 300,
+      "event": null,
+      "label": "remove_needle",
+      "description": "Needle fully withdrawn, catheter in place"
+    },
+    {
+      "index": 9,
+      "duration": 400,
+      "event": "sfx_click",
+      "label": "connect_tubing",
+      "description": "IV tubing connected to catheter hub"
+    },
+    {
+      "index": 10,
+      "duration": 500,
+      "event": "sfx_tape",
+      "label": "secure_site",
+      "description": "Tegaderm and tape securing catheter"
+    },
+    {
+      "index": 11,
+      "duration": 400,
+      "event": "sfx_success",
+      "label": "complete",
+      "description": "IV running, procedure complete"
+    }
+  ],
+  "layers": [
+    {
+      "name": "patient_arm",
+      "zIndex": 0,
+      "description": "Patient arm background - can swap skin tones"
+    },
+    {
+      "name": "equipment",
+      "zIndex": 1,
+      "description": "IV catheter, tubing, tape, tegaderm"
+    },
+    {
+      "name": "hands",
+      "zIndex": 2,
+      "description": "Gloved hands performing procedure"
+    },
+    {
+      "name": "effects",
+      "zIndex": 3,
+      "description": "Blood flash indicator, success glow"
+    }
+  ],
+  "outcomes": {
+    "success": {
+      "gotoFrame": 11,
+      "nextState": "iv_running",
+      "event": "sfx_success"
+    },
+    "failure_miss": {
+      "triggerFrame": 6,
+      "gotoFrame": 5,
+      "nextState": "iv_failed",
+      "event": "sfx_miss",
+      "description": "Missed vein - no flash, need to retry"
+    },
+    "failure_infiltrate": {
+      "triggerFrame": 9,
+      "nextState": "iv_infiltrated",
+      "event": "sfx_error",
+      "description": "IV infiltrated - swelling at site"
+    }
+  },
+  "patientVariants": [
+    "skin_light",
+    "skin_medium",
+    "skin_dark"
+  ],
+  "difficultyModifiers": {
+    "easy": {
+      "flashFrameDuration": 600,
+      "description": "Larger, more visible flash"
+    },
+    "normal": {
+      "flashFrameDuration": 400,
+      "description": "Standard flash visibility"
+    },
+    "hard": {
+      "flashFrameDuration": 250,
+      "description": "Brief flash, easy to miss"
+    }
+  }
+}
