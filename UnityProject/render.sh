@@ -43,7 +43,7 @@ if [ -d "$HOME/Unity/Hub/Editor" ]; then
 fi
 # macOS Unity Hub
 if [ -z "$UNITY_PATH" ] && [ -d "/Applications/Unity/Hub/Editor" ]; then
-    UNITY_PATH=$(find "/Applications/Unity/Hub/Editor" -maxdepth 3 -name "Unity" -type f 2>/dev/null | head -1)
+    UNITY_PATH=$(find "/Applications/Unity/Hub/Editor" -path "*/Unity.app/Contents/MacOS/Unity" -type f 2>/dev/null | head -1)
 fi
 # Windows Unity Hub (Git Bash / WSL)
 if [ -z "$UNITY_PATH" ] && [ -d "/c/Program Files/Unity/Hub/Editor" ]; then
