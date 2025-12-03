@@ -51,16 +51,47 @@ namespace ParamedicSimulator
 
         /// <summary>
         /// Create a basic toon material with the given color.
+        /// Uses URP Lit shader for compatibility with Universal Render Pipeline.
         /// </summary>
         public static Material CreateToonMaterial(string name, Color baseColor)
         {
-            // Use Standard shader for now, can be replaced with custom toon shader later
-            var material = new Material(Shader.Find("Standard"));
-            material.name = name;
-            material.color = baseColor;
+            // Check if URP is active, otherwise use Built-in Standard shader
+            var currentRP = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+            Shader shader;
 
-            // Make it more matte/toon-like by reducing metallic and smoothness
+            if (currentRP != null)
+            {
+                // URP is active - use URP shader
+                shader = Shader.Find("Universal Render Pipeline/Lit");
+                if (shader == null)
+                {
+                    shader = Shader.Find("Universal Render Pipeline/Simple Lit");
+                }
+            }
+            else
+            {
+                // Built-in pipeline - use Standard shader
+                shader = Shader.Find("Standard");
+            }
+
+            if (shader == null)
+            {
+                Debug.LogError($"[ToonMaterials] No shader found for material: {name}");
+                shader = Shader.Find("Unlit/Color");
+            }
+
+            Debug.Log($"[ToonMaterials] Using shader: {shader?.name ?? "NULL"} for material: {name} (RP: {(currentRP != null ? currentRP.name : "Built-in")})");
+
+            var material = new Material(shader);
+            material.name = name;
+
+            // Set base color (URP uses _BaseColor, Standard uses _Color)
+            material.SetColor("_BaseColor", baseColor);
+            material.SetColor("_Color", baseColor);
+
+            // Make it more matte/toon-like
             material.SetFloat("_Metallic", 0f);
+            material.SetFloat("_Smoothness", 0.1f);
             material.SetFloat("_Glossiness", 0.1f);
 
             return material;
@@ -71,9 +102,31 @@ namespace ParamedicSimulator
         /// </summary>
         public static Material CreateEmissiveMaterial(string name, Color color, float strength = 2.0f)
         {
-            var material = new Material(Shader.Find("Standard"));
+            // Check if URP is active, otherwise use Built-in Standard shader
+            var currentRP = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+            Shader shader;
+
+            if (currentRP != null)
+            {
+                shader = Shader.Find("Universal Render Pipeline/Lit");
+            }
+            else
+            {
+                shader = Shader.Find("Standard");
+            }
+
+            if (shader == null)
+            {
+                Debug.LogError($"[ToonMaterials] No shader found for emissive material: {name}");
+                shader = Shader.Find("Unlit/Color");
+            }
+
+            var material = new Material(shader);
             material.name = name;
-            material.color = color;
+
+            // Set base color
+            material.SetColor("_BaseColor", color);
+            material.SetColor("_Color", color);
 
             // Enable emission
             material.EnableKeyword("_EMISSION");

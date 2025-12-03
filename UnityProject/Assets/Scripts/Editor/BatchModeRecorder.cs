@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.Recorder;
+using UnityEditor.Recorder.Input;
 using System.IO;
 
 namespace ParamedicSimulator.Editor
@@ -14,9 +16,111 @@ namespace ParamedicSimulator.Editor
     /// 2. Copy FBX to UnityProject/Assets/Models/
     /// 3. Render with Unity: ./UnityProject/render.sh sequence_name
     /// </summary>
+    [InitializeOnLoad]
     public static class BatchModeRecorder
     {
         private const string ModelsPath = "Assets/Models";
+        private static RecorderController s_recorderController;
+        private static string s_expectedOutputPath;
+
+        // Session state keys for persisting across domain reload
+        private const string kRecordingActiveKey = "BatchModeRecorder_Active";
+        private const string kSequenceNameKey = "BatchModeRecorder_Sequence";
+        private const string kOutputDirKey = "BatchModeRecorder_OutputDir";
+        private const string kWidthKey = "BatchModeRecorder_Width";
+        private const string kHeightKey = "BatchModeRecorder_Height";
+
+        // Static constructor - runs after every domain reload
+        static BatchModeRecorder()
+        {
+            // Check if we were in the middle of recording when domain reloaded
+            if (SessionState.GetBool(kRecordingActiveKey, false) && EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                Debug.Log("[BatchModeRecorder] Domain reloaded during recording, re-initializing...");
+                EditorApplication.delayCall += ResumeRecording;
+            }
+        }
+
+        private static void ResumeRecording()
+        {
+            if (!EditorApplication.isPlaying)
+            {
+                Debug.Log("[BatchModeRecorder] Waiting for play mode...");
+                EditorApplication.delayCall += ResumeRecording;
+                return;
+            }
+
+            string sequenceName = SessionState.GetString(kSequenceNameKey, "initial_assessment");
+            string outputDir = SessionState.GetString(kOutputDirKey, "Art/Source/3D/Sequences/output");
+            int width = SessionState.GetInt(kWidthKey, 1280);
+            int height = SessionState.GetInt(kHeightKey, 720);
+
+            Debug.Log($"[BatchModeRecorder] Resuming recording for: {sequenceName}");
+
+            // After domain reload, the scene content may need to be recreated
+            // Check if we have a main camera and content
+            var mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                Debug.Log("[BatchModeRecorder] Main camera not found, recreating scene content...");
+                RecreateSceneContent(sequenceName);
+            }
+            else
+            {
+                Debug.Log($"[BatchModeRecorder] Main camera found at {mainCamera.transform.position}");
+
+                // Verify there's something to render
+                var renderers = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+                Debug.Log($"[BatchModeRecorder] Found {renderers.Length} renderers in scene");
+
+                if (renderers.Length == 0)
+                {
+                    Debug.Log("[BatchModeRecorder] No renderers found, recreating scene content...");
+                    RecreateSceneContent(sequenceName);
+                }
+            }
+
+            // Re-setup recorder after domain reload
+            SetupRecorder(sequenceName, outputDir, width, height);
+            StartRecording();
+        }
+
+        private static void RecreateSceneContent(string sequenceName)
+        {
+            // Find or create main camera
+            var cameraGO = GameObject.Find("MainCamera");
+            if (cameraGO == null)
+            {
+                cameraGO = new GameObject("MainCamera");
+                var camera = cameraGO.AddComponent<Camera>();
+                camera.tag = "MainCamera";
+                camera.transform.position = new Vector3(0, 0.5f, -0.3f);
+                camera.transform.rotation = Quaternion.Euler(45, 0, 0);
+                camera.clearFlags = CameraClearFlags.SolidColor;
+                camera.backgroundColor = ToonMaterials.Colors.Background;
+                camera.fieldOfView = 60f;
+                camera.nearClipPlane = 0.01f;
+                camera.farClipPlane = 100f;
+                Debug.Log("[BatchModeRecorder] Created main camera");
+            }
+
+            // Check if lights exist
+            if (Object.FindFirstObjectByType<Light>() == null)
+            {
+                CreateLights();
+                Debug.Log("[BatchModeRecorder] Created lights");
+            }
+
+            // Load FBX or create procedural content
+            bool fbxLoaded = TryLoadFbx(sequenceName, cameraGO);
+            if (!fbxLoaded)
+            {
+                Debug.Log("[BatchModeRecorder] No FBX found, using procedural content");
+                CreateProceduralContent(sequenceName, cameraGO);
+            }
+
+            Debug.Log($"[BatchModeRecorder] Scene content recreated for: {sequenceName}");
+        }
 
         /// <summary>
         /// Main entry point for batch mode recording.
@@ -64,7 +168,7 @@ namespace ParamedicSimulator.Editor
             // Create or load the recording scene
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
-            // Set up the scene
+            // Set up the scene (without the SequenceRecorder component - we handle recording here)
             SetupRecordingScene(sequenceName, outputDir, width, height);
 
             // Save scene temporarily
@@ -72,34 +176,269 @@ namespace ParamedicSimulator.Editor
             Directory.CreateDirectory(Path.GetDirectoryName(tempScenePath));
             EditorSceneManager.SaveScene(scene, tempScenePath);
 
-            // Enter play mode to start recording
-            Debug.Log("[BatchModeRecorder] Entering play mode to start recording...");
+            // Save session state so we can resume after domain reload
+            SessionState.SetBool(kRecordingActiveKey, true);
+            SessionState.SetString(kSequenceNameKey, sequenceName);
+            SessionState.SetString(kOutputDirKey, outputDir);
+            SessionState.SetInt(kWidthKey, width);
+            SessionState.SetInt(kHeightKey, height);
+
+            // Unity Recorder requires play mode to capture frames
+            // Domain reload happens when entering play mode, so we save state above
+            // and resume in the static constructor after reload
+            Debug.Log("[BatchModeRecorder] Starting play mode for recording...");
+            Debug.Log("[BatchModeRecorder] (Recording will resume after domain reload)");
+
+            // Enter play mode - this triggers domain reload
             EditorApplication.isPlaying = true;
+        }
+
+        private static int s_warmupFrames = 0;
+        private const int kWarmupFrameCount = 5; // Wait a few frames before recording
+
+        private static void StartRecording()
+        {
+            Debug.Log("[BatchModeRecorder] Starting recorder...");
+
+            // Log scene state before recording
+            LogSceneState();
+
+            if (s_recorderController != null)
+            {
+                s_recorderController.PrepareRecording();
+
+                // Wait a few frames for the scene to stabilize before recording
+                s_warmupFrames = 0;
+                EditorApplication.update += WarmupBeforeRecording;
+            }
+            else
+            {
+                Debug.LogError("[BatchModeRecorder] RecorderController is null!");
+                ClearSessionState();
+                EditorApplication.Exit(1);
+            }
+        }
+
+        private static void WarmupBeforeRecording()
+        {
+            s_warmupFrames++;
+            if (s_warmupFrames < kWarmupFrameCount)
+            {
+                return; // Wait for more frames
+            }
+
+            EditorApplication.update -= WarmupBeforeRecording;
+
+            Debug.Log($"[BatchModeRecorder] Scene warmed up for {kWarmupFrameCount} frames, starting recording...");
+            LogSceneState();
+
+            s_recorderController.StartRecording();
+            Debug.Log("[BatchModeRecorder] Recording started!");
+
+            // Check completion every frame
+            EditorApplication.update += CheckRecordingComplete;
+        }
+
+        private static void LogSceneState()
+        {
+            Debug.Log("[BatchModeRecorder] === SCENE STATE DEBUG ===");
+
+            // Check render pipeline
+            var currentRP = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+            Debug.Log($"[BatchModeRecorder] Render Pipeline: {(currentRP != null ? currentRP.name : "NULL (using Built-in)")}");
+
+            var mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                Debug.Log($"[BatchModeRecorder] Camera: pos={mainCamera.transform.position}, rot={mainCamera.transform.eulerAngles}, fov={mainCamera.fieldOfView}");
+                Debug.Log($"[BatchModeRecorder] Camera: clearFlags={mainCamera.clearFlags}, bgColor={mainCamera.backgroundColor}");
+                Debug.Log($"[BatchModeRecorder] Camera: cullingMask={mainCamera.cullingMask}, nearClip={mainCamera.nearClipPlane}, farClip={mainCamera.farClipPlane}");
+                Debug.Log($"[BatchModeRecorder] Camera: enabled={mainCamera.enabled}, gameObject.active={mainCamera.gameObject.activeInHierarchy}");
+            }
+            else
+            {
+                Debug.LogWarning("[BatchModeRecorder] No main camera found!");
+            }
+
+            var renderers = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+            Debug.Log($"[BatchModeRecorder] Scene has {renderers.Length} renderers");
+            foreach (var r in renderers)
+            {
+                var mat = r.sharedMaterial;
+                string matInfo = mat != null ? $"mat={mat.name}, shader={(mat.shader != null ? mat.shader.name : "NULL")}" : "mat=NULL";
+                Debug.Log($"[BatchModeRecorder]   - {r.gameObject.name}: bounds={r.bounds.center}, visible={r.isVisible}, enabled={r.enabled}, layer={r.gameObject.layer}, {matInfo}");
+            }
+
+            var lights = Object.FindObjectsByType<Light>(FindObjectsSortMode.None);
+            Debug.Log($"[BatchModeRecorder] Scene has {lights.Length} lights");
+            foreach (var l in lights)
+            {
+                Debug.Log($"[BatchModeRecorder]   - {l.gameObject.name}: type={l.type}, intensity={l.intensity}, enabled={l.enabled}");
+            }
+
+            Debug.Log("[BatchModeRecorder] === END SCENE STATE ===");
+        }
+
+        private static void ClearSessionState()
+        {
+            SessionState.SetBool(kRecordingActiveKey, false);
+            SessionState.EraseBool(kRecordingActiveKey);
+            SessionState.EraseString(kSequenceNameKey);
+            SessionState.EraseString(kOutputDirKey);
+            SessionState.EraseInt(kWidthKey);
+            SessionState.EraseInt(kHeightKey);
+        }
+
+        private static void CheckRecordingComplete()
+        {
+            if (s_recorderController == null) return;
+
+            s_frameCount++;
+
+            // Show progress every 30 frames (1 second at 30fps)
+            if (s_frameCount % 30 == 0 || s_frameCount == 1)
+            {
+                float progress = (float)s_frameCount / s_totalFrames;
+                int barWidth = 30;
+                int filled = (int)(progress * barWidth);
+                string bar = new string('#', filled) + new string('-', barWidth - filled);
+                float remainingSeconds = (s_totalFrames - s_frameCount) / 30f;
+
+                string progressMsg = $"[{bar}] {progress * 100:F0}% ({s_frameCount}/{s_totalFrames}) ETA: {remainingSeconds:F0}s";
+
+                // Log progress - this will show in unity_render.log and stdout
+                Debug.Log($"[BatchModeRecorder] {progressMsg}");
+            }
+
+            if (!s_recorderController.IsRecording())
+            {
+                Debug.Log("[BatchModeRecorder] Recording complete!");
+                EditorApplication.update -= CheckRecordingComplete;
+
+                // Clear session state
+                ClearSessionState();
+
+                // Verify output file exists
+                if (File.Exists(s_expectedOutputPath))
+                {
+                    var fileInfo = new FileInfo(s_expectedOutputPath);
+                    Debug.Log($"[BatchModeRecorder] Video saved: {s_expectedOutputPath} ({fileInfo.Length / 1024}KB)");
+                }
+                else
+                {
+                    Debug.LogWarning($"[BatchModeRecorder] Expected output not found: {s_expectedOutputPath}");
+                }
+
+                // Exit play mode first
+                EditorApplication.isPlaying = false;
+
+                // Then exit Unity (delayed to allow cleanup)
+                if (Application.isBatchMode)
+                {
+                    Debug.Log("[BatchModeRecorder] Batch mode - exiting Unity");
+                    EditorApplication.delayCall += () => EditorApplication.Exit(0);
+                }
+            }
+        }
+
+        private static int s_frameCount = 0;
+        private static int s_totalFrames = 0;
+
+        private static void SetupRecorder(string sequenceName, string outputDir, int width, int height)
+        {
+            float duration = ProcedureInfo.GetDuration(sequenceName);
+            int frameRate = 30;
+            s_totalFrames = (int)(duration * frameRate);
+            s_frameCount = 0;
+
+            // Create controller settings
+            var controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
+            controllerSettings.SetRecordModeToFrameInterval(0, s_totalFrames);
+            controllerSettings.FrameRate = frameRate;
+
+            // Create movie recorder settings
+            var movieSettings = ScriptableObject.CreateInstance<MovieRecorderSettings>();
+            movieSettings.name = $"{sequenceName}_recorder";
+            movieSettings.Enabled = true;
+
+            // Use WebM encoder (MP4/H.264 not supported on Linux)
+            movieSettings.EncoderSettings = new UnityEditor.Recorder.Encoder.CoreEncoderSettings
+            {
+                Codec = UnityEditor.Recorder.Encoder.CoreEncoderSettings.OutputCodec.WEBM,
+                EncodingQuality = UnityEditor.Recorder.Encoder.CoreEncoderSettings.VideoEncodingQuality.High
+            };
+
+            // Set output file path
+            // outputDir may be absolute or relative - handle both cases
+            string fullPath;
+            if (Path.IsPathRooted(outputDir))
+            {
+                fullPath = outputDir;
+            }
+            else
+            {
+                // Relative path - go up from Assets to project root, then apply outputDir
+                fullPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", outputDir));
+            }
+
+            Directory.CreateDirectory(fullPath);
+
+            // Set output file (without extension - recorder adds it)
+            string outputFile = Path.Combine(fullPath, sequenceName);
+            movieSettings.OutputFile = outputFile;
+            s_expectedOutputPath = outputFile + ".webm";
+
+            Debug.Log($"[BatchModeRecorder] Output file will be: {s_expectedOutputPath}");
+
+            // Set up camera input
+            var cameraInput = new CameraInputSettings
+            {
+                Source = ImageSource.MainCamera,
+                OutputWidth = width,
+                OutputHeight = height,
+                CaptureUI = false
+            };
+            movieSettings.ImageInputSettings = cameraInput;
+
+            // Set frame rate
+            movieSettings.FrameRate = frameRate;
+            movieSettings.FrameRatePlayback = FrameRatePlayback.Constant;
+
+            // Add recorder to controller settings
+            controllerSettings.AddRecorderSettings(movieSettings);
+
+            // Create controller
+            s_recorderController = new RecorderController(controllerSettings);
+
+            Debug.Log($"[BatchModeRecorder] Recorder configured: {sequenceName}.mp4");
+            Debug.Log($"[BatchModeRecorder] Output path: {fullPath}");
+            Debug.Log($"[BatchModeRecorder] Resolution: {width}x{height} @ {frameRate}fps");
+            Debug.Log($"[BatchModeRecorder] Duration: {duration}s ({s_totalFrames} frames)");
         }
 
         private static void SetupRecordingScene(string sequenceName, string outputDir, int width, int height)
         {
             // === Camera Setup ===
+            // Blender uses Y-forward, Z-up. Unity uses Z-forward, Y-up.
+            // Blender camera: location=(0, -0.5, 0.3), rotation=(75, 0, 0)
+            // Unity equivalent: position=(0, 0.3, -0.5), but rotation needs adjustment
+            // With 75° X rotation in Blender looking along +Y, in Unity we look along +Z
+            // So the camera should look DOWN at the scene which is around origin
             var cameraGO = new GameObject("MainCamera");
             var camera = cameraGO.AddComponent<Camera>();
             camera.tag = "MainCamera";
-            camera.transform.position = new Vector3(0, 0.3f, -0.5f);
-            camera.transform.rotation = Quaternion.Euler(75, 0, 0);
+            camera.transform.position = new Vector3(0, 0.5f, -0.3f);
+            camera.transform.rotation = Quaternion.Euler(45, 0, 0);
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = ToonMaterials.Colors.Background;
-            camera.fieldOfView = 35f;
+            camera.fieldOfView = 60f;
+            camera.nearClipPlane = 0.01f;  // Match Blender's clip_start
+            camera.farClipPlane = 100f;    // Match Blender's clip_end
 
             // === Lighting Setup ===
             CreateLights();
 
-            // === Recorder Controller ===
-            var recorderGO = new GameObject("SequenceRecorder");
-            var recorder = recorderGO.AddComponent<SequenceRecorder>();
-            recorder.sequenceName = sequenceName;
-            recorder.outputDirectory = outputDir;
-            recorder.resolutionWidth = width;
-            recorder.resolutionHeight = height;
-            recorder.recordDuration = ProcedureInfo.GetDuration(sequenceName);
+            // Recording is handled by BatchModeRecorder, not SequenceRecorder component
 
             // === Load FBX or Create Procedural Content ===
             bool fbxLoaded = TryLoadFbx(sequenceName, cameraGO);

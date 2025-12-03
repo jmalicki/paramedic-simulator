@@ -1,7 +1,9 @@
 using UnityEngine;
-using UnityEngine.Recorder;
-using UnityEngine.Recorder.Input;
 using System.IO;
+#if UNITY_EDITOR
+using UnityEditor.Recorder;
+using UnityEditor.Recorder.Input;
+#endif
 
 namespace ParamedicSimulator
 {
@@ -29,39 +31,41 @@ namespace ParamedicSimulator
         [Tooltip("Duration in seconds to record")]
         public float recordDuration = 9.5f;
 
+#if UNITY_EDITOR
         private RecorderController recorderController;
         private MovieRecorderSettings movieSettings;
+#endif
 
         void Start()
         {
+#if UNITY_EDITOR
             // Set up recorder
             SetupRecorder();
 
             // Start recording immediately
             StartRecording();
+#else
+            Debug.LogWarning("[SequenceRecorder] Unity Recorder only works in Editor mode");
+#endif
         }
 
+#if UNITY_EDITOR
         void SetupRecorder()
         {
-            // Create recorder controller
+            // Create recorder controller settings
             var controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
-            recorderController = new RecorderController(controllerSettings);
+            controllerSettings.SetRecordModeToFrameInterval(0, (int)(recordDuration * frameRate));
+            controllerSettings.FrameRate = frameRate;
 
             // Create movie recorder settings
             movieSettings = ScriptableObject.CreateInstance<MovieRecorderSettings>();
             movieSettings.name = $"{sequenceName}_recorder";
             movieSettings.Enabled = true;
 
-            // Set output format to MP4
-            movieSettings.OutputFormat = MovieRecorderSettings.VideoRecorderOutputFormat.MP4;
-
-            // Set output file
+            // Set output file path
             string fullPath = Path.Combine(Application.dataPath, "..", outputDirectory);
             Directory.CreateDirectory(fullPath);
             movieSettings.OutputFile = Path.Combine(fullPath, sequenceName);
-
-            // Configure video encoder
-            movieSettings.VideoBitRateMode = VideoBitrateMode.High;
 
             // Set up camera input
             var cameraInput = new CameraInputSettings
@@ -77,12 +81,11 @@ namespace ParamedicSimulator
             movieSettings.FrameRate = frameRate;
             movieSettings.FrameRatePlayback = FrameRatePlayback.Constant;
 
-            // Add recorder to controller
+            // Add recorder to controller settings
             controllerSettings.AddRecorderSettings(movieSettings);
-            controllerSettings.SetRecordModeToFrameInterval(0, (int)(recordDuration * frameRate));
-            controllerSettings.FrameRate = frameRate;
 
-            recorderController.Settings = controllerSettings;
+            // Create controller with settings
+            recorderController = new RecorderController(controllerSettings);
 
             Debug.Log($"[SequenceRecorder] Recorder configured: {sequenceName}.mp4");
             Debug.Log($"[SequenceRecorder] Output: {fullPath}");
@@ -119,13 +122,8 @@ namespace ParamedicSimulator
             Debug.Log("[SequenceRecorder] Recording complete!");
             Debug.Log($"[SequenceRecorder] Video saved: {movieSettings.OutputFile}.mp4");
 
-            #if UNITY_EDITOR
-            // In editor, just log completion
+            // In editor, stop playing
             UnityEditor.EditorApplication.isPlaying = false;
-            #else
-            // In batch mode, quit application
-            Application.Quit(0);
-            #endif
         }
 
         void OnDestroy()
@@ -135,5 +133,6 @@ namespace ParamedicSimulator
                 recorderController.StopRecording();
             }
         }
+#endif
     }
 }
