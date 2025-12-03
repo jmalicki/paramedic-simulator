@@ -410,7 +410,7 @@ namespace ParamedicSimulator.Editor
             // Create controller
             s_recorderController = new RecorderController(controllerSettings);
 
-            Debug.Log($"[BatchModeRecorder] Recorder configured: {sequenceName}.mp4");
+            Debug.Log($"[BatchModeRecorder] Recorder configured: {sequenceName}.webm");
             Debug.Log($"[BatchModeRecorder] Output path: {fullPath}");
             Debug.Log($"[BatchModeRecorder] Resolution: {width}x{height} @ {frameRate}fps");
             Debug.Log($"[BatchModeRecorder] Duration: {duration}s ({s_totalFrames} frames)");
@@ -517,7 +517,12 @@ namespace ParamedicSimulator.Editor
                 for (int i = 0; i < materials.Length; i++)
                 {
                     var mat = materials[i];
-                    if (mat == null) continue;
+                    if (mat == null)
+                    {
+                        // Preserve null material slots to avoid rendering issues
+                        newMaterials[i] = null;
+                        continue;
+                    }
 
                     // Map Blender material names to toon materials
                     Color color = GetColorFromMaterialName(mat.name);

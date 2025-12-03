@@ -108,7 +108,7 @@
       "event": "sfx_success"
     },
     "poor_signal": {
-      "triggerFrame": 8,
+      "gotoFrame": 8,
       "nextState": "monitoring_artifact",
       "event": "sfx_artifact",
       "description": "Poor electrode contact - noisy signal"

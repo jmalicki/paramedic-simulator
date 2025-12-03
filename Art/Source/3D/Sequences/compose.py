@@ -187,12 +187,6 @@ class SequenceComposer:
 
         # Smooth all keyframes
         print("Smoothing keyframes...")
-        from common.core import smooth_all_keyframes
-        smooth_all_keyframes = getattr(
-            __import__('common.core', fromlist=['smooth_all_keyframes']),
-            'smooth_all_keyframes',
-            lambda: None
-        )
         # Apply smooth interpolation
         for obj in bpy.data.objects:
             if obj.animation_data and obj.animation_data.action:

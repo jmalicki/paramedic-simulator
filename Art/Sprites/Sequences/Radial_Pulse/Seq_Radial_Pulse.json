@@ -65,12 +65,12 @@
       "data": ["pulse_rate", "pulse_quality"]
     },
     "weak_pulse": {
-      "triggerFrame": 2,
+      "gotoFrame": 2,
       "nextState": "pulse_weak",
       "description": "Weak or thready pulse detected"
     },
     "no_pulse": {
-      "triggerFrame": 2,
+      "gotoFrame": 2,
       "nextState": "pulse_absent",
       "event": "sfx_alert",
       "description": "No radial pulse palpable"

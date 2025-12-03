@@ -93,7 +93,9 @@ def load_frames(input_dir, pattern, count):
             img = Image.open(filepath)
             # Resize if needed
             if img.size != (CONFIG['frame_width'], CONFIG['frame_height']):
-                img = img.resize((CONFIG['frame_width'], CONFIG['frame_height']), Image.LANCZOS)
+                # Use backward-compatible resampling (Pillow <10 and >=10)
+                resample = getattr(Image, "Resampling", Image)
+                img = img.resize((CONFIG['frame_width'], CONFIG['frame_height']), resample.LANCZOS)
             frames.append(img)
             print(f"Loaded: {filepath}")
 

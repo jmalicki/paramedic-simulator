@@ -34,6 +34,7 @@ namespace ParamedicSimulator
 #if UNITY_EDITOR
         private RecorderController recorderController;
         private MovieRecorderSettings movieSettings;
+        private bool recordingCompleted = false;
 #endif
 
         void Start()
@@ -105,14 +106,21 @@ namespace ParamedicSimulator
 
         void LateUpdate()
         {
+            // Guard against re-entry after recording completes
+            if (recordingCompleted)
+            {
+                return;
+            }
+
             // Check if recording is complete
             if (recorderController != null && recorderController.IsRecording())
             {
                 // Recording in progress
             }
-            else if (recorderController != null && recorderController.Settings.FrameRate > 0)
+            else if (recorderController != null)
             {
                 // Recording finished
+                recordingCompleted = true;
                 OnRecordingComplete();
             }
         }

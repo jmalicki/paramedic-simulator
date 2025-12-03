@@ -122,14 +122,13 @@
       "event": "sfx_success"
     },
     "failure_miss": {
-      "triggerFrame": 6,
       "gotoFrame": 5,
       "nextState": "iv_failed",
       "event": "sfx_miss",
       "description": "Missed vein - no flash, need to retry"
     },
     "failure_infiltrate": {
-      "triggerFrame": 9,
+      "gotoFrame": 9,
       "nextState": "iv_infiltrated",
       "event": "sfx_error",
       "description": "IV infiltrated - swelling at site"

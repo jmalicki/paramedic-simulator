@@ -252,11 +252,13 @@ namespace ParamedicSimulator
             // 6.0 - 9.0: BP cuff apply (3s)
             // 9.0 - 9.5: End hold (0.5s)
 
+            // Chain all three procedures with appropriate timing
             AnimatePulseOxApply(hand, pulseox, camera, 0f);
+            AnimateRadialPulse(hand, camera, 2.5f);
+            AnimateBpCuffApply(hand, bpCuff, camera, 6.0f);
 
-            // After pulseox, transition hand and continue with radial pulse
-            // Note: In full implementation, would blend between animations
-            // For now, create independent segments
+            // Note: patientArm is used as part of the scene but doesn't need
+            // its own animation - it serves as the static patient geometry
         }
 
         // =============================================================================
