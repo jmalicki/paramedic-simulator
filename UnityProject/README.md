@@ -67,7 +67,7 @@ Videos are rendered to: `Art/Source/3D/Sequences/output/<sequence_name>.mp4`
 
 ## Project Structure
 
-```
+```text
 UnityProject/
 ├── Assets/
 │   ├── Models/                             # FBX files from Blender
