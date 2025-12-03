@@ -2,9 +2,7 @@
 name: Unity Tests
 
 "on":
-  pull_request:
-  push:
-    branches: [main]
+  workflow_dispatch: # Manual trigger only for now (requires Unity license secrets)
 
 jobs:
   test-unity:
