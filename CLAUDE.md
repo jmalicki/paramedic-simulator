@@ -53,6 +53,7 @@ blender --background --python compose.py
 
 - **Unity 6 (6000 LTS)** with URP, C# 10, nullable enabled
 - **Key runtime modules** (under `Assets/Scripts/Runtime/`):
+
   - `Core/` - Game loop, time control, DI, services
   - `Simulation/` - Deterministic sim systems, patient gateway
   - `Scenario/` - Objectives, scoring, triggers, state machine

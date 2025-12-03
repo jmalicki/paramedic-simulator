@@ -76,11 +76,13 @@ namespace ParamedicSimulator
 
             if (shader == null)
             {
-                Debug.LogError($"[ToonMaterials] No shader found for material: {name}");
-                shader = Shader.Find("Unlit/Color");
+                string rpName = currentRP != null ? currentRP.name : "Built-in";
+                throw new System.InvalidOperationException(
+                    $"[ToonMaterials] No shader found for material '{name}'. " +
+                    $"Render pipeline: {rpName}. Check Unity project configuration.");
             }
 
-            Debug.Log($"[ToonMaterials] Using shader: {shader?.name ?? "NULL"} for material: {name} (RP: {(currentRP != null ? currentRP.name : "Built-in")})");
+            Debug.Log($"[ToonMaterials] Using shader: {shader.name} for material: {name} (RP: {(currentRP != null ? currentRP.name : "Built-in")})");
 
             var material = new Material(shader);
             material.name = name;
@@ -117,8 +119,10 @@ namespace ParamedicSimulator
 
             if (shader == null)
             {
-                Debug.LogError($"[ToonMaterials] No shader found for emissive material: {name}");
-                shader = Shader.Find("Unlit/Color");
+                string rpName = currentRP != null ? currentRP.name : "Built-in";
+                throw new System.InvalidOperationException(
+                    $"[ToonMaterials] No shader found for emissive material '{name}'. " +
+                    $"Render pipeline: {rpName}. Check Unity project configuration.");
             }
 
             var material = new Material(shader);

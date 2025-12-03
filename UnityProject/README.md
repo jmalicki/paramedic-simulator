@@ -120,13 +120,13 @@ The Blender `compose.py --fbx` uses these settings for Unity compatibility:
 
 Unity maps Blender material names to toon colors:
 
-| Blender Material Name | Unity Color          |
-| --------------------- | -------------------- |
+| Blender Material Name  | Unity Color          |
+| ---------------------- | -------------------- |
 | `MAT_Glove_glove_blue` | Glove Blue (#6B8BA4) |
-| `MAT_Skin_skin_light` | Skin Light (#FFDAB9) |
-| `MAT_PulseOx_Body`    | Light Gray (#E8E8E8) |
-| `MAT_PulseOx_Screen`  | Green Emissive       |
-| `MAT_BpCuff_Body`     | BP Blue (#2E86AB)    |
+| `MAT_Skin_skin_light`  | Skin Light (#FFDAB9) |
+| `MAT_PulseOx_Body`     | Light Gray (#E8E8E8) |
+| `MAT_PulseOx_Screen`   | Green Emissive       |
+| `MAT_BpCuff_Body`      | BP Blue (#2E86AB)    |
 
 ## Command Line Arguments
 
