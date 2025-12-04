@@ -1,9 +1,9 @@
-using UnityEngine;
+using System.IO;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEditor.Recorder;
 using UnityEditor.Recorder.Input;
-using System.IO;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 
 namespace ParamedicSimulator.Editor
 {
@@ -34,9 +34,14 @@ namespace ParamedicSimulator.Editor
         static BatchModeRecorder()
         {
             // Check if we were in the middle of recording when domain reloaded
-            if (SessionState.GetBool(kRecordingActiveKey, false) && EditorApplication.isPlayingOrWillChangePlaymode)
+            if (
+                SessionState.GetBool(kRecordingActiveKey, false)
+                && EditorApplication.isPlayingOrWillChangePlaymode
+            )
             {
-                Debug.Log("[BatchModeRecorder] Domain reloaded during recording, re-initializing...");
+                Debug.Log(
+                    "[BatchModeRecorder] Domain reloaded during recording, re-initializing..."
+                );
                 EditorApplication.delayCall += ResumeRecording;
             }
         }
@@ -51,7 +56,10 @@ namespace ParamedicSimulator.Editor
             }
 
             string sequenceName = SessionState.GetString(kSequenceNameKey, "initial_assessment");
-            string outputDir = SessionState.GetString(kOutputDirKey, "Art/Source/3D/Sequences/output");
+            string outputDir = SessionState.GetString(
+                kOutputDirKey,
+                "Art/Source/3D/Sequences/output"
+            );
             int width = SessionState.GetInt(kWidthKey, 1280);
             int height = SessionState.GetInt(kHeightKey, 720);
 
@@ -67,7 +75,9 @@ namespace ParamedicSimulator.Editor
             }
             else
             {
-                Debug.Log($"[BatchModeRecorder] Main camera found at {mainCamera.transform.position}");
+                Debug.Log(
+                    $"[BatchModeRecorder] Main camera found at {mainCamera.transform.position}"
+                );
 
                 // Verify there's something to render
                 var renderers = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
@@ -75,7 +85,9 @@ namespace ParamedicSimulator.Editor
 
                 if (renderers.Length == 0)
                 {
-                    Debug.Log("[BatchModeRecorder] No renderers found, recreating scene content...");
+                    Debug.Log(
+                        "[BatchModeRecorder] No renderers found, recreating scene content..."
+                    );
                     RecreateSceneContent(sequenceName);
                 }
             }
@@ -229,7 +241,9 @@ namespace ParamedicSimulator.Editor
 
             EditorApplication.update -= WarmupBeforeRecording;
 
-            Debug.Log($"[BatchModeRecorder] Scene warmed up for {kWarmupFrameCount} frames, starting recording...");
+            Debug.Log(
+                $"[BatchModeRecorder] Scene warmed up for {kWarmupFrameCount} frames, starting recording..."
+            );
             LogSceneState();
 
             s_recorderController.StartRecording();
@@ -245,15 +259,25 @@ namespace ParamedicSimulator.Editor
 
             // Check render pipeline
             var currentRP = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
-            Debug.Log($"[BatchModeRecorder] Render Pipeline: {(currentRP != null ? currentRP.name : "NULL (using Built-in)")}");
+            Debug.Log(
+                $"[BatchModeRecorder] Render Pipeline: {(currentRP != null ? currentRP.name : "NULL (using Built-in)")}"
+            );
 
             var mainCamera = Camera.main;
             if (mainCamera != null)
             {
-                Debug.Log($"[BatchModeRecorder] Camera: pos={mainCamera.transform.position}, rot={mainCamera.transform.eulerAngles}, fov={mainCamera.fieldOfView}");
-                Debug.Log($"[BatchModeRecorder] Camera: clearFlags={mainCamera.clearFlags}, bgColor={mainCamera.backgroundColor}");
-                Debug.Log($"[BatchModeRecorder] Camera: cullingMask={mainCamera.cullingMask}, nearClip={mainCamera.nearClipPlane}, farClip={mainCamera.farClipPlane}");
-                Debug.Log($"[BatchModeRecorder] Camera: enabled={mainCamera.enabled}, gameObject.active={mainCamera.gameObject.activeInHierarchy}");
+                Debug.Log(
+                    $"[BatchModeRecorder] Camera: pos={mainCamera.transform.position}, rot={mainCamera.transform.eulerAngles}, fov={mainCamera.fieldOfView}"
+                );
+                Debug.Log(
+                    $"[BatchModeRecorder] Camera: clearFlags={mainCamera.clearFlags}, bgColor={mainCamera.backgroundColor}"
+                );
+                Debug.Log(
+                    $"[BatchModeRecorder] Camera: cullingMask={mainCamera.cullingMask}, nearClip={mainCamera.nearClipPlane}, farClip={mainCamera.farClipPlane}"
+                );
+                Debug.Log(
+                    $"[BatchModeRecorder] Camera: enabled={mainCamera.enabled}, gameObject.active={mainCamera.gameObject.activeInHierarchy}"
+                );
             }
             else
             {
@@ -265,15 +289,22 @@ namespace ParamedicSimulator.Editor
             foreach (var r in renderers)
             {
                 var mat = r.sharedMaterial;
-                string matInfo = mat != null ? $"mat={mat.name}, shader={(mat.shader != null ? mat.shader.name : "NULL")}" : "mat=NULL";
-                Debug.Log($"[BatchModeRecorder]   - {r.gameObject.name}: bounds={r.bounds.center}, visible={r.isVisible}, enabled={r.enabled}, layer={r.gameObject.layer}, {matInfo}");
+                string matInfo =
+                    mat != null
+                        ? $"mat={mat.name}, shader={(mat.shader != null ? mat.shader.name : "NULL")}"
+                        : "mat=NULL";
+                Debug.Log(
+                    $"[BatchModeRecorder]   - {r.gameObject.name}: bounds={r.bounds.center}, visible={r.isVisible}, enabled={r.enabled}, layer={r.gameObject.layer}, {matInfo}"
+                );
             }
 
             var lights = Object.FindObjectsByType<Light>(FindObjectsSortMode.None);
             Debug.Log($"[BatchModeRecorder] Scene has {lights.Length} lights");
             foreach (var l in lights)
             {
-                Debug.Log($"[BatchModeRecorder]   - {l.gameObject.name}: type={l.type}, intensity={l.intensity}, enabled={l.enabled}");
+                Debug.Log(
+                    $"[BatchModeRecorder]   - {l.gameObject.name}: type={l.type}, intensity={l.intensity}, enabled={l.enabled}"
+                );
             }
 
             Debug.Log("[BatchModeRecorder] === END SCENE STATE ===");
@@ -291,7 +322,8 @@ namespace ParamedicSimulator.Editor
 
         private static void CheckRecordingComplete()
         {
-            if (s_recorderController == null) return;
+            if (s_recorderController == null)
+                return;
 
             s_frameCount++;
 
@@ -304,7 +336,8 @@ namespace ParamedicSimulator.Editor
                 string bar = new string('#', filled) + new string('-', barWidth - filled);
                 float remainingSeconds = (s_totalFrames - s_frameCount) / 30f;
 
-                string progressMsg = $"[{bar}] {progress * 100:F0}% ({s_frameCount}/{s_totalFrames}) ETA: {remainingSeconds:F0}s";
+                string progressMsg =
+                    $"[{bar}] {progress * 100:F0}% ({s_frameCount}/{s_totalFrames}) ETA: {remainingSeconds:F0}s";
 
                 // Log progress - this will show in unity_render.log and stdout
                 Debug.Log($"[BatchModeRecorder] {progressMsg}");
@@ -322,11 +355,15 @@ namespace ParamedicSimulator.Editor
                 if (File.Exists(s_expectedOutputPath))
                 {
                     var fileInfo = new FileInfo(s_expectedOutputPath);
-                    Debug.Log($"[BatchModeRecorder] Video saved: {s_expectedOutputPath} ({fileInfo.Length / 1024}KB)");
+                    Debug.Log(
+                        $"[BatchModeRecorder] Video saved: {s_expectedOutputPath} ({fileInfo.Length / 1024}KB)"
+                    );
                 }
                 else
                 {
-                    Debug.LogWarning($"[BatchModeRecorder] Expected output not found: {s_expectedOutputPath}");
+                    Debug.LogWarning(
+                        $"[BatchModeRecorder] Expected output not found: {s_expectedOutputPath}"
+                    );
                 }
 
                 // Exit play mode first
@@ -344,7 +381,12 @@ namespace ParamedicSimulator.Editor
         private static int s_frameCount = 0;
         private static int s_totalFrames = 0;
 
-        private static void SetupRecorder(string sequenceName, string outputDir, int width, int height)
+        private static void SetupRecorder(
+            string sequenceName,
+            string outputDir,
+            int width,
+            int height
+        )
         {
             float duration = ProcedureInfo.GetDuration(sequenceName);
             int frameRate = 30;
@@ -365,7 +407,12 @@ namespace ParamedicSimulator.Editor
             movieSettings.EncoderSettings = new UnityEditor.Recorder.Encoder.CoreEncoderSettings
             {
                 Codec = UnityEditor.Recorder.Encoder.CoreEncoderSettings.OutputCodec.WEBM,
-                EncodingQuality = UnityEditor.Recorder.Encoder.CoreEncoderSettings.VideoEncodingQuality.High
+                EncodingQuality = UnityEditor
+                    .Recorder
+                    .Encoder
+                    .CoreEncoderSettings
+                    .VideoEncodingQuality
+                    .High,
             };
 
             // Set output file path
@@ -396,7 +443,7 @@ namespace ParamedicSimulator.Editor
                 Source = ImageSource.MainCamera,
                 OutputWidth = width,
                 OutputHeight = height,
-                CaptureUI = false
+                CaptureUI = false,
             };
             movieSettings.ImageInputSettings = cameraInput;
 
@@ -416,7 +463,12 @@ namespace ParamedicSimulator.Editor
             Debug.Log($"[BatchModeRecorder] Duration: {duration}s ({s_totalFrames} frames)");
         }
 
-        private static void SetupRecordingScene(string sequenceName, string outputDir, int width, int height)
+        private static void SetupRecordingScene(
+            string sequenceName,
+            string outputDir,
+            int width,
+            int height
+        )
         {
             // === Camera Setup ===
             // Blender uses Y-forward, Z-up. Unity uses Z-forward, Y-up.
@@ -432,8 +484,8 @@ namespace ParamedicSimulator.Editor
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = ToonMaterials.Colors.Background;
             camera.fieldOfView = 60f;
-            camera.nearClipPlane = 0.01f;  // Match Blender's clip_start
-            camera.farClipPlane = 100f;    // Match Blender's clip_end
+            camera.nearClipPlane = 0.01f; // Match Blender's clip_start
+            camera.farClipPlane = 100f; // Match Blender's clip_end
 
             // === Lighting Setup ===
             CreateLights();
@@ -532,7 +584,9 @@ namespace ParamedicSimulator.Editor
                 renderer.materials = newMaterials;
             }
 
-            Debug.Log($"[BatchModeRecorder] Applied toon materials to {renderers.Length} renderers");
+            Debug.Log(
+                $"[BatchModeRecorder] Applied toon materials to {renderers.Length} renderers"
+            );
         }
 
         /// <summary>
@@ -608,7 +662,11 @@ namespace ParamedicSimulator.Editor
             patientArm.transform.position = Vector3.zero;
 
             // Create gloved hand
-            var hand = ProceduralModels.CreateGlovedHand("L", new Vector3(0, 0.08f, -0.15f), "glove_blue");
+            var hand = ProceduralModels.CreateGlovedHand(
+                "L",
+                new Vector3(0, 0.08f, -0.15f),
+                "glove_blue"
+            );
 
             switch (sequenceName)
             {

@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.IO;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor.Recorder;
 using UnityEditor.Recorder.Input;
@@ -74,7 +74,7 @@ namespace ParamedicSimulator
                 Source = ImageSource.MainCamera,
                 OutputWidth = resolutionWidth,
                 OutputHeight = resolutionHeight,
-                CaptureUI = false
+                CaptureUI = false,
             };
             movieSettings.ImageInputSettings = cameraInput;
 
@@ -90,8 +90,12 @@ namespace ParamedicSimulator
 
             Debug.Log($"[SequenceRecorder] Recorder configured: {sequenceName}.mp4");
             Debug.Log($"[SequenceRecorder] Output: {fullPath}");
-            Debug.Log($"[SequenceRecorder] Resolution: {resolutionWidth}x{resolutionHeight} @ {frameRate}fps");
-            Debug.Log($"[SequenceRecorder] Duration: {recordDuration}s ({(int)(recordDuration * frameRate)} frames)");
+            Debug.Log(
+                $"[SequenceRecorder] Resolution: {resolutionWidth}x{resolutionHeight} @ {frameRate}fps"
+            );
+            Debug.Log(
+                $"[SequenceRecorder] Duration: {recordDuration}s ({(int)(recordDuration * frameRate)} frames)"
+            );
         }
 
         public void StartRecording()

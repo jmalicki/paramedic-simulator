@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using UnityEngine;
 using ParamedicSimulator;
+using UnityEngine;
 
 namespace ParamedicSimulator.Tests.EditMode
 {
@@ -42,8 +42,14 @@ namespace ParamedicSimulator.Tests.EditMode
         [Test]
         public void GetSkinColor_ReturnsCorrectColorForKnownKeys()
         {
-            Assert.AreEqual(ToonMaterials.Colors.SkinLight, ToonMaterials.GetSkinColor("skin_light"));
-            Assert.AreEqual(ToonMaterials.Colors.SkinMedium, ToonMaterials.GetSkinColor("skin_medium"));
+            Assert.AreEqual(
+                ToonMaterials.Colors.SkinLight,
+                ToonMaterials.GetSkinColor("skin_light")
+            );
+            Assert.AreEqual(
+                ToonMaterials.Colors.SkinMedium,
+                ToonMaterials.GetSkinColor("skin_medium")
+            );
             Assert.AreEqual(ToonMaterials.Colors.SkinDark, ToonMaterials.GetSkinColor("skin_dark"));
         }
 
@@ -51,22 +57,34 @@ namespace ParamedicSimulator.Tests.EditMode
         public void GetSkinColor_ReturnsDefaultForUnknownKey()
         {
             // Unknown keys should return SkinLight as default
-            Assert.AreEqual(ToonMaterials.Colors.SkinLight, ToonMaterials.GetSkinColor("unknown_key"));
+            Assert.AreEqual(
+                ToonMaterials.Colors.SkinLight,
+                ToonMaterials.GetSkinColor("unknown_key")
+            );
             Assert.AreEqual(ToonMaterials.Colors.SkinLight, ToonMaterials.GetSkinColor(""));
         }
 
         [Test]
         public void GetGloveColor_ReturnsCorrectColorForKnownKeys()
         {
-            Assert.AreEqual(ToonMaterials.Colors.GloveBlue, ToonMaterials.GetGloveColor("glove_blue"));
-            Assert.AreEqual(ToonMaterials.Colors.GlovePurple, ToonMaterials.GetGloveColor("glove_purple"));
+            Assert.AreEqual(
+                ToonMaterials.Colors.GloveBlue,
+                ToonMaterials.GetGloveColor("glove_blue")
+            );
+            Assert.AreEqual(
+                ToonMaterials.Colors.GlovePurple,
+                ToonMaterials.GetGloveColor("glove_purple")
+            );
         }
 
         [Test]
         public void GetGloveColor_ReturnsDefaultForUnknownKey()
         {
             // Unknown keys should return GloveBlue as default
-            Assert.AreEqual(ToonMaterials.Colors.GloveBlue, ToonMaterials.GetGloveColor("unknown_key"));
+            Assert.AreEqual(
+                ToonMaterials.Colors.GloveBlue,
+                ToonMaterials.GetGloveColor("unknown_key")
+            );
             Assert.AreEqual(ToonMaterials.Colors.GloveBlue, ToonMaterials.GetGloveColor(""));
         }
 
@@ -89,10 +107,22 @@ namespace ParamedicSimulator.Tests.EditMode
 
         private void AssertColorInRange(Color color, string name)
         {
-            Assert.IsTrue(color.r >= 0 && color.r <= 1, $"{name}.r should be in [0,1] range, was {color.r}");
-            Assert.IsTrue(color.g >= 0 && color.g <= 1, $"{name}.g should be in [0,1] range, was {color.g}");
-            Assert.IsTrue(color.b >= 0 && color.b <= 1, $"{name}.b should be in [0,1] range, was {color.b}");
-            Assert.IsTrue(color.a >= 0 && color.a <= 1, $"{name}.a should be in [0,1] range, was {color.a}");
+            Assert.IsTrue(
+                color.r >= 0 && color.r <= 1,
+                $"{name}.r should be in [0,1] range, was {color.r}"
+            );
+            Assert.IsTrue(
+                color.g >= 0 && color.g <= 1,
+                $"{name}.g should be in [0,1] range, was {color.g}"
+            );
+            Assert.IsTrue(
+                color.b >= 0 && color.b <= 1,
+                $"{name}.b should be in [0,1] range, was {color.b}"
+            );
+            Assert.IsTrue(
+                color.a >= 0 && color.a <= 1,
+                $"{name}.a should be in [0,1] range, was {color.a}"
+            );
         }
     }
 }

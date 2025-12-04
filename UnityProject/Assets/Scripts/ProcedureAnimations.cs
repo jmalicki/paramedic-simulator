@@ -1,6 +1,6 @@
 #nullable enable
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ParamedicSimulator
 {
@@ -46,7 +46,7 @@ namespace ParamedicSimulator
                 "radial_pulse" => RadialPulseDuration,
                 "bp_cuff_apply" => BpCuffDuration,
                 "initial_assessment" => InitialAssessmentDuration,
-                _ => 5.0f
+                _ => 5.0f,
             };
         }
     }
@@ -69,7 +69,8 @@ namespace ParamedicSimulator
             GameObject hand,
             GameObject pulseox,
             GameObject? camera,
-            float startTime = 0f)
+            float startTime = 0f
+        )
         {
             float duration = ProcedureInfo.PulseOxDuration;
 
@@ -88,7 +89,11 @@ namespace ParamedicSimulator
                 // Start: held in hand, approaching
                 new Keyframe(t_start, new Vector3(0.3f, 0.15f, -0.25f), Vector3.zero),
                 // Approach finger
-                new Keyframe(t_approach, new Vector3(0.28f, 0.08f, -0.15f), new Vector3(-20f, 0, 0)),
+                new Keyframe(
+                    t_approach,
+                    new Vector3(0.28f, 0.08f, -0.15f),
+                    new Vector3(-20f, 0, 0)
+                ),
                 // Open clip
                 new Keyframe(t_open, new Vector3(0.26f, 0.04f, -0.08f), new Vector3(-30f, 0, 0)),
                 // Place on finger
@@ -136,7 +141,8 @@ namespace ParamedicSimulator
         public static void AnimateRadialPulse(
             GameObject hand,
             GameObject? camera,
-            float startTime = 0f)
+            float startTime = 0f
+        )
         {
             float duration = ProcedureInfo.RadialPulseDuration;
 
@@ -184,7 +190,8 @@ namespace ParamedicSimulator
             GameObject hand,
             GameObject bpCuff,
             GameObject? camera,
-            float startTime = 0f)
+            float startTime = 0f
+        )
         {
             float duration = ProcedureInfo.BpCuffDuration;
 
@@ -201,7 +208,11 @@ namespace ParamedicSimulator
             {
                 new Keyframe(t_start, new Vector3(0.2f, 0.15f, -0.25f), Vector3.zero),
                 new Keyframe(t_approach, new Vector3(0f, 0.08f, -0.15f), Vector3.zero),
-                new Keyframe(t_wrap_start, new Vector3(-0.1f, 0.03f, -0.05f), new Vector3(0, 0, 30f)),
+                new Keyframe(
+                    t_wrap_start,
+                    new Vector3(-0.1f, 0.03f, -0.05f),
+                    new Vector3(0, 0, 30f)
+                ),
                 new Keyframe(t_wrap_mid, new Vector3(-0.15f, 0.01f, 0f), new Vector3(0, 0, 60f)),
                 new Keyframe(t_wrap_end, new Vector3(-0.15f, 0.005f, 0f), new Vector3(0, 0, 0f)),
                 new Keyframe(t_secure, new Vector3(-0.15f, 0f, 0f), Vector3.zero),
@@ -242,7 +253,8 @@ namespace ParamedicSimulator
             GameObject pulseox,
             GameObject bpCuff,
             GameObject patientArm,
-            GameObject? camera)
+            GameObject? camera
+        )
         {
             // Sequence timing:
             // 0.0 - 2.0: Pulse ox apply (2s)
@@ -270,7 +282,8 @@ namespace ParamedicSimulator
         /// </summary>
         public static void ApplyAnimation(GameObject obj, List<Keyframe> keyframes)
         {
-            if (keyframes.Count == 0) return;
+            if (keyframes.Count == 0)
+                return;
 
             var animation = obj.GetComponent<Animation>();
             if (animation == null)

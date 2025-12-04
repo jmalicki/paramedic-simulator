@@ -45,10 +45,10 @@ namespace ParamedicSimulator
             // Fingers
             Vector3[] fingerPositions = new Vector3[]
             {
-                new Vector3(0.22f, -0.025f, 0.01f),  // Index
-                new Vector3(0.24f, 0f, 0.01f),       // Middle
-                new Vector3(0.22f, 0.025f, 0.01f),   // Ring
-                new Vector3(0.18f, 0.045f, 0.005f),  // Pinky
+                new Vector3(0.22f, -0.025f, 0.01f), // Index
+                new Vector3(0.24f, 0f, 0.01f), // Middle
+                new Vector3(0.22f, 0.025f, 0.01f), // Ring
+                new Vector3(0.18f, 0.045f, 0.005f), // Pinky
             };
 
             for (int i = 0; i < fingerPositions.Length; i++)
@@ -88,7 +88,8 @@ namespace ParamedicSimulator
         public static GameObject CreateGlovedHand(
             string nameSuffix = "L",
             Vector3? position = null,
-            string gloveColor = "glove_blue")
+            string gloveColor = "glove_blue"
+        )
         {
             var pos = position ?? new Vector3(0, -0.15f, 0.08f);
             var color = ToonMaterials.GetGloveColor(gloveColor);
@@ -122,11 +123,7 @@ namespace ParamedicSimulator
             var thumb = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             thumb.name = $"GloveThumb_{nameSuffix}";
             thumb.transform.SetParent(palm.transform);
-            thumb.transform.position = new Vector3(
-                pos.x - 0.035f,
-                pos.y + 0.02f,
-                pos.z - 0.02f
-            );
+            thumb.transform.position = new Vector3(pos.x - 0.035f, pos.y + 0.02f, pos.z - 0.02f);
             thumb.transform.localRotation = Quaternion.Euler(45, 30, 0);
             thumb.transform.localScale = new Vector3(0.018f, 0.02f, 0.018f); // radius=0.009, depth=0.04
             thumb.GetComponent<Renderer>().material = gloveMat;
@@ -175,7 +172,10 @@ namespace ParamedicSimulator
             body.transform.position = pos;
             body.transform.localScale = new Vector3(0.06f, 0.036f, 0.024f); // 0.03 * (2.0, 1.2, 0.8)
 
-            var bodyMat = ToonMaterials.CreateToonMaterial("MAT_PulseOx_Body", ToonMaterials.Colors.PulseOxBody);
+            var bodyMat = ToonMaterials.CreateToonMaterial(
+                "MAT_PulseOx_Body",
+                ToonMaterials.Colors.PulseOxBody
+            );
             body.GetComponent<Renderer>().material = bodyMat;
 
             // Screen
@@ -200,7 +200,10 @@ namespace ParamedicSimulator
             clip.transform.localPosition = new Vector3(0, 0, -0.7f); // Below body
             clip.transform.localScale = new Vector3(0.833f, 0.7f, 0.4f); // Relative scale
 
-            var clipMat = ToonMaterials.CreateToonMaterial("MAT_PulseOx_Clip", ToonMaterials.Colors.PulseOxClip);
+            var clipMat = ToonMaterials.CreateToonMaterial(
+                "MAT_PulseOx_Clip",
+                ToonMaterials.Colors.PulseOxClip
+            );
             clip.GetComponent<Renderer>().material = clipMat;
 
             return body;
@@ -223,7 +226,10 @@ namespace ParamedicSimulator
             cuff.transform.position = pos;
             cuff.transform.localScale = new Vector3(0.12f, 0.06f, 0.02f);
 
-            var cuffMat = ToonMaterials.CreateToonMaterial("MAT_BpCuff_Body", ToonMaterials.Colors.BpCuffBlue);
+            var cuffMat = ToonMaterials.CreateToonMaterial(
+                "MAT_BpCuff_Body",
+                ToonMaterials.Colors.BpCuffBlue
+            );
             cuff.GetComponent<Renderer>().material = cuffMat;
 
             // Bladder (inside wrap)
@@ -233,7 +239,10 @@ namespace ParamedicSimulator
             bladder.transform.localPosition = new Vector3(0, 0, -0.6f);
             bladder.transform.localScale = new Vector3(0.8f, 0.8f, 0.5f);
 
-            var bladderMat = ToonMaterials.CreateToonMaterial("MAT_BpCuff_Bladder", ToonMaterials.Colors.BpCuffBladder);
+            var bladderMat = ToonMaterials.CreateToonMaterial(
+                "MAT_BpCuff_Bladder",
+                ToonMaterials.Colors.BpCuffBladder
+            );
             bladder.GetComponent<Renderer>().material = bladderMat;
 
             // Gauge
@@ -243,7 +252,10 @@ namespace ParamedicSimulator
             gauge.transform.localPosition = new Vector3(0.6f, 0, 0);
             gauge.transform.localScale = new Vector3(0.3f, 0.1f, 0.3f);
 
-            var gaugeMat = ToonMaterials.CreateToonMaterial("MAT_BpCuff_Gauge", ToonMaterials.Colors.BpGauge);
+            var gaugeMat = ToonMaterials.CreateToonMaterial(
+                "MAT_BpCuff_Gauge",
+                ToonMaterials.Colors.BpGauge
+            );
             gauge.GetComponent<Renderer>().material = gaugeMat;
 
             // Bulb
@@ -253,7 +265,10 @@ namespace ParamedicSimulator
             bulb.transform.localPosition = new Vector3(0.6f, -0.8f, 0);
             bulb.transform.localScale = new Vector3(0.2f, 0.3f, 0.2f);
 
-            var bulbMat = ToonMaterials.CreateToonMaterial("MAT_BpCuff_Bulb", ToonMaterials.Colors.BpBulb);
+            var bulbMat = ToonMaterials.CreateToonMaterial(
+                "MAT_BpCuff_Bulb",
+                ToonMaterials.Colors.BpBulb
+            );
             bulb.GetComponent<Renderer>().material = bulbMat;
 
             return cuff;

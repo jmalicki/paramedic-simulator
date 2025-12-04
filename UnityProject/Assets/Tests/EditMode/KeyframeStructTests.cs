@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using UnityEngine;
 using ParamedicSimulator;
+using UnityEngine;
 
 namespace ParamedicSimulator.Tests.EditMode
 {
@@ -49,7 +49,7 @@ namespace ParamedicSimulator.Tests.EditMode
             {
                 new Keyframe(0f, Vector3.zero),
                 new Keyframe(1f, Vector3.one),
-                new Keyframe(2f, new Vector3(2f, 2f, 2f))
+                new Keyframe(2f, new Vector3(2f, 2f, 2f)),
             };
 
             Assert.AreEqual(3, keyframes.Length);

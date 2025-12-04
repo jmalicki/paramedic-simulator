@@ -36,7 +36,7 @@ repos:
     hooks:
       - id: csharpier
         name: CSharpier
-        entry: dotnet csharpier
+        entry: bash -c 'export PATH="$PATH:$HOME/.dotnet/tools"; export DOTNET_ROOT="${DOTNET_ROOT:-$(dotnet --info 2>/dev/null | grep "Base Path" | awk "{print \$3}" | sed "s|/sdk/.*||")}"; csharpier format "$@"' --
         language: system
         types: [c#]
         description: CSharpier is an opinionated C# formatter
