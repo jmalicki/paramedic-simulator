@@ -156,7 +156,7 @@ jobs:
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: animations-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.short }}
           name: Animation Renders - ${{ steps.date.outputs.date }}

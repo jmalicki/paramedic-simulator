@@ -3,8 +3,10 @@ Blender Python Script: Pulse Oximeter Application Sequence
 ==========================================================
 Creates a 4-frame animation sequence of applying a pulse oximeter to a patient's finger.
 
+Requires Blender 4.x+ (uses EEVEE Next render engine).
+
 Usage:
-1. Open Blender (2.8+ or 3.x/4.x)
+1. Open Blender 4.x+
 2. Go to Scripting workspace
 3. Open this script
 4. Click "Run Script"
@@ -60,7 +62,7 @@ def clear_scene():
             bpy.data.materials.remove(block)
 
 
-def create_cel_shade_material(name, base_color, shadow_factor=0.7, outline_thickness=0.02):
+def create_cel_shade_material(name, base_color, shadow_factor=0.7):
     """
     Create a cel-shaded material with toon shading.
 
@@ -68,7 +70,6 @@ def create_cel_shade_material(name, base_color, shadow_factor=0.7, outline_thick
         name: Material name
         base_color: RGBA tuple (0-1 range)
         shadow_factor: How dark shadows are (0-1)
-        outline_thickness: Solidify modifier thickness for outline
     """
     mat = bpy.data.materials.new(name=name)
     mat.use_nodes = True
@@ -342,7 +343,7 @@ def create_gloved_hand():
 # ANIMATION
 # =============================================================================
 
-def setup_animation(finger, pulseox, hand):
+def setup_animation(pulseox, hand):
     """
     Create 4-frame animation sequence:
     Frame 1: Hand approaching with pulse ox
@@ -486,15 +487,8 @@ def setup_render_settings():
     # Output path
     scene.render.filepath = CONFIG['output_path']
 
-    # Use Eevee for fast cel-shaded rendering
-    scene.render.engine = 'BLENDER_EEVEE'
-    scene.eevee.taa_render_samples = CONFIG['samples']
-
-    # For Blender 4.x compatibility
-    try:
-        scene.eevee.use_taa_reprojection = False
-    except:
-        pass
+    # Use Eevee Next for cel-shaded rendering (requires Blender 4.x+)
+    scene.render.engine = 'BLENDER_EEVEE_NEXT'
 
 
 def setup_world():
@@ -548,7 +542,7 @@ def main():
 
     # Setup animation
     print("Setting up animation...")
-    setup_animation(finger, pulseox, hand)
+    setup_animation(pulseox, hand)
 
     # Set to first frame
     bpy.context.scene.frame_set(1)
