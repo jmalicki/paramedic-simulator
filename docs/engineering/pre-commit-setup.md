@@ -10,8 +10,8 @@
 
 - Basic file checks (EOL, trailing whitespace, YAML/JSON)
 - markdownlint, yamllint
-- cspell with project dictionary
 - Prettier for docs/configs
+- CSharpier for C# files
 - Commitizen (commit message conventional commit check)
 
 ### CI

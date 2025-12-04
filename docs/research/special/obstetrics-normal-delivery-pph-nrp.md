@@ -26,7 +26,7 @@ Unplanned out-of-hospital deliveries are uncommon but high-impact; PPH remains a
 ### Neonatal Resuscitation (NRP-aligned)
 
 - Warm, dry, stimulate; position airway; clear secretions if needed; evaluate respirations/HR
-- If HR < 100 or apnea/gasping: PPV with appropriate sized mask; monitor SpO2
+- If HR < 100 or apnea/gasping: PPV with appropriately-sized mask; monitor SpO2
 - Escalate per NRP algorithm; consider BVM with oxygen; compression threshold HR < 60 after adequate ventilation
 
 ## 5. Variations, Pitfalls, Complications

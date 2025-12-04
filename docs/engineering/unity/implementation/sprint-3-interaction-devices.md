@@ -37,8 +37,8 @@ Testing
 
 Docs
 
-- [ ] Update `architecture.md` Interaction and Devices sections
-- [ ] Expand `graphics-spec.md` with material guidelines and decal usage
+- [ ] Update [`architecture.md`](../architecture.md) Interaction and Devices sections
+- [ ] Expand [`graphics-spec.md`](../graphics/graphics-spec.md) with material guidelines and decal usage
 
 ### Acceptance Criteria
 
