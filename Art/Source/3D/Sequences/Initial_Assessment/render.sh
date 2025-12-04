@@ -36,18 +36,20 @@ case "$1" in
         ;;
     --frames)
         echo "Rendering as PNG frames..."
-        # Modify the script to output frames
-        blender --background --python-expr "
+        mkdir -p "$OUTPUT_DIR/frames"
+        # Use heredoc with proper quoting to handle paths with spaces
+        blender --background --python-expr "$(cat <<PYTHON
 import bpy
 import sys
-sys.path.insert(0, '$SCRIPT_DIR')
+sys.path.insert(0, r'''${SCRIPT_DIR}''')
 import generate_initial_assessment as gen
-gen.CONFIG['output_dir'] = '$OUTPUT_DIR/frames'
+gen.CONFIG['output_dir'] = r'''${OUTPUT_DIR}/frames'''
 gen.main()
 bpy.context.scene.render.image_settings.file_format = 'PNG'
-bpy.context.scene.render.filepath = '$OUTPUT_DIR/frames/frame_'
+bpy.context.scene.render.filepath = r'''${OUTPUT_DIR}/frames/frame_'''
 bpy.ops.render.render(animation=True)
-"
+PYTHON
+)"
         echo ""
         echo "Frames saved to: $OUTPUT_DIR/frames/"
         ;;

@@ -1,5 +1,14 @@
 ---
 # Case definition logic (strict vs proxy)
+#
+# Evaluation semantics:
+# - Sibling list items under strict/proxy are combined with implicit AND
+# - Use explicit `and:` or `or:` blocks for complex boolean logic
+# - `strict:` requires high-confidence indicators (specific impressions + procedures)
+# - `proxy:` uses broader heuristics when strict criteria unavailable
+#
+# Note: Currently these definitions serve as documentation; select_cases.py
+# uses hardcoded logic. Future refactor will parse and evaluate this YAML directly.
 conditions:
   chf_ape:
     strict:
