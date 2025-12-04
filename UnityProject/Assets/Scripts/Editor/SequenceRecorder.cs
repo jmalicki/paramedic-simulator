@@ -1,14 +1,14 @@
 using System.IO;
-using UnityEngine;
-#if UNITY_EDITOR
+using UnityEditor;
 using UnityEditor.Recorder;
 using UnityEditor.Recorder.Input;
-#endif
+using UnityEngine;
 
-namespace ParamedicSimulator
+namespace ParamedicSimulator.Editor
 {
     /// <summary>
     /// Controls Unity Recorder to capture animated sequences to video.
+    /// This is an Editor-only MonoBehaviour used for batch mode recording.
     /// </summary>
     public class SequenceRecorder : MonoBehaviour
     {
@@ -31,26 +31,19 @@ namespace ParamedicSimulator
         [Tooltip("Duration in seconds to record")]
         public float recordDuration = 9.5f;
 
-#if UNITY_EDITOR
         private RecorderController recorderController;
         private MovieRecorderSettings movieSettings;
         private bool recordingCompleted = false;
-#endif
 
         void Start()
         {
-#if UNITY_EDITOR
             // Set up recorder
             SetupRecorder();
 
             // Start recording immediately
             StartRecording();
-#else
-            Debug.LogWarning("[SequenceRecorder] Unity Recorder only works in Editor mode");
-#endif
         }
 
-#if UNITY_EDITOR
         void SetupRecorder()
         {
             // Create recorder controller settings
@@ -135,7 +128,7 @@ namespace ParamedicSimulator
             Debug.Log($"[SequenceRecorder] Video saved: {movieSettings.OutputFile}.mp4");
 
             // In editor, stop playing
-            UnityEditor.EditorApplication.isPlaying = false;
+            EditorApplication.isPlaying = false;
         }
 
         void OnDestroy()
@@ -145,6 +138,5 @@ namespace ParamedicSimulator
                 recorderController.StopRecording();
             }
         }
-#endif
     }
 }
