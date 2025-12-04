@@ -32,6 +32,15 @@ repos:
         additional_dependencies: ["prettier@3.3.3"]
         files: '\.(md|json|yml|yaml|mdx)$'
 
+  - repo: local
+    hooks:
+      - id: csharpier
+        name: CSharpier
+        entry: dotnet csharpier
+        language: system
+        types: [c#]
+        description: CSharpier is an opinionated C# formatter
+
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v3.28.0
     hooks:

@@ -13,7 +13,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Install pre-commit
-        run: pip install pre-commit
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+      - name: Install tools
+        run: |
+          pip install pre-commit
+          dotnet tool install -g csharpier
       - name: Run pre-commit
         run: pre-commit run --all-files
