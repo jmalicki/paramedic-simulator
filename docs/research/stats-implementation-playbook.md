@@ -3,6 +3,7 @@
 This playbook specifies exactly what to extract from each data source, where scripts live, the filenames to write, and audit logs. It complements `statistics-research-plan.md` with operational details.
 
 ## Repository Layout (new paths)
+
 - `research/scripts/`
   - `nemsis/`: NEMSIS ETL and measures
   - `benchmarks/`: CARES/OHCA, HCUP, WISQARS, State cross-check
@@ -19,6 +20,7 @@ This playbook specifies exactly what to extract from each data source, where scr
 - `docs/research/outputs/` (Markdown summaries linked in doc set)
 
 ## Naming Conventions
+
 - CSV: `source__topic__year[_strata].csv`
 - Markdown: `source__topic__summary.md`
 - Logs: `YYYYMMDDTHHMM__pipeline-step.log`
@@ -177,11 +179,13 @@ This playbook specifies exactly what to extract from each data source, where scr
 ---
 
 ## Cross-Source Harmonization
+
 - Mapping tables: `research/codebooks/urbanicity-map.yaml`, `age-bands.yaml`
 - Common condition keys: `chf_ape`, `opioid_od`, `tension_ptx_proxy`, `ob_delivery_pph_nrp`, `ohca`
 - CI calculations standardized via `research/scripts/utils/ci.py`
 
 ## Runbook (Phase 1)
+
 1. Populate `case-definitions.yaml` and `nemsis-elements.yaml`
 2. Implement `load_and_clean.py`, `select_cases.py`, `compute_measures.py`
 3. Produce NEMSIS outputs for 2019–2024 (all four conditions)
@@ -191,15 +195,15 @@ This playbook specifies exactly what to extract from each data source, where scr
 7. Review with SME and iterate
 
 ## Logging & QA Artifacts
+
 - `research/outputs/logs/{stamp}__nemsis_clean.log` — type coercions, exclusions, timing
 - `research/outputs/logs/{stamp}__selection_{condition}.log` — case counts (strict/proxy)
 - `research/outputs/nemsis/{condition}__missingness__{YEAR}.csv` — field NA rates
 
 ## Deliverables Checklist
+
 - [ ] CSVs for counts/rates/CIs per condition×strata 2019–2024
 - [ ] Sensitivity tables (strict vs proxy)
 - [ ] Benchmark summaries (CARES, WISQARS/HCUP, state reports)
 - [ ] Methods appendix with codebooks and logic
 - [ ] SME-reviewed Markdown summaries in `docs/research/outputs/`
-
-

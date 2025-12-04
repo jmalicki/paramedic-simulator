@@ -1,0 +1,39 @@
+---
+name: Unity Tests
+
+"on":
+  workflow_dispatch: # Manual trigger only for now (requires Unity license secrets)
+
+jobs:
+  test-unity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/cache@v4
+        with:
+          path: UnityProject/Library
+          key: Library-${{ hashFiles('UnityProject/Assets/**', 'UnityProject/Packages/manifest.json') }}
+          restore-keys: |
+            Library-
+
+      - uses: game-ci/unity-test-runner@v4
+        id: tests
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: UnityProject
+          testMode: EditMode
+          artifactsPath: TestResults
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Unity Test Results
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Test Results
+          path: TestResults

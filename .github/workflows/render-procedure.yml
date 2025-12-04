@@ -1,0 +1,97 @@
+---
+name: Render Single Procedure
+
+"on":
+  workflow_dispatch:
+    inputs:
+      procedure:
+        description: "Procedure to render"
+        required: true
+        type: choice
+        options:
+          - pulseox_apply
+          - radial_pulse
+          - bp_cuff_apply
+      resolution:
+        description: "Resolution"
+        required: false
+        default: "1280x720"
+        type: choice
+        options:
+          - "1280x720"
+          - "1920x1080"
+          - "640x480"
+
+jobs:
+  render:
+    name: Render ${{ inputs.procedure }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Blender
+        run: |
+          # Download Blender portable from official source
+          BLENDER_VERSION="4.2.0"
+          BLENDER_URL="https://download.blender.org/release/Blender4.2/blender-${BLENDER_VERSION}-linux-x64.tar.xz"
+
+          echo "Downloading Blender ${BLENDER_VERSION}..."
+          wget -q "${BLENDER_URL}" -O blender.tar.xz
+
+          echo "Extracting Blender..."
+          tar -xf blender.tar.xz
+
+          # Add to PATH
+          BLENDER_DIR="$(pwd)/blender-${BLENDER_VERSION}-linux-x64"
+          echo "${BLENDER_DIR}" >> $GITHUB_PATH
+
+          # Verify installation
+          "${BLENDER_DIR}/blender" --version
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libxkbcommon0 libgl1 libegl1 libxcb-cursor0
+
+      - name: Create output directory
+        run: mkdir -p Art/Source/3D/Sequences/output
+
+      - name: Render procedure
+        run: |
+          cd Art/Source/3D/Sequences
+          blender --background --python compose.py -- \
+            --procedures ${{ inputs.procedure }} \
+            --output ${{ inputs.procedure }} \
+            --dir ./output
+        env:
+          BLENDER_USER_CONFIG: /tmp/blender_config
+
+      - name: Rename output file
+        run: |
+          cd Art/Source/3D/Sequences/output
+          for f in *.mp4; do
+            if [[ "$f" =~ ^(.+)[0-9]{4}-[0-9]{4}\.mp4$ ]]; then
+              mv "$f" "${BASH_REMATCH[1]}.mp4" 2>/dev/null || true
+            fi
+          done
+          ls -la
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.procedure }}
+          path: Art/Source/3D/Sequences/output/*.mp4
+          retention-days: 7
+          compression-level: 0
+
+      - name: Summary
+        run: |
+          echo "## Rendered: ${{ inputs.procedure }}" >> $GITHUB_STEP_SUMMARY
+          for f in Art/Source/3D/Sequences/output/*.mp4; do
+            if [ -f "$f" ]; then
+              SIZE=$(du -h "$f" | cut -f1)
+              echo "- $(basename "$f") ($SIZE)" >> $GITHUB_STEP_SUMMARY
+            fi
+          done

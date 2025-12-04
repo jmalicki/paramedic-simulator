@@ -1,0 +1,130 @@
+{
+  "name": "Monitor_Hookup",
+  "description": "Connecting cardiac monitor leads to patient",
+  "spriteSheet": "Seq_Monitor_Hookup_Sheet.png",
+  "frameWidth": 320,
+  "frameHeight": 240,
+  "framesPerRow": 4,
+  "totalFrames": 10,
+  "defaultFrameMs": 500,
+  "frames": [
+    {
+      "index": 0,
+      "duration": 400,
+      "event": "sfx_package_open",
+      "label": "open_electrodes",
+      "description": "Opening electrode package"
+    },
+    {
+      "index": 1,
+      "duration": 500,
+      "event": null,
+      "label": "prep_skin_ra",
+      "description": "Prepping skin at right arm position"
+    },
+    {
+      "index": 2,
+      "duration": 400,
+      "event": "sfx_electrode_stick",
+      "label": "place_ra",
+      "description": "Placing RA (white) electrode"
+    },
+    {
+      "index": 3,
+      "duration": 500,
+      "event": null,
+      "label": "prep_skin_la",
+      "description": "Prepping skin at left arm position"
+    },
+    {
+      "index": 4,
+      "duration": 400,
+      "event": "sfx_electrode_stick",
+      "label": "place_la",
+      "description": "Placing LA (black) electrode"
+    },
+    {
+      "index": 5,
+      "duration": 500,
+      "event": null,
+      "label": "prep_skin_ll",
+      "description": "Prepping skin at left leg position"
+    },
+    {
+      "index": 6,
+      "duration": 400,
+      "event": "sfx_electrode_stick",
+      "label": "place_ll",
+      "description": "Placing LL (red) electrode"
+    },
+    {
+      "index": 7,
+      "duration": 400,
+      "event": "sfx_cable_snap",
+      "label": "connect_leads",
+      "description": "Snapping lead cables onto electrodes"
+    },
+    {
+      "index": 8,
+      "duration": 600,
+      "event": "sfx_monitor_beep",
+      "label": "monitor_acquiring",
+      "description": "Monitor acquiring signal"
+    },
+    {
+      "index": 9,
+      "duration": 500,
+      "event": "sfx_success",
+      "label": "complete",
+      "description": "Waveform displayed, monitoring active"
+    }
+  ],
+  "layers": [
+    {
+      "name": "patient_torso",
+      "zIndex": 0,
+      "description": "Patient chest/torso background"
+    },
+    {
+      "name": "electrodes",
+      "zIndex": 1,
+      "description": "ECG electrode pads on skin"
+    },
+    {
+      "name": "cables",
+      "zIndex": 2,
+      "description": "Lead cables connecting to electrodes"
+    },
+    {
+      "name": "hands",
+      "zIndex": 3,
+      "description": "Gloved hands placing electrodes"
+    }
+  ],
+  "outcomes": {
+    "success": {
+      "gotoFrame": 9,
+      "nextState": "monitoring_active",
+      "event": "sfx_success"
+    },
+    "poor_signal": {
+      "gotoFrame": 8,
+      "nextState": "monitoring_artifact",
+      "event": "sfx_artifact",
+      "description": "Poor electrode contact - noisy signal"
+    }
+  },
+  "leadConfiguration": {
+    "3_lead": {
+      "electrodes": ["RA", "LA", "LL"],
+      "colors": ["white", "black", "red"],
+      "placement": "Standard limb lead positions"
+    },
+    "4_lead": {
+      "electrodes": ["RA", "LA", "RL", "LL"],
+      "colors": ["white", "black", "green", "red"],
+      "placement": "Standard 4-lead configuration"
+    }
+  },
+  "patientVariants": ["skin_light", "skin_medium", "skin_dark", "chest_hair"]
+}

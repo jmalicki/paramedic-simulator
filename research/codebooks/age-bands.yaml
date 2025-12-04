@@ -1,6 +1,7 @@
-# Age band definitions
+---
+# Age band definitions for NEMSIS case stratification
+# Max age of 120 reflects realistic human lifespan ceiling
 bands:
   - { name: pediatric, min: 0, max: 17 }
   - { name: adult, min: 18, max: 64 }
-  - { name: geriatric, min: 65, max: 150 }
-
+  - { name: geriatric, min: 65, max: 120 }

@@ -1,3 +1,4 @@
+---
 # NEMSIS v3 element map (skeleton)
 required_elements:
   eSituation.11: { name: Primary Impression, type: string }
@@ -15,4 +16,3 @@ required_elements:
   ePatient.15: { name: Sex, type: string }
   eScene.17: { name: Incident Location Type, type: string }
   eTimes.*: { name: Times, type: mixed }
-
